@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Gu;
 
@@ -10,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     public AreaManager AreaManager;
 	public TowerManager TowerManager;
+	public UpGradeManager UpGradeManager;
 	public Camera MainCam;
 
 	private void Awake()
@@ -17,6 +17,4 @@ public class GameManager : MonoBehaviour
 		if (Instance == null)
 			Instance = this;
 	}
-
-
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+using System.IO;
 using System.Collections.Generic;
 using Gu;
 using UnityEngine;
@@ -14,6 +14,13 @@ public class TowerManager : MonoBehaviour
 	private void Awake()
 	{
 		SetArea();
+		LoadJson();
+	}
+
+	private void LoadJson()
+	{
+		MainGameInfo.NextRankList = JsonUtility.FromJson<NextRankList>(File.ReadAllText(Application.streamingAssetsPath + "/NextRankList.json"));
+		Debug.Log("타워 로드");
 	}
 
 	public void SetArea()

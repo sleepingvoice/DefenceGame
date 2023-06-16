@@ -17,6 +17,5 @@ public class UpGradeManager : MonoBehaviour
 	{
 		this.gameObject.SetActive(true);
 		AreaInfo = info;
-
 	}
 }

@@ -24,15 +24,16 @@ namespace Gu
         [Header("Object")]
         public GameObject AreaObj;
 
-        [Header("AStar")]
-        public AstarCheck CheckNode;
+        [Header("OutLine")]
+        public ObjPool OutLinePool;
+        public Material CanBuildMat;
+        public Material NotBuildMat;
 
         //테스트 객체 나중에 지우기
         [Header("테스트")]
         public GameObject Test;
         public GameObject LineTest;
         public GameObject StartLastPos;
-        public GameObject Parents;
         public bool CheckAStar = false;
         public Vector2Int StartPos;
         public Vector2Int EndPos;
@@ -59,18 +60,18 @@ namespace Gu
             // AStar체크용
             if (CheckAStar)
             {
-                foreach (var obj in Parents.GetComponentsInChildren<Transform>())
+                foreach (var obj in this.GetComponentsInChildren<Transform>())
                 {
-                    if(obj != Parents.GetComponent<Transform>())
+                    if(obj != this.GetComponent<Transform>())
                         Destroy(obj.gameObject);
                 }
 
-                List<MapAreaInfo> TestInfo = CheckNode.PathFindingAstar(MapInfo.PointList[StartPos], MapInfo.PointList[EndPos]);
-                Instantiate(StartLastPos, Parents.transform).transform.position = MapInfo.PointList[StartPos].CenterPoint;
-                Instantiate(StartLastPos, Parents.transform).transform.position = MapInfo.PointList[EndPos].CenterPoint;
+                List<MapAreaInfo> TestInfo = this.GetComponent<AstarCheck>().PathFindingAstar(MapInfo.PointList[StartPos], MapInfo.PointList[EndPos]);
+                Instantiate(StartLastPos, this.transform).transform.position = MapInfo.PointList[StartPos].CenterPoint;
+                Instantiate(StartLastPos, this.transform).transform.position = MapInfo.PointList[EndPos].CenterPoint;
                 for (int i = 0; i < TestInfo.Count; i++)
                 {
-                    Instantiate(LineTest, Parents.transform).transform.position = TestInfo[i].CenterPoint;
+                    Instantiate(LineTest, this.transform).transform.position = TestInfo[i].CenterPoint;
                 }
                 CheckAStar = false;
             }
@@ -104,6 +105,20 @@ namespace Gu
                 {
                     Vector3 newPos = new Vector3(widthLength * i - AreaSize.x / 2, 1f, heightLength * j - AreaSize.z / 2);
                     MapAreaInfo info = new MapAreaInfo(new Vector2Int(i, j), newPos, newPos + new Vector3(widthLength / 2, 0, heightLength / 2), MapInfo.NotMoveList.NotMove.Contains(new Vector2Int(i, j)));
+                    GameObject outline = OutLinePool.GetObject();
+
+                    outline.transform.position = info.CenterPoint + Vector3.up * 0.2f;
+                    if (info.NotMove)
+                    {
+                        outline.GetComponent<MeshRenderer>().material = CanBuildMat;
+                        MapInfo.CanBuildObj.Add(outline);
+                    }
+                    else
+                    {
+                        outline.GetComponent<MeshRenderer>().material = NotBuildMat;
+                        MapInfo.NotBuildObj.Add(outline);
+                    }
+                    outline.SetActive(false);
 
                     MapInfo.PointList.Add(info.NodeNum, info);
                 }

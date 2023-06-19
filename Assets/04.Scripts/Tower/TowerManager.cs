@@ -35,7 +35,7 @@ public class TowerManager : MonoBehaviour
 
 		GameObject TempTower = TowerObjPool.GetObject();
 		TempTower.GetComponent<TowerInfo>().NowRank.AddListener((value) => TempTower.GetComponent<TowerInfo>().SetMesh(TowerMesh[(int)value]));
-		TempTower.GetComponent<TowerInfo>().NowRank.SetValue(ChessRank.Pawn);
+		TempTower.GetComponent<TowerInfo>().SetTower(ChessRank.Pawn);
 		TempTower.transform.position = TargetArea.CenterPoint + Vector3.up * Addheigth;
 		TargetArea.CanBuild = false;
 	}

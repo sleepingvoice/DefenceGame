@@ -181,12 +181,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a1463733392562488182d17fe132249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Range: 0
-  Damage: 0
-  AttackSpeed: 0
-  NextRank: 
-  Target: {fileID: 0}
-  AttackRange: {fileID: 0}
+  NextRank: []
+  Target: {fileID: 2020825572445821947}
+  AttackCol: {fileID: 7130755930508896107}
+  NowState:
+    RankValue: 0
+    Range: 0
+    Damage: 0
+    AttackSpeed: 0
 --- !u!1 &7130755930508896107
 GameObject:
   m_ObjectHideFlags: 0

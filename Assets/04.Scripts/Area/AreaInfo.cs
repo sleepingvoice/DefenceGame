@@ -13,4 +13,6 @@ public class AreaInfo
     public Type<MapAreaInfo> TouchMap = new Type<MapAreaInfo>();
     public NotMovePoint NotMoveList = new NotMovePoint();
     public List<MapAreaInfo> MoveList = new List<MapAreaInfo>();
+    public List<GameObject> CanBuildObj = new List<GameObject>();
+    public List<GameObject> NotBuildObj = new List<GameObject>();
 }

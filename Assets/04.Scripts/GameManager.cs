@@ -16,5 +16,18 @@ public class GameManager : MonoBehaviour
 	{
 		if (Instance == null)
 			Instance = this;
+
+		SetTowerClass();
+	}
+
+
+	//타워 능력치 받아오기
+	private void SetTowerClass()
+	{
+		var List = JsonUtility.FromJson<TowerList>(System.IO.File.ReadAllText(Application.streamingAssetsPath + "/TowerClass.json"));
+		foreach (var value in List.Tower)
+		{
+			MainGameInfo.TowerState.Add(value.RankValue, value);
+		}
 	}
 }

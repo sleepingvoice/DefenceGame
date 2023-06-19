@@ -30,7 +30,7 @@ public class TowerManager : MonoBehaviour
 
 	public void AddTower(MapAreaInfo TargetArea)
 	{
-		if (!TargetArea.CanBuild)
+		if (!TargetArea.CanBuild || !TargetArea.NotMove || MainGameInfo.EditMode)
 			return;
 
 		GameObject TempTower = TowerObjPool.GetObject();

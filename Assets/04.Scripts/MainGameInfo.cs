@@ -5,4 +5,7 @@ public static class MainGameInfo
     public static AreaInfo MapInfo = new AreaInfo();
     public static NextRankList NextRankList = new NextRankList();
     public static Dictionary<ChessRank,TowerState> TowerState = new Dictionary<ChessRank, TowerState>();
+
+    public static int Money;
+    public static int EnmeyNum;
 }

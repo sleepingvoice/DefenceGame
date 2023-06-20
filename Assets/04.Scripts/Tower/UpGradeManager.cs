@@ -8,9 +8,11 @@ public class UpGradeManager : MonoBehaviour
 
 	private MapAreaInfo AreaInfo = null;
 
-	private void Start()
+
+	private void Awake()
 	{
 		MapInfo.TouchMap.AddListener(Init);
+		this.gameObject.SetActive(false);
 	}
 
 	private void Init(MapAreaInfo info)

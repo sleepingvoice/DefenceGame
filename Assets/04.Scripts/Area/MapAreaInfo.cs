@@ -15,4 +15,5 @@ public class MapAreaInfo
 	public Vector3 CenterPoint = Vector3.zero;
 	public bool CanBuild = true;
 	public bool NotMove = false;
+	public ChessRank NowRank = ChessRank.Pawn;
 }

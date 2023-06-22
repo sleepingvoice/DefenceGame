@@ -12,12 +12,23 @@ public class UpGradeManager : MonoBehaviour
 	private void Awake()
 	{
 		MapInfo.TouchMap.AddListener(Init);
+	}
+
+	private void Start()
+	{
 		this.gameObject.SetActive(false);
 	}
 
 	private void Init(MapAreaInfo info)
 	{
-		this.gameObject.SetActive(true);
-		AreaInfo = info;
+		if (info == null || !info.NotMove)
+		{
+			this.gameObject.SetActive(false);
+		}
+		else
+		{
+			this.gameObject.SetActive(true);
+			AreaInfo = info;
+		}
 	}
 }

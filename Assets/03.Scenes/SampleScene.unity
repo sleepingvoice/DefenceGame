@@ -487,7 +487,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5557b6549f9005f4e91d51fdd6a2c713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MenuRank: 1
+  MenuRank: 2
+  Price: 0
+  ClickBtn: {fileID: 116329360}
 --- !u!114 &116329360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -857,6 +859,7 @@ GameObject:
   - component: {fileID: 463382099}
   - component: {fileID: 463382098}
   - component: {fileID: 463382097}
+  - component: {fileID: 463382101}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -949,6 +952,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &463382101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463382096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0a5d290af879b14cbeca43d559a6964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Money: {fileID: 1375988725}
+  UnityNum: {fileID: 1375702638}
+  LimitTime: {fileID: 113229846}
 --- !u!1 &514947051
 GameObject:
   m_ObjectHideFlags: 0
@@ -1040,7 +1058,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5557b6549f9005f4e91d51fdd6a2c713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MenuRank: 2
+  MenuRank: 3
+  Price: 0
+  ClickBtn: {fileID: 514947056}
 --- !u!114 &514947056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1429,7 +1449,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5557b6549f9005f4e91d51fdd6a2c713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MenuRank: 0
+  MenuRank: 1
+  Price: 0
+  ClickBtn: {fileID: 709465014}
 --- !u!114 &709465014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1835,6 +1857,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TowerObjPool: {fileID: 1513906725}
   TowerMesh:
+  - {fileID: 0}
   - {fileID: 4300000, guid: c9351b3747d747c429b00c2a8479558d, type: 2}
   - {fileID: 4300000, guid: 1607f5dba846d8d4da9e4c8c7cc23d6a, type: 2}
   - {fileID: 4300000, guid: 2b55d3997ddd7394bac4b3152df4d40f, type: 2}
@@ -2357,7 +2380,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5557b6549f9005f4e91d51fdd6a2c713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MenuRank: 5
+  MenuRank: 6
+  Price: 0
+  ClickBtn: {fileID: 1321914788}
 --- !u!114 &1321914788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2958,7 +2983,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5557b6549f9005f4e91d51fdd6a2c713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MenuRank: 3
+  MenuRank: 4
+  Price: 0
+  ClickBtn: {fileID: 1560898161}
 --- !u!114 &1560898161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3094,7 +3121,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5557b6549f9005f4e91d51fdd6a2c713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MenuRank: 4
+  MenuRank: 5
+  Price: 0
+  ClickBtn: {fileID: 1633266282}
 --- !u!114 &1633266282
 MonoBehaviour:
   m_ObjectHideFlags: 0

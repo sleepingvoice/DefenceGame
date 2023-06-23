@@ -13,7 +13,8 @@ public class MapAreaInfo
 	public Vector2Int NodeNum = new Vector2Int(0,0);
 	public Vector3 NodePoint = Vector3.zero;
 	public Vector3 CenterPoint = Vector3.zero;
+	public GameObject BuildTower = null;
 	public bool CanBuild = true;
 	public bool NotMove = false;
-	public ChessRank NowRank = ChessRank.Pawn;
+	public ChessRank NowRank = ChessRank.None;
 }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UpgradeMenu : MonoBehaviour
 {
 	public ChessRank MenuRank;
-	public int Price;
+	[HideInInspector]public int Price;
 
 	public Button ClickBtn;
 
@@ -14,8 +14,19 @@ public class UpgradeMenu : MonoBehaviour
 	{
 		MainGameInfo.MapInfo.TouchMap.AddListener((value) =>
 		{
+			if (value == null)
+				return;
+
 			this.gameObject.SetActive(false);
+
 			var list = MainGameInfo.NextRankList.ReturnNextRank(value.NowRank);
+
+			if (list == null)
+			{
+				MainGameInfo.MapInfo.TouchMap.SetValue(null);
+				return;
+			}
+
 			foreach (var info in list)
 			{
 				if (info.Traget == MenuRank)
@@ -25,6 +36,17 @@ public class UpgradeMenu : MonoBehaviour
 					break;
 				}
 			}
+		});
+
+		ClickBtn.onClick.AddListener(() =>
+		{
+			if (MainGameInfo.Money.Value >= Price)
+			{
+				GameManager.ins.TowerManager.AddTower(MenuRank);
+				MainGameInfo.Money.SetValue(MainGameInfo.Money.Value - Price);
+				MainGameInfo.MapInfo.TouchMap.Value.NowRank = MenuRank;
+			}
+			MainGameInfo.MapInfo.TouchMap.SetValue(null);
 		});
 
 		//ClickBtn.onClick.AddListener(() =>

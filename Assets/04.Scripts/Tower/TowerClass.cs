@@ -35,7 +35,7 @@ public class NextRankList
 [Serializable]
 public class TowerState
 {
-	public ChessRank RankValue = ChessRank.Pawn;
+	public ChessRank RankValue = ChessRank.None;
 	public int Range;
 	public int Damage;
 	public float AttackSpeed;

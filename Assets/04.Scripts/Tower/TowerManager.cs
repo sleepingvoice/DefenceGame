@@ -13,7 +13,6 @@ public class TowerManager : MonoBehaviour
 
 	private void Awake()
 	{
-		SetArea();
 		LoadJson();
 	}
 
@@ -23,21 +22,19 @@ public class TowerManager : MonoBehaviour
 		Debug.Log("타워 로드");
 	}
 
-	public void SetArea()
+	public void AddTower(ChessRank Rank)
 	{
-		MapInfo.TouchMap.AddListener((value) => AddTower(value));
-	}
-
-	public void AddTower(MapAreaInfo TargetArea)
-	{
-		if (!TargetArea.CanBuild || !TargetArea.NotMove || MainGameInfo.EditMode)
-			return;
-
 		GameObject TempTower = TowerObjPool.GetObject();
 		TempTower.GetComponent<TowerInfo>().NowRank.AddListener((value) => TempTower.GetComponent<TowerInfo>().SetMesh(TowerMesh[(int)value]));
-		TempTower.GetComponent<TowerInfo>().SetTower(ChessRank.Pawn);
-		TempTower.transform.position = TargetArea.CenterPoint + Vector3.up * Addheigth;
-		TargetArea.CanBuild = false;
+		TempTower.GetComponent<TowerInfo>().SetTower(Rank);
+		TempTower.transform.position = MapInfo.TouchMap.Value.CenterPoint + Vector3.up * Addheigth;
+		MapInfo.TouchMap.Value.CanBuild = false;
+
+		if (MapInfo.TouchMap.Value.BuildTower != null)
+		{
+			MapInfo.TouchMap.Value.BuildTower.gameObject.SetActive(false);
+		}
+		MapInfo.TouchMap.Value.BuildTower = TempTower;
 	}
 
 }

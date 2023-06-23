@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class TowerInfo : MonoBehaviour
 {
-	public Type<ChessRank> NowRank = new Type<ChessRank>(ChessRank.Pawn);
+	public Type<ChessRank> NowRank = new Type<ChessRank>(ChessRank.None);
 	public List<NextRankInfo> NextRank;
 
 	public GameObject Target;

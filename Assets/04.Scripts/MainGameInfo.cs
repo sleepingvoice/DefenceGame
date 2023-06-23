@@ -6,6 +6,8 @@ public static class MainGameInfo
     public static NextRankList NextRankList = new NextRankList();
     public static Dictionary<ChessRank,TowerState> TowerState = new Dictionary<ChessRank, TowerState>();
 
-    public static int Money;
-    public static int EnmeyNum;
+    public static Type<int> Money = new Type<int>(500);
+    public static Type<int> EnmeyNum = new Type<int>(0);
+
+    public static Type<bool> BuildUi = new Type<bool>(false);
 }

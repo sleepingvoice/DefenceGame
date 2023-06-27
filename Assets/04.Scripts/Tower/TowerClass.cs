@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 
@@ -51,12 +53,44 @@ public class TowerList
 	public List<TowerState> Tower = new List<TowerState>();
 }
 
+[Serializable]
+public class MovePostion
+{
+	public List<Vector2Int> MoveCoordinate;
+}
+
 #endregion
 
 public class TowerBasic
 {
+	public bool CanAttack = true;
 	public TowerState State;
 	public GameObject Bullet;
+
+	private float delayTime = 0f;
+
+	public void SetBulletObj(GameObject obj)
+	{
+		Bullet = obj;
+	}
+
+	public void InitState(ChessRank Rank)
+	{
+		State = MainGameData.TowerState[Rank];
+	}
+
+	public async UniTaskVoid WaitTime()
+	{
+		CanAttack = false;
+		while (delayTime < State.AttackSpeed)
+		{
+			delayTime += Time.deltaTime;
+			await UniTask.DelayFrame(1);
+		}
+		delayTime = 0f;
+		CanAttack = true;
+	}
+
 }
 
 public interface TowerCreate
@@ -89,21 +123,25 @@ public class CreateChessTower : TowerCreate
 
 public interface Tower
 {
-	public void InitState();
 	public void Attack(EnemyInfo Target);
 	public TowerBasic ReturnState();
 }
 
 public class PawnTower : TowerBasic, Tower
 {
-	public void InitState()
+	public PawnTower()
 	{
-		State = MainGameInfo.TowerState[ChessRank.Pawn];
+		InitState(ChessRank.Pawn);
 	}
 
 	public void Attack(EnemyInfo Target)
 	{
-		Target.Hp -= State.Damage;
+		if (CanAttack)
+		{
+			Target.Demaged(State.Damage);
+			WaitTime().Forget();
+			Debug.Log("¶§¸²");
+		}
 	}
 
 	public TowerBasic ReturnState()
@@ -114,14 +152,19 @@ public class PawnTower : TowerBasic, Tower
 
 public class KnightTower : TowerBasic, Tower
 {
-	public void InitState()
+	public KnightTower()
 	{
-		State = MainGameInfo.TowerState[ChessRank.Knight];
+		InitState(ChessRank.Knight);
 	}
+
 
 	public void Attack(EnemyInfo Target)
 	{
-		Target.Hp -= State.Damage;
+		if (CanAttack)
+		{
+			Target.Hp -= State.Damage;
+			WaitTime().Forget();
+		}
 	}
 
 	public TowerBasic ReturnState()
@@ -134,14 +177,18 @@ public class BishopTower : TowerBasic, Tower
 {
 	public int SlowTime;
 
-	public void InitState()
+	public BishopTower()
 	{
-		State = MainGameInfo.TowerState[ChessRank.Bishop];
+		InitState(ChessRank.Bishop);
 	}
 
 	public void Attack(EnemyInfo Target)
 	{
-		Target.Hp -= State.Damage;
+		if (CanAttack)
+		{
+			Target.Hp -= State.Damage;
+			WaitTime().Forget();
+		}
 	}
 
 	public TowerBasic ReturnState()
@@ -152,14 +199,19 @@ public class BishopTower : TowerBasic, Tower
 
 public class RookTower : TowerBasic, Tower
 {
-	public void InitState()
+	public RookTower()
 	{
-		State = MainGameInfo.TowerState[ChessRank.Rook];
+		InitState(ChessRank.Rook);
 	}
+
 
 	public void Attack(EnemyInfo Target)
 	{
-		Target.Hp -= State.Damage;
+		if (CanAttack)
+		{
+			Target.Hp -= State.Damage;
+			WaitTime().Forget();
+		}
 	}
 
 	public TowerBasic ReturnState()
@@ -170,14 +222,18 @@ public class RookTower : TowerBasic, Tower
 
 public class QueenTower : TowerBasic, Tower
 {
-	public void InitState()
+	public QueenTower()
 	{
-		State = MainGameInfo.TowerState[ChessRank.Queen];
+		InitState(ChessRank.Queen);
 	}
 
 	public void Attack(EnemyInfo Target)
 	{
-		Target.Hp -= State.Damage;
+		if (CanAttack)
+		{
+			Target.Hp -= State.Damage;
+			WaitTime().Forget();
+		}
 	}
 
 	public TowerBasic ReturnState()
@@ -188,14 +244,18 @@ public class QueenTower : TowerBasic, Tower
 
 public class KingTower : TowerBasic, Tower
 {
-	public void InitState()
+	public KingTower()
 	{
-		State = MainGameInfo.TowerState[ChessRank.King];
+		InitState(ChessRank.King);
 	}
 
 	public void Attack(EnemyInfo Target)
 	{
-		Target.Hp -= State.Damage;
+		if (CanAttack)
+		{
+			Target.Hp -= State.Damage;
+			WaitTime().Forget();
+		}
 	}
 
 	public TowerBasic ReturnState()

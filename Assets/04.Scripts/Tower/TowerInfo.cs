@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using UnityEngine;
-
 
 public class TowerInfo : MonoBehaviour
 {
@@ -7,7 +7,15 @@ public class TowerInfo : MonoBehaviour
 	public Tower NowTower;
 
 	public GameObject Target;
-	public GameObject AttackCol;
+	public TowerCol AttackCol;
+
+	private void Update()
+	{
+		if (AttackCol.EntryEnemyList.Count > 0)
+		{
+			NowTower.Attack(AttackCol.EntryEnemyList[0].GetComponent<EnemyInfo>());
+		}
+	}
 
 	public void SetTower(ChessRank Rank)
 	{
@@ -15,8 +23,7 @@ public class TowerInfo : MonoBehaviour
 
 		CreateChessTower TowerCreate = new CreateChessTower();
 		NowTower = TowerCreate.CreateTower(Rank);
-		NowTower.InitState();
-		AttackCol.GetComponent<SphereCollider>().radius = NowTower.ReturnState().State.Range * MainGameInfo.MapInfo.Hegith / 2;
+		AttackCol.GetComponent<SphereCollider>().radius = NowTower.ReturnState().State.Range * MainGameData.MapInfo.AreaheigthLength / 2;
 	}
 
 	public void SetMesh(Mesh Mesh)

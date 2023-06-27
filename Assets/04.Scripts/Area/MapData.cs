@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Gu;
 
-public class AreaInfo
+public class MapData
 {
     public Dictionary<Vector2Int, MapAreaInfo> PointList = new Dictionary<Vector2Int, MapAreaInfo>();
     public float AreawidthLength = 0f;

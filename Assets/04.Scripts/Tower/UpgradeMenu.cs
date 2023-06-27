@@ -12,18 +12,18 @@ public class UpgradeMenu : MonoBehaviour
 
 	private void Awake()
 	{
-		MainGameInfo.MapInfo.TouchMap.AddListener((value) =>
+		MainGameData.MapInfo.TouchMap.AddListener((value) =>
 		{
 			if (value == null)
 				return;
 
 			this.gameObject.SetActive(false);
 
-			var list = MainGameInfo.NextRankList.ReturnNextRank(value.NowRank);
+			var list = MainGameData.NextRankList.ReturnNextRank(value.NowRank);
 
 			if (list == null)
 			{
-				MainGameInfo.MapInfo.TouchMap.SetValue(null);
+				MainGameData.MapInfo.TouchMap.SetValue(null);
 				return;
 			}
 
@@ -40,13 +40,13 @@ public class UpgradeMenu : MonoBehaviour
 
 		ClickBtn.onClick.AddListener(() =>
 		{
-			if (MainGameInfo.Money.Value >= Price)
+			if (MainGameData.Money.Value >= Price)
 			{
 				GameManager.ins.TowerManager.AddTower(MenuRank);
-				MainGameInfo.Money.SetValue(MainGameInfo.Money.Value - Price);
-				MainGameInfo.MapInfo.TouchMap.Value.NowRank = MenuRank;
+				MainGameData.Money.SetValue(MainGameData.Money.Value - Price);
+				MainGameData.MapInfo.TouchMap.Value.NowRank = MenuRank;
 			}
-			MainGameInfo.MapInfo.TouchMap.SetValue(null);
+			MainGameData.MapInfo.TouchMap.SetValue(null);
 		});
 
 		//ClickBtn.onClick.AddListener(() =>

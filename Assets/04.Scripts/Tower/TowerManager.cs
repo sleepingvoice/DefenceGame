@@ -10,7 +10,7 @@ public class TowerManager : MonoBehaviour
 	public List<Mesh> TowerMesh;
 
 	public float Addheigth;
-	private AreaInfo MapInfo = MainGameInfo.MapInfo;
+	private MapData MapInfo = MainGameData.MapInfo;
 
 	private void Awake()
 	{
@@ -19,7 +19,7 @@ public class TowerManager : MonoBehaviour
 
 	private void LoadJson()
 	{
-		MainGameInfo.NextRankList = JsonUtility.FromJson<NextRankList>(File.ReadAllText(Application.streamingAssetsPath + "/NextRankList.json"));
+		MainGameData.NextRankList = JsonUtility.FromJson<NextRankList>(File.ReadAllText(Application.streamingAssetsPath + "/NextRankList.json"));
 		Debug.Log("타워 로드");
 	}
 

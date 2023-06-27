@@ -31,7 +31,7 @@ public class AStarNode
 public class AstarCheck : MonoBehaviour
 {
     private AStarNode[,] NodeArray;
-    private AreaInfo MapInfo = MainGameInfo.MapInfo;
+    private MapData MapInfo = MainGameData.MapInfo;
 
     private Vector2Int StartPos, TargetPos;
     private List<Vector2Int> OpenPosList,ClosePosList, FinalPosList;
@@ -86,7 +86,7 @@ public class AstarCheck : MonoBehaviour
         }
 
         List<MapAreaInfo> MapInfoList = new List<MapAreaInfo>();
-        for (int i = 0; i < FinalPosList.Count; i++)
+        for (int i = 1; i < FinalPosList.Count; i++)
         {
             MapInfoList.Add(FindNode(FinalPosList[i]).InfoNum);
         }

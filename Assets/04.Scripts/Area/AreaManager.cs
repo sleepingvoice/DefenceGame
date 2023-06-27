@@ -31,18 +31,15 @@ namespace Gu
 
         //테스트 객체 나중에 지우기
         [Header("테스트")]
-        public GameObject Test;
         public GameObject LineTest;
         public GameObject StartLastPos;
         public bool CheckAStar = false;
-        public Vector2Int StartPos;
-        public Vector2Int EndPos;
 
         private float widthLength;
         private float heightLength;
         private Vector3 AreaSize;
 
-        private AreaInfo MapInfo = MainGameInfo.MapInfo;
+        private MapData MapInfo = MainGameData.MapInfo;
 
 
         private void Awake()
@@ -60,19 +57,16 @@ namespace Gu
             // AStar체크용
             if (CheckAStar)
             {
-                foreach (var obj in this.GetComponentsInChildren<Transform>())
+                Instantiate(StartLastPos, this.transform).transform.position = MapInfo.PointList[new Vector2Int(0, 0)].CenterPoint;
+                Instantiate(StartLastPos, this.transform).transform.position = MapInfo.PointList[new Vector2Int(7, 7)].CenterPoint;
+                Instantiate(StartLastPos, this.transform).transform.position = MapInfo.PointList[new Vector2Int(7, 0)].CenterPoint;
+                Instantiate(StartLastPos, this.transform).transform.position = MapInfo.PointList[new Vector2Int(0, 7)].CenterPoint;
+
+                foreach (var Target in MainGameData.EnemyInfo.TargetList)
                 {
-                    if(obj != this.GetComponent<Transform>())
-                        Destroy(obj.gameObject);
+                    Instantiate(LineTest, this.transform).transform.position = Target.CenterPoint;
                 }
 
-                List<MapAreaInfo> TestInfo = this.GetComponent<AstarCheck>().PathFindingAstar(MapInfo.PointList[StartPos], MapInfo.PointList[EndPos]);
-                Instantiate(StartLastPos, this.transform).transform.position = MapInfo.PointList[StartPos].CenterPoint;
-                Instantiate(StartLastPos, this.transform).transform.position = MapInfo.PointList[EndPos].CenterPoint;
-                for (int i = 0; i < TestInfo.Count; i++)
-                {
-                    Instantiate(LineTest, this.transform).transform.position = TestInfo[i].CenterPoint;
-                }
                 CheckAStar = false;
             }
         }

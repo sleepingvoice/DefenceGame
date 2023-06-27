@@ -33,6 +33,11 @@ public class Type<T>
 		_update.RemoveAllListeners();
 	}
 
+	public void InvokeListener()
+	{
+		_update.Invoke(_value);
+	}
+
 	public Type(T init = default)
 	{
 		_value = init;

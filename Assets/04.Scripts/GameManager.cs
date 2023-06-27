@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public AreaManager AreaManager;
 	public TowerManager TowerManager;
 	public UpGradeManager UpGradeManager;
+	public EnemyManager EnemyManager;
 	public Camera MainCam;
 
 	private void Awake()
@@ -27,7 +28,7 @@ public class GameManager : MonoBehaviour
 		var List = JsonUtility.FromJson<TowerList>(System.IO.File.ReadAllText(Application.streamingAssetsPath + "/TowerClass.json"));
 		foreach (var value in List.Tower)
 		{
-			MainGameInfo.TowerState.Add(value.RankValue, value);
+			MainGameData.TowerState.Add(value.RankValue, value);
 		}
 	}
 }

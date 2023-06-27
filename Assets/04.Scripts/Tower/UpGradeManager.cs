@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UpGradeManager : MonoBehaviour
 {
-	private AreaInfo MapInfo = MainGameInfo.MapInfo;
+	private MapData MapInfo = MainGameData.MapInfo;
 
 	private MapAreaInfo AreaInfo = null;
 

@@ -11,13 +11,11 @@ public class SetUi : MonoBehaviour
 
 	private void Awake()
 	{
-		MainGameInfo.Money.AddListener((value) => Money.text = value.ToString());
-		MainGameInfo.EnmeyNum.AddListener((value) => UnityNum.text = value.ToString());
+		MainGameData.Money.AddListener((value) => Money.text = value.ToString());
+		MainGameData.EnemyNum.AddListener((value) => UnityNum.text = value.ToString());
+
+		MainGameData.Money.SetValue(MainGameData.Money.Value);
+		MainGameData.EnemyNum.SetValue(MainGameData.EnemyNum.Value);
 	}
 
-	private void Start()
-	{
-		MainGameInfo.Money.SetValue(500);
-		MainGameInfo.EnmeyNum.SetValue(0);
-	}
 }

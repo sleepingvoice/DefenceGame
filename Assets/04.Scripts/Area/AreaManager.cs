@@ -37,23 +37,12 @@ namespace Gu
 
         private float widthLength;
         private float heightLength;
-        private Vector3 AreaSize;
+        [HideInInspector]public Vector3 AreaSize;
 
         private MapData MapInfo = MainGameData.MapInfo;
 
-
-        private void Awake()
-        {
-            MapInfo.NotMoveList = JsonUtility.FromJson<NotMovePoint>(System.IO.File.ReadAllText(Application.streamingAssetsPath + "/NotMoveList.json"));
-            SetList();
-        }
-
-        
-
         void Update()
         {
-            TouchCheck();
-
             // AStarÃ¼Å©¿ë
             if (CheckAStar)
             {
@@ -71,25 +60,11 @@ namespace Gu
             }
         }
 
-        private void TouchCheck()
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Ray ray = GameManager.ins.MainCam.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit hit, 100f, 1 << 6))
-                {
-                    Vector2Int MapNum = new Vector2Int((int)((int)(hit.point.x + AreaSize.x / 2) / widthLength), (int)((int)(hit.point.z + AreaSize.z / 2) / heightLength));
-                    MapInfo.TouchMap.SetValue(MapInfo.PointList[MapNum]);
-                }
-            }
-        }
-
 		#region InitValue
 
 		public void SetList()
         {
             AreaSize = AreaObj.GetComponent<Renderer>().bounds.size;
-
 
             SetLength(AreaSize);
 

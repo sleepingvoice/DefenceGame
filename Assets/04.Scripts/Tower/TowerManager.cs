@@ -12,17 +12,6 @@ public class TowerManager : MonoBehaviour
 	public float Addheigth;
 	private MapData MapInfo = MainGameData.MapInfo;
 
-	private void Awake()
-	{
-		LoadJson();
-	}
-
-	private void LoadJson()
-	{
-		MainGameData.NextRankList = JsonUtility.FromJson<NextRankList>(File.ReadAllText(Application.streamingAssetsPath + "/NextRankList.json"));
-		Debug.Log("타워 로드");
-	}
-
 	public void AddTower(ChessRank Rank)
 	{
 		GameObject TempTower = TowerObjPool.GetObject();

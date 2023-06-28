@@ -710,6 +710,7 @@ MonoBehaviour:
   LineTest: {fileID: 204281124353917608, guid: 1205582f72f964046bfa9cded7206713, type: 3}
   StartLastPos: {fileID: 204281124353917608, guid: d1fdebbcb875b7742b50f99d0bd71527, type: 3}
   CheckAStar: 0
+  AreaSize: {x: 0, y: 0, z: 0}
 --- !u!114 &341670258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1642,7 +1643,6 @@ GameObject:
   m_Component:
   - component: {fileID: 762123936}
   - component: {fileID: 762123937}
-  - component: {fileID: 762123938}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -1678,19 +1678,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyPool: {fileID: 444227394}
-  Check: {fileID: 762123938}
---- !u!114 &762123938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 762123935}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d6460d1722a5de4d9939560ec087e2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &844762335
 GameObject:
   m_ObjectHideFlags: 0
@@ -2605,6 +2592,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1364007872}
   - component: {fileID: 1364007871}
+  - component: {fileID: 1364007873}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2629,6 +2617,7 @@ MonoBehaviour:
   UpGradeManager: {fileID: 579439978}
   EnemyManager: {fileID: 762123937}
   MainCam: {fileID: 963194227}
+  Check: {fileID: 1364007873}
 --- !u!4 &1364007872
 Transform:
   m_ObjectHideFlags: 0
@@ -2647,6 +2636,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1364007873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364007869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d6460d1722a5de4d9939560ec087e2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1369792295
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 public static class MainGameData
 {
     public static bool EditMode = false;
@@ -9,6 +10,7 @@ public static class MainGameData
 
     public static Dictionary<ChessRank,TowerState> TowerState = new Dictionary<ChessRank, TowerState>();
 
+    public static Dictionary<ChessRank,KeyValuePair<int, int>> BulletList = new Dictionary<ChessRank, KeyValuePair<int, int>>();
     public static Type<int> Money = new Type<int>(500);
     public static Type<int> EnemyNum = new Type<int>(0);
 

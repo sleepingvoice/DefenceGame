@@ -8,6 +8,7 @@ public class TowerManager : MonoBehaviour
 {
 	public ObjPool TowerObjPool;
 	public List<Mesh> TowerMesh;
+	public List<GameObject> BulletObj;
 
 	public float Addheigth;
 	private MapData MapInfo = MainGameData.MapInfo;

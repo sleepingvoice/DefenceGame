@@ -61,22 +61,25 @@ public class MovePostion
 
 #endregion
 
+#region Tower
+
 public class TowerBasic
 {
 	public bool CanAttack = true;
 	public TowerState State;
-	public GameObject Bullet;
+	public BulletInfo NowBullet;
 
 	private float delayTime = 0f;
-
-	public void SetBulletObj(GameObject obj)
-	{
-		Bullet = obj;
-	}
 
 	public void InitState(ChessRank Rank)
 	{
 		State = MainGameData.TowerState[Rank];
+	}
+
+	public void SetBullet(ChessRank Rank)
+	{
+		var BulletNum = MainGameData.BulletList[Rank];
+		NowBullet = GameManager.ins.BulletManager.BulletSet(BulletNum);
 	}
 
 	public async UniTaskVoid WaitTime()
@@ -90,7 +93,6 @@ public class TowerBasic
 		delayTime = 0f;
 		CanAttack = true;
 	}
-
 }
 
 public interface TowerCreate
@@ -162,6 +164,8 @@ public class KnightTower : TowerBasic, Tower
 	{
 		if (CanAttack)
 		{
+			SetBullet(ChessRank.Knight);
+			//NowBullet.ShotBullet()
 			Target.Hp -= State.Damage;
 			WaitTime().Forget();
 		}
@@ -264,4 +268,4 @@ public class KingTower : TowerBasic, Tower
 	}
 }
 
-
+#endregion

@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 	public TowerManager TowerManager;
 	public UpGradeManager UpGradeManager;
 	public EnemyManager EnemyManager;
+	public BulletManager BulletManager;
 	public AstarCheck Check;
 
 	public Camera MainCam;

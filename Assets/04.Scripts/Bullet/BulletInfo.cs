@@ -7,29 +7,44 @@ using UnityEngine;
 
 public class BulletInfo : MonoBehaviour
 {
-	public GameObject Effect;
+	public ObjPool Model;
+	public ObjPool Effect;
 
-	public void SetBullet(GameObject Model,GameObject Effect)
+	public void SetBullet(GameObject model,GameObject effect)
 	{
-		Instantiate(Model, this.transform);
-		Effect = Instantiate(Effect, this.transform);
-		Effect.GetComponent<ParticleSystem>().Stop();
+		Model.SetPrefab = model;
+		Effect.SetPrefab = effect;
+		Model.GetObject();
+		Effect.GetObject().GetComponent<ParticleSystem>().Stop();
 	}
 
-	public async UniTaskVoid ShotBullet(Vector3 StartPos, Transform EndPos, float BulletTime,Action Act)
+
+	public async UniTaskVoid ShotBullet(Vector3 StartPos, EnemyInfo Target, float BulletSpeed, Action Act)
 	{
-		float time = BulletTime;
-		this.transform.position = StartPos;
-		while (Vector3.Distance(this.transform.position, EndPos.transform.position) * 1000 < 1)
+		this.transform.position = StartPos + Vector3.up * 3.5f;
+		Vector3 dir;
+		while (Vector3.Distance(this.transform.position, Target.transform.position) * 10 > 1)
 		{
-			this.transform.position = Vector3.Lerp(this.transform.position, EndPos.transform.position, time);
-			time -= 0.02f;
-			await UniTask.Delay(20);	
+			if (Target.Hp <= 0)
+				break;
+
+			dir = Target.transform.position - this.transform.position;
+			dir = dir.normalized;
+			this.transform.position += dir * BulletSpeed * 0.2f;
+			await UniTask.Delay(20);
 		}
-		this.transform.position = EndPos.transform.position;
-		Effect.GetComponent<ParticleSystem>().Play();
+		this.transform.position = Target.transform.position;
+		Effect.GetComponentInChildren<ParticleSystem>().Play();
+
 		await UniTask.Delay(100);
+
 		Act.Invoke();
+
+		Effect.GetComponentInChildren<ParticleSystem>().Stop();
+		Model.ReturnObjectAll();
+		Effect.ReturnObjectAll();
+
 		GameManager.ins.BulletManager.FinishBullet(this.gameObject);
 	}
+
 }

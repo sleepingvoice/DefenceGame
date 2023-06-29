@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
+
 
 
 #region json용 클래스
@@ -45,6 +47,7 @@ public class TowerState
 	public int Range;
 	public int Damage;
 	public float AttackSpeed;
+	public float BulletSpeed;
 }
 
 [Serializable]
@@ -67,19 +70,15 @@ public class TowerBasic
 {
 	public bool CanAttack = true;
 	public TowerState State;
-	public BulletInfo NowBullet;
+	public BulletCreate NowBullet;
+	public Transform Trans;
 
 	private float delayTime = 0f;
 
 	public void InitState(ChessRank Rank)
 	{
 		State = MainGameData.TowerState[Rank];
-	}
-
-	public void SetBullet(ChessRank Rank)
-	{
-		var BulletNum = MainGameData.BulletList[Rank];
-		NowBullet = GameManager.ins.BulletManager.BulletSet(BulletNum);
+		NowBullet = new BulletCreate(Rank);
 	}
 
 	public async UniTaskVoid WaitTime()
@@ -127,6 +126,7 @@ public interface Tower
 {
 	public void Attack(EnemyInfo Target);
 	public TowerBasic ReturnState();
+	public void SetPos(Transform Trans);
 }
 
 public class PawnTower : TowerBasic, Tower
@@ -136,13 +136,20 @@ public class PawnTower : TowerBasic, Tower
 		InitState(ChessRank.Pawn);
 	}
 
+	public void SetPos(Transform trans)
+	{
+		Trans = trans;
+	}
+
 	public void Attack(EnemyInfo Target)
 	{
 		if (CanAttack)
 		{
-			Target.Demaged(State.Damage);
+			NowBullet.ShotBullet(Trans, Target, State.BulletSpeed, () =>
+			   {
+				   Target.Demaged(State.Damage);
+			   });
 			WaitTime().Forget();
-			Debug.Log("때림");
 		}
 	}
 
@@ -159,14 +166,20 @@ public class KnightTower : TowerBasic, Tower
 		InitState(ChessRank.Knight);
 	}
 
+	public void SetPos(Transform trans)
+	{
+		Trans = trans;
+	}
+
 
 	public void Attack(EnemyInfo Target)
 	{
 		if (CanAttack)
 		{
-			SetBullet(ChessRank.Knight);
-			//NowBullet.ShotBullet()
-			Target.Hp -= State.Damage;
+			NowBullet.ShotBullet(Trans, Target, State.BulletSpeed, () =>
+			{
+				Target.Demaged(State.Damage);
+			});
 			WaitTime().Forget();
 		}
 	}
@@ -186,11 +199,19 @@ public class BishopTower : TowerBasic, Tower
 		InitState(ChessRank.Bishop);
 	}
 
+	public void SetPos(Transform trans)
+	{
+		Trans = trans;
+	}
+
 	public void Attack(EnemyInfo Target)
 	{
 		if (CanAttack)
 		{
-			Target.Hp -= State.Damage;
+			NowBullet.ShotBullet(Trans, Target, State.BulletSpeed, () =>
+			{
+				Target.Demaged(State.Damage);
+			});
 			WaitTime().Forget();
 		}
 	}
@@ -208,12 +229,19 @@ public class RookTower : TowerBasic, Tower
 		InitState(ChessRank.Rook);
 	}
 
+	public void SetPos(Transform trans)
+	{
+		Trans = trans;
+	}
 
 	public void Attack(EnemyInfo Target)
 	{
 		if (CanAttack)
 		{
-			Target.Hp -= State.Damage;
+			NowBullet.ShotBullet(Trans, Target, State.BulletSpeed, () =>
+			{
+				Target.Demaged(State.Damage);
+			});
 			WaitTime().Forget();
 		}
 	}
@@ -231,11 +259,20 @@ public class QueenTower : TowerBasic, Tower
 		InitState(ChessRank.Queen);
 	}
 
+	public void SetPos(Transform trans)
+	{
+		Trans = trans;
+	}
+
+
 	public void Attack(EnemyInfo Target)
 	{
 		if (CanAttack)
 		{
-			Target.Hp -= State.Damage;
+			NowBullet.ShotBullet(Trans, Target, State.BulletSpeed, () =>
+			{
+				Target.Demaged(State.Damage);
+			});
 			WaitTime().Forget();
 		}
 	}
@@ -253,11 +290,20 @@ public class KingTower : TowerBasic, Tower
 		InitState(ChessRank.King);
 	}
 
+	public void SetPos(Transform trans)
+	{
+		Trans = trans;
+	}
+
+
 	public void Attack(EnemyInfo Target)
 	{
 		if (CanAttack)
 		{
-			Target.Hp -= State.Damage;
+			NowBullet.ShotBullet(Trans, Target, State.BulletSpeed, () =>
+			{
+				Target.Demaged(State.Damage);
+			});
 			WaitTime().Forget();
 		}
 	}
@@ -269,3 +315,20 @@ public class KingTower : TowerBasic, Tower
 }
 
 #endregion
+
+public class BulletCreate
+{
+	public ChessRank NowRank;
+
+	public BulletCreate(ChessRank Rank)
+	{
+		NowRank = Rank;
+	}
+
+	public void ShotBullet(Transform Trans,EnemyInfo Target,float BulletSpeed,Action Act)
+	{
+		var BulletNum = MainGameData.BulletList[NowRank];
+		var NowBullet = GameManager.ins.BulletManager.BulletSet(BulletNum);
+		NowBullet.ShotBullet(Trans.transform.position, Target, BulletSpeed, Act).Forget();
+	}
+}

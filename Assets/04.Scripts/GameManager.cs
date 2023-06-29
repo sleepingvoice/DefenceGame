@@ -27,11 +27,21 @@ public class GameManager : MonoBehaviour
 			Instance = this;
 
 		SetJsonValue();
+		StartCoroutine(MakeEnemy());
 	}
 
 	private void Update()
 	{
 		TouchCheck();
+	}
+
+	IEnumerator MakeEnemy()
+	{
+		for (int i = 0; i < 50; i++)
+		{
+			EnemyManager.MakeEnemy();
+			yield return new WaitForSeconds(1);
+		}
 	}
 
 	private void TouchCheck()
@@ -54,6 +64,7 @@ public class GameManager : MonoBehaviour
 		LoadMapinfo();
 		AreaManager.SetList();
 		SetMovePos();
+		LoadBulletInfo();
 	}
 
 
@@ -89,9 +100,21 @@ public class GameManager : MonoBehaviour
 		MainGameData.NextRankList = JsonUtility.FromJson<NextRankList>(File.ReadAllText(Application.streamingAssetsPath + "/NextRankList.json"));
 	}
 
+	//¸Ê Á¤º¸
 	private void LoadMapinfo()
 	{
 		MapInfo.NotMoveList = JsonUtility.FromJson<NotMovePoint>(System.IO.File.ReadAllText(Application.streamingAssetsPath + "/NotMoveList.json"));
+	}
+	
+	//ÃÑ¾Ë Á¤º¸
+	private void LoadBulletInfo()
+	{
+		MainGameData.BulletList.Add(ChessRank.Pawn, new KeyValuePair<int, int>(0,0));
+		MainGameData.BulletList.Add(ChessRank.Knight, new KeyValuePair<int, int>(0, 0));
+		MainGameData.BulletList.Add(ChessRank.Bishop, new KeyValuePair<int, int>(0, 1));
+		MainGameData.BulletList.Add(ChessRank.Rook, new KeyValuePair<int, int>(0, 0));
+		MainGameData.BulletList.Add(ChessRank.Queen, new KeyValuePair<int, int>(0, 0));
+		MainGameData.BulletList.Add(ChessRank.King, new KeyValuePair<int, int>(0, 0));
 	}
 
 }

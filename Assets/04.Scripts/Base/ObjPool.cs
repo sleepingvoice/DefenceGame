@@ -6,7 +6,15 @@ namespace Gu
 {
 	public class ObjPool : MonoBehaviour
 	{
-		[SerializeField] private GameObject _prefab;
+		[SerializeField] public GameObject _prefab;
+
+		public GameObject SetPrefab
+		{
+			set
+			{
+				_prefab = value;
+			}
+		}
 
 		[SerializeField] private Queue<GameObject> _activePool = new Queue<GameObject>();
 		[SerializeField] private Queue<GameObject> _disactivePool = new Queue<GameObject>();

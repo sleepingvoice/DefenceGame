@@ -16,7 +16,7 @@ public class TowerManager : MonoBehaviour
 	public void AddTower(ChessRank Rank)
 	{
 		GameObject TempTower = TowerObjPool.GetObject();
-		TempTower.GetComponent<TowerInfo>().SetTower(Rank);
+		TempTower.GetComponent<TowerInfo>().SetTower(Rank,TempTower.transform);
 		TempTower.GetComponent<TowerInfo>().SetMesh(TowerMesh[(int)Rank]);
 		TempTower.transform.position = MapInfo.TouchMap.Value.CenterPoint + Vector3.up * Addheigth;
 		MapInfo.TouchMap.Value.CanBuild = false;

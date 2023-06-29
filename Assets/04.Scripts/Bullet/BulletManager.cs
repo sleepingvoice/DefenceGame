@@ -22,6 +22,4 @@ public class BulletManager : MonoBehaviour
 	{
 		ObjPool.DisableObject(obj);
 	}
-
-	
 }

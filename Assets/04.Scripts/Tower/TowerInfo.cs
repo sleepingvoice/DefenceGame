@@ -17,12 +17,14 @@ public class TowerInfo : MonoBehaviour
 		}
 	}
 
-	public void SetTower(ChessRank Rank)
+	public void SetTower(ChessRank Rank, Transform Trans)
 	{
 		NowRank = Rank;
 
 		CreateChessTower TowerCreate = new CreateChessTower();
 		NowTower = TowerCreate.CreateTower(Rank);
+		NowTower.SetPos(Trans);
+
 		AttackCol.GetComponent<SphereCollider>().radius = NowTower.ReturnState().State.Range * MainGameData.MapInfo.AreaheigthLength / 2;
 	}
 

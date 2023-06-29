@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ public class UpgradeMenu : MonoBehaviour
 	[HideInInspector]public int Price;
 
 	public Button ClickBtn;
+	public TMP_Text PriceValue;
 
 	private void Awake()
 	{
@@ -33,6 +35,7 @@ public class UpgradeMenu : MonoBehaviour
 				{
 					this.gameObject.SetActive(true);
 					Price = info.Price;
+					PriceValue.text = Price.ToString();
 					break;
 				}
 			}

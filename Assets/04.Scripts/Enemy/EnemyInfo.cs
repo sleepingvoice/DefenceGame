@@ -6,18 +6,18 @@ using UnityEngine;
 public class EnemyInfo : MonoBehaviour
 {
     public int Speed = 1;
-	public int Hp = 1;
+	public int Hp = 10;
 
 	public Type<int> TargetNum = new Type<int>(0);
 	public Type<Vector3> MovePos = new Type<Vector3>(Vector3.zero);
 
-	private Vector2 MovePosVec;
-	Vector3 pos;
-
 	public void Init(EnemyData Data)
 	{
+		TargetNum = new Type<int>();
+		MovePos = new Type<Vector3>(Vector3.zero);
+
 		Speed = 1;
-		Hp = 1;
+		Hp = 10;
 
 		MainGameData.EnemyInfo.EnemyList.Value.Add(this);
 
@@ -35,7 +35,6 @@ public class EnemyInfo : MonoBehaviour
 			}
 			else
 			{
-				pos = Data.TargetList[value].CenterPoint;
 				MovePos.SetValue(Data.TargetList[value].CenterPoint);
 			}
 		});

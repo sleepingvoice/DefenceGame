@@ -33,7 +33,6 @@ public class TowerCol : MonoBehaviour
 		if (other.gameObject.GetComponent<EnemyInfo>())
 		{
 			EntryEnemyList.Add(other);
-			Debug.Log("들어왔음");
 		}
 	}
 

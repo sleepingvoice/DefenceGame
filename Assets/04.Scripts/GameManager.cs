@@ -27,20 +27,18 @@ public class GameManager : MonoBehaviour
 			Instance = this;
 
 		SetJsonValue();
-		StartCoroutine(MakeEnemy());
+	}
+
+	private void Start()
+	{
+		MainGameData.ProgressValue.SetValue(GameProgress.Lobby);
 	}
 
 	private void Update()
 	{
-		TouchCheck();
-	}
-
-	IEnumerator MakeEnemy()
-	{
-		for (int i = 0; i < 50; i++)
+		if (MainGameData.ProgressValue.Value == GameProgress.GamePlay)
 		{
-			EnemyManager.MakeEnemy();
-			yield return new WaitForSeconds(1);
+			TouchCheck();
 		}
 	}
 
@@ -57,6 +55,8 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+	#region Json 값 받아오기
+
 	private void SetJsonValue()
 	{
 		SetTowerClass();
@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
 		AreaManager.SetList();
 		SetMovePos();
 		LoadBulletInfo();
+		LoadEnemyInfo();
 	}
 
 
@@ -103,7 +104,7 @@ public class GameManager : MonoBehaviour
 	//맵 정보
 	private void LoadMapinfo()
 	{
-		MapInfo.NotMoveList = JsonUtility.FromJson<NotMovePoint>(System.IO.File.ReadAllText(Application.streamingAssetsPath + "/NotMoveList.json"));
+		MapInfo.NotMoveList = JsonUtility.FromJson<NotMovePoint>(File.ReadAllText(Application.streamingAssetsPath + "/NotMoveList.json"));
 	}
 	
 	//총알 정보
@@ -116,5 +117,16 @@ public class GameManager : MonoBehaviour
 		MainGameData.BulletList.Add(ChessRank.Queen, new KeyValuePair<int, int>(0, 0));
 		MainGameData.BulletList.Add(ChessRank.King, new KeyValuePair<int, int>(0, 0));
 	}
+
+	private void LoadEnemyInfo()
+	{
+		var info = JsonUtility.FromJson<RoundEnemyInfoList>(File.ReadAllText(Application.streamingAssetsPath + "/RoundEnemyInfo.json"));
+		foreach (var infoValue in info.EnemyInfoList) 
+		{
+			EnemyInfo.EnemyInfo.Add(infoValue.RoundNum, infoValue);
+		}
+	}
+
+	#endregion
 
 }

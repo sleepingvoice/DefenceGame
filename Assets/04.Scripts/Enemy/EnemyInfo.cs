@@ -5,21 +5,26 @@ using UnityEngine;
 
 public class EnemyInfo : MonoBehaviour
 {
-    public int Speed = 1;
-	public int Hp = 10;
+    private int MaxSpeed;
+	private int MaxHp;
+
+	public int NowHp;
+	public int NowSpeed;
 
 	public Type<int> TargetNum = new Type<int>(0);
 	public Type<Vector3> MovePos = new Type<Vector3>(Vector3.zero);
 
-	public void Init(EnemyData Data)
+	public void Init(EnemyData Data,int Hp,int Speed)
 	{
 		TargetNum = new Type<int>();
 		MovePos = new Type<Vector3>(Vector3.zero);
 
-		Speed = 1;
-		Hp = 10;
-
 		MainGameData.EnemyInfo.EnemyList.Value.Add(this);
+
+		MaxSpeed = Speed;
+		MaxHp = Hp;
+		NowHp = MaxHp;
+		NowSpeed = MaxSpeed;
 
 		MovePos.AddListener((value) =>
 		{
@@ -44,8 +49,8 @@ public class EnemyInfo : MonoBehaviour
 
 	public void Demaged(int Damage)
 	{
-		Hp -= Damage;
-		if (Hp <= 0)
+		NowHp -= Damage;
+		if (NowHp <= 0)
 		{
 			MainGameData.Money.SetValue(MainGameData.Money.Value + 100);
 			MainGameData.EnemyNum.SetValue(MainGameData.EnemyNum.Value - 1);
@@ -60,7 +65,7 @@ public class EnemyInfo : MonoBehaviour
 
 		while (Vector3.Distance(MovePos.Value, this.transform.position) * 1000 > 1)
 		{
-			this.transform.Translate(TargetDir * Speed * 0.01f,Space.World);
+			this.transform.Translate(TargetDir * NowSpeed * 0.01f,Space.World);
 			yield return new WaitForEndOfFrame();
 		}
 

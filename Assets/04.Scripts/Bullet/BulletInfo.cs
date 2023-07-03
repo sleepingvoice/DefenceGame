@@ -25,7 +25,7 @@ public class BulletInfo : MonoBehaviour
 		Vector3 dir;
 		while (Vector3.Distance(this.transform.position, Target.transform.position) * 10 > 1)
 		{
-			if (Target.Hp <= 0)
+			if (Target.NowHp <= 0)
 				break;
 
 			dir = Target.transform.position - this.transform.position;

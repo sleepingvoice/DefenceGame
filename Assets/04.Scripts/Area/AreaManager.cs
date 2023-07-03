@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Gu
 {
@@ -33,7 +35,7 @@ namespace Gu
         [Header("테스트")]
         public GameObject LineTest;
         public GameObject StartLastPos;
-        public bool CheckAStar = false;
+        [SerializeField]private bool CheckAStar = false;
 
         private float widthLength;
         private float heightLength;
@@ -41,9 +43,9 @@ namespace Gu
 
         private MapData MapInfo = MainGameData.MapInfo;
 
-        void Update()
+		void Update()
         {
-            // AStar체크용
+            // AStar체크용(에디터 전용)
             if (CheckAStar)
             {
                 Instantiate(StartLastPos, this.transform).transform.position = MapInfo.PointList[new Vector2Int(0, 0)].CenterPoint;
@@ -105,12 +107,11 @@ namespace Gu
             widthLength = MapInfo.AreawidthLength;
             heightLength = MapInfo.AreaheigthLength;
         }
+        #endregion
 
-		#endregion
+        #region 테스트용 Gizmos
 
-		#region 테스트용 Gizmos
-
-		private void OnDrawGizmos()
+        private void OnDrawGizmos()
         {
             if (!CheckGizmos)
                 return;

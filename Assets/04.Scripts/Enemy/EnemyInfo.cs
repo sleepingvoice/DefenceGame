@@ -14,15 +14,17 @@ public class EnemyInfo : MonoBehaviour
 	public Type<int> TargetNum = new Type<int>(0);
 	public Type<Vector3> MovePos = new Type<Vector3>(Vector3.zero);
 
-	public void Init(EnemyData Data,int Hp,int Speed)
+	public void Init(EnemyData Data,int round)
 	{
 		TargetNum = new Type<int>();
 		MovePos = new Type<Vector3>(Vector3.zero);
 
 		MainGameData.EnemyInfo.EnemyList.Value.Add(this);
 
-		MaxSpeed = Speed;
-		MaxHp = Hp;
+		var info= MainGameData.EnemyInfo.EnemyInfo[round];
+
+		MaxSpeed = info.Speed;
+		MaxHp = info.hp;
 		NowHp = MaxHp;
 		NowSpeed = MaxSpeed;
 

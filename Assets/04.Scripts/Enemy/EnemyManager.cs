@@ -14,11 +14,11 @@ public class EnemyManager : MonoBehaviour
 		EnemyInfo.EnemyList.SetValue(new List<EnemyInfo>());
 	}
 
-	public void MakeEnemy(int hp,int speed)
+	public void MakeEnemy(int round)
 	{
 		GameObject obj = EnemyPool.GetObject();
 		obj.transform.position = EnemyInfo.TargetList[0].CenterPoint;
-		obj.GetComponent<EnemyInfo>().Init(EnemyInfo,hp,speed);
+		obj.GetComponent<EnemyInfo>().Init(EnemyInfo,round);
 		MainGameData.EnemyNum.SetValue(MainGameData.EnemyNum.Value + 1);
 	}
 

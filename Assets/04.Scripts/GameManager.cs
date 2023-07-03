@@ -1,4 +1,4 @@
-using System.Collections;
+
 using UnityEngine;
 using Gu;
 using System.Collections.Generic;
@@ -128,5 +128,6 @@ public class GameManager : MonoBehaviour
 	}
 
 	#endregion
+
 
 }

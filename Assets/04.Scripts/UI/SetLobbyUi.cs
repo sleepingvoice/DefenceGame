@@ -21,6 +21,13 @@ public class SetLobbyUi : MonoBehaviour
 	private void GameStart()
 	{
 		MainGameData.ProgressValue.SetValue(GameProgress.GamePlay);
+		Init();
+	}
+
+	private void Init()
+	{
+		MainGameData.EnemyNum.SetValue(0);
+		MainGameData.Money.SetValue(500);
 		MainGameData.NowRound.SetValue(1);
 	}
 }

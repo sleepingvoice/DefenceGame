@@ -12,6 +12,13 @@ public class EnemyManager : MonoBehaviour
 	private void Awake()
 	{
 		EnemyInfo.EnemyList.SetValue(new List<EnemyInfo>());
+		MainGameData.ProgressValue.AddListener(DisActive);
+	}
+
+	private void DisActive(GameProgress progress)
+	{
+		if (progress != GameProgress.GamePlay)
+			EnemyPool.ReturnObjectAll();
 	}
 
 	public void MakeEnemy(int round)

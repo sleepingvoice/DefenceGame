@@ -9,6 +9,8 @@ public class SetGameUi : MonoBehaviour
 	public TMP_Text Money;
 	public TMP_Text UnityNum;
 	public TMP_Text LimitTime;
+	public TMP_Text RoundTime;
+	public TMP_Text Round;
 
 	public Button ShowArea;
 
@@ -20,6 +22,8 @@ public class SetGameUi : MonoBehaviour
 		MainGameData.ProgressValue.AddListener(active);
 		MainGameData.Money.AddListener((value) => Money.text = value.ToString());
 		MainGameData.EnemyNum.AddListener((value) => UnityNum.text = value.ToString());
+		MainGameData.RoundTime.AddListener((value) => RoundTime.text = value.ToString());
+		MainGameData.NowRound.AddListener((value) => Round.text = value.ToString());
 
 		MainGameData.Money.SetValue(MainGameData.Money.Value);
 		MainGameData.EnemyNum.SetValue(MainGameData.EnemyNum.Value);

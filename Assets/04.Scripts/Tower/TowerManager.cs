@@ -13,6 +13,17 @@ public class TowerManager : MonoBehaviour
 	public float Addheigth;
 	private MapData MapInfo = MainGameData.MapInfo;
 
+	private void Awake()
+	{
+		MainGameData.ProgressValue.AddListener(DisActive);
+	}
+
+	private void DisActive(GameProgress progress)
+	{
+		if (progress != GameProgress.GamePlay)
+			TowerObjPool.ReturnObjectAll();
+	}
+
 	public void AddTower(ChessRank Rank)
 	{
 		GameObject TempTower = TowerObjPool.GetObject();

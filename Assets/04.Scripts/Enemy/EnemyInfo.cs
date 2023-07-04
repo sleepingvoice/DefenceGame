@@ -13,6 +13,7 @@ public class EnemyInfo : MonoBehaviour
 
 	public Type<int> TargetNum = new Type<int>(0);
 	public Type<Vector3> MovePos = new Type<Vector3>(Vector3.zero);
+	public bool Die = false;
 
 	public void Init(EnemyData Data,int round)
 	{
@@ -52,8 +53,9 @@ public class EnemyInfo : MonoBehaviour
 	public void Demaged(int Damage)
 	{
 		NowHp -= Damage;
-		if (NowHp <= 0)
+		if (NowHp <= 0 && !Die)
 		{
+			Die = true;
 			MainGameData.Money.SetValue(MainGameData.Money.Value + 100);
 			MainGameData.EnemyNum.SetValue(MainGameData.EnemyNum.Value - 1);
 			GameManager.ins.EnemyManager.DieEnemy(this);

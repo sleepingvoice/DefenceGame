@@ -70,5 +70,20 @@ namespace Gu
 				_disactivePool.Enqueue(obj);
 			}
 		}
+
+		public void RemoveList()
+		{
+			for (int i = 0; i < _activePool.Count; i++)
+			{
+				GameObject obj = _activePool.Dequeue();
+				Destroy(obj);
+			}
+
+			for (int i = 0; i < _disactivePool.Count; i++)
+			{
+				GameObject obj = _disactivePool.Dequeue();
+				Destroy(obj);
+			}
+		}
 	}
 }

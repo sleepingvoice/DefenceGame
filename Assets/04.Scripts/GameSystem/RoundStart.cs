@@ -30,7 +30,10 @@ public class RoundStart : MonoBehaviour
     public IEnumerator RoundEnemy(int value)
     {
         if (value == MainGameData.EnemyInfo.EnemyInfo.Count)
+        {
+            StartCoroutine(FinishGame());
             yield break;
+        }
         MainGameData.RoundTime.SetValue(Rule.RoundTime);
         for (int i = 0; i < Rule.RoundEnemy; i++)
         {
@@ -53,6 +56,13 @@ public class RoundStart : MonoBehaviour
         }
         yield return new WaitForSeconds(1f);
         MainGameData.RoundTime.SetValue(value - 1);
+    }
+
+    private IEnumerator FinishGame()
+    {
+        while (MainGameData.EnemyNum.Value > 0)
+            yield return new WaitForSeconds(1f);
+        MainGameData.ProgressValue.SetValue(GameProgress.End);
     }
 
     public void SetMaxEnemy(int value)

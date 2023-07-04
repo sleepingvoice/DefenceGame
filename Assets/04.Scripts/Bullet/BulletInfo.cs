@@ -14,6 +14,10 @@ public class BulletInfo : MonoBehaviour
 	{
 		Model.SetPrefab = model;
 		Effect.SetPrefab = effect;
+
+		Model.RemoveList();
+		Effect.RemoveList();
+		
 		Model.GetObject();
 		Effect.GetObject().GetComponent<ParticleSystem>().Stop();
 	}

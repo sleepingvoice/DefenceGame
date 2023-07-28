@@ -102,7 +102,8 @@ public class AstarCheck : MonoBehaviour
     void OpenListAdd(int checkX, int checkY)
     {
         // 상하좌우 범위를 벗어나지 않고, 벽이 아니면서, 닫힌리스트에 없다면
-        if (checkX >= 0 && checkX < MapInfo.Width && checkY >= 0 && checkY < MapInfo.Hegith && !NodeArray[checkX, checkY].NotMove && !ClosePosList.Contains(new Vector2Int(checkX, checkY)))
+        if (checkX >= 0 && checkX < MapInfo.Width && checkY >= 0 && checkY < MapInfo.Hegith && 
+            !NodeArray[checkX, checkY].NotMove && !ClosePosList.Contains(new Vector2Int(checkX, checkY)))
         {
             // 이웃노드에 넣고, 직선은 10, 대각선은 14비용
             AStarNode NeighborNode = NodeArray[checkX, checkY];

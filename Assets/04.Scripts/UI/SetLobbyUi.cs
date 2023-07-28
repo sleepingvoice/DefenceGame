@@ -6,11 +6,13 @@ using UnityEngine.UI;
 public class SetLobbyUi : MonoBehaviour
 {
     public Button StartGame;
+	public Button EditMode;
 
 	private void Awake()
 	{
 		MainGameData.ProgressValue.AddListener(active);
 		StartGame.onClick.AddListener(GameStart);
+		EditMode.onClick.AddListener(EditStart);
 	}
 
 	private void active(GameProgress Progress)
@@ -23,6 +25,12 @@ public class SetLobbyUi : MonoBehaviour
 		MainGameData.ProgressValue.SetValue(GameProgress.GamePlay);
 		Init();
 	}
+
+	private void EditStart()
+	{
+		MainGameData.ProgressValue.SetValue(GameProgress.Edit);
+	}
+
 
 	private void Init()
 	{

@@ -8,5 +8,5 @@ public enum ChessRank
 
 public enum GameProgress
 {
-	Lobby,GamePlay,End
+	Lobby,GamePlay,End,Edit
 }

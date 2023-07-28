@@ -66,6 +66,8 @@ namespace Gu
 
 		public void SetList()
         {
+            OutLinePool.ReturnObjectAll();
+
             AreaSize = AreaObj.GetComponent<Renderer>().bounds.size;
 
             SetLength(AreaSize);

@@ -61,11 +61,16 @@ public class GameManager : MonoBehaviour
 	{
 		SetTowerClass();
 		LoadTower();
-		LoadMapinfo();
-		AreaManager.SetList();
+		LoadMap();
 		SetMovePos();
 		LoadBulletInfo();
 		LoadEnemyInfo();
+	}
+
+	public void LoadMap()
+	{
+		LoadMapinfo();
+		AreaManager.SetList();
 	}
 
 

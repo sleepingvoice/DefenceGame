@@ -7,12 +7,12 @@ public class EnemyManager : MonoBehaviour
 {
 	public ObjPool EnemyPool;
 
-	EnemyData EnemyInfo = MainGameData.EnemyInfo;
+	EnemyData EnemyInfo = MainGameData.s_enemyInfo;
 
 	private void Awake()
 	{
 		EnemyInfo.EnemyList.SetValue(new List<EnemyInfo>());
-		MainGameData.ProgressValue.AddListener(DisActive);
+		MainGameData.s_progressValue.AddListener(DisActive);
 	}
 
 	private void DisActive(GameProgress progress)
@@ -26,7 +26,7 @@ public class EnemyManager : MonoBehaviour
 		GameObject obj = EnemyPool.GetObject();
 		obj.transform.position = EnemyInfo.TargetList[0].CenterPoint;
 		obj.GetComponent<EnemyInfo>().Init(EnemyInfo,round);
-		MainGameData.EnemyNum.SetValue(MainGameData.EnemyNum.Value + 1);
+		MainGameData.s_enemyNum.SetValue(MainGameData.s_enemyNum.Value + 1);
 	}
 
 	public void DieEnemy(EnemyInfo Target)

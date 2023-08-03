@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TowerInfo : MonoBehaviour
@@ -17,20 +16,20 @@ public class TowerInfo : MonoBehaviour
 		}
 	}
 
-	public void SetTower(ChessRank Rank, Transform Trans)
+	public void SetTower(ChessRank rank, Transform trans)
 	{
-		NowRank = Rank;
+		NowRank = rank;
 
 		CreateChessTower TowerCreate = new CreateChessTower();
-		NowTower = TowerCreate.CreateTower(Rank);
-		NowTower.SetPos(Trans);
+		NowTower = TowerCreate.CreateTower(rank);
+		NowTower.SetPos(trans);
 
-		AttackCol.GetComponent<SphereCollider>().radius = NowTower.ReturnState().State.Range * MainGameData.MapInfo.AreaheigthLength / 2;
+		AttackCol.GetComponent<SphereCollider>().radius = NowTower.ReturnState().State.Range * MainGameData.s_mapInfo.AreaheigthLength / 2;
 	}
 
-	public void SetMesh(Mesh Mesh)
+	public void SetMesh(Mesh mesh)
 	{
-		this.GetComponent<MeshFilter>().mesh = Mesh;
+		this.GetComponent<MeshFilter>().mesh = mesh;
 	}
 }
 

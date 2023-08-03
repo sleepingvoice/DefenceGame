@@ -5,15 +5,15 @@ using Unity.VisualScripting;
 public class RoundStart : MonoBehaviour
 {
     GameManager gameManger;
-    GameRule Rule = MainGameData.MainGameRule;
+    GameRule Rule = MainGameData.s_mainGameRule;
     IEnumerator CheckTimeIenumerator = null;
 
     private void Awake()
     {
-        MainGameData.ProgressValue.AddListener(SetEnd);
-        MainGameData.NowRound.AddListener(SetRound);
-        MainGameData.RoundTime.AddListener(SetTime);
-        MainGameData.EnemyNum.AddListener(SetMaxEnemy);
+        MainGameData.s_progressValue.AddListener(SetEnd);
+        MainGameData.s_nowRound.AddListener(SetRound);
+        MainGameData.s_roundTime.AddListener(SetTime);
+        MainGameData.s_enemyNum.AddListener(SetMaxEnemy);
     }
 
     private void SetEnd(GameProgress Progress)
@@ -29,12 +29,12 @@ public class RoundStart : MonoBehaviour
 
     public IEnumerator RoundEnemy(int value)
     {
-        if (value == MainGameData.EnemyInfo.EnemyInfo.Count)
+        if (value == MainGameData.s_enemyInfo.EnemyInfo.Count)
         {
             StartCoroutine(FinishGame());
             yield break;
         }
-        MainGameData.RoundTime.SetValue(Rule.RoundTime);
+        MainGameData.s_roundTime.SetValue(Rule.RoundTime);
         for (int i = 0; i < Rule.RoundEnemy; i++)
         {
             GameManager.ins.EnemyManager.MakeEnemy(value);
@@ -51,25 +51,25 @@ public class RoundStart : MonoBehaviour
     {
         if (value <= 0)
         {
-            MainGameData.NowRound.SetValue(MainGameData.NowRound.Value + 1);
+            MainGameData.s_nowRound.SetValue(MainGameData.s_nowRound.Value + 1);
             yield break;
         }
         yield return new WaitForSeconds(1f);
-        MainGameData.RoundTime.SetValue(value - 1);
+        MainGameData.s_roundTime.SetValue(value - 1);
     }
 
     private IEnumerator FinishGame()
     {
-        while (MainGameData.EnemyNum.Value > 0)
+        while (MainGameData.s_enemyNum.Value > 0)
             yield return new WaitForSeconds(1f);
-        MainGameData.ProgressValue.SetValue(GameProgress.End);
+        MainGameData.s_progressValue.SetValue(GameProgress.End);
     }
 
     public void SetMaxEnemy(int value)
     {
-        if (value >= MainGameData.MainGameRule.LimitEnemy)
+        if (value >= MainGameData.s_mainGameRule.LimitEnemy)
         {
-            MainGameData.ProgressValue.SetValue(GameProgress.End);
+            MainGameData.s_progressValue.SetValue(GameProgress.End);
         }
     }
 }

@@ -8,13 +8,13 @@ public class SetEditUI : MonoBehaviour
     public Button ChangeBtn;
     public Button Before;
 
-    private MapData MapInfo = MainGameData.MapInfo;
+    private MapData MapInfo = MainGameData.s_mapInfo;
     private bool Edit = false;
 
     void Awake()
     {
-        MainGameData.ProgressValue.AddListener(active);
-        Before.onClick.AddListener(() => MainGameData.ProgressValue.SetValue(GameProgress.Lobby));
+        MainGameData.s_progressValue.AddListener(active);
+        Before.onClick.AddListener(() => MainGameData.s_progressValue.SetValue(GameProgress.Lobby));
         ChangeBtn.onClick.AddListener(ChangeOn);
     }
 

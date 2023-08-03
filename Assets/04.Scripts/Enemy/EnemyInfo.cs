@@ -20,9 +20,9 @@ public class EnemyInfo : MonoBehaviour
 		TargetNum = new Type<int>();
 		MovePos = new Type<Vector3>(Vector3.zero);
 
-		MainGameData.EnemyInfo.EnemyList.Value.Add(this);
+		MainGameData.s_enemyInfo.EnemyList.Value.Add(this);
 
-		var info= MainGameData.EnemyInfo.EnemyInfo[round];
+		var info= MainGameData.s_enemyInfo.EnemyInfo[round];
 
 		MaxSpeed = info.Speed;
 		MaxHp = info.hp;
@@ -56,8 +56,8 @@ public class EnemyInfo : MonoBehaviour
 		if (NowHp <= 0 && !Die)
 		{
 			Die = true;
-			MainGameData.Money.SetValue(MainGameData.Money.Value + 100);
-			MainGameData.EnemyNum.SetValue(MainGameData.EnemyNum.Value - 1);
+			MainGameData.s_money.SetValue(MainGameData.s_money.Value + 100);
+			MainGameData.s_enemyNum.SetValue(MainGameData.s_enemyNum.Value - 1);
 			GameManager.ins.EnemyManager.DieEnemy(this);
 		}
 	}

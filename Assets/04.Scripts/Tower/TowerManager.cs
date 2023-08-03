@@ -1,8 +1,6 @@
-using System.IO;
 using System.Collections.Generic;
 using Gu;
 using UnityEngine;
-using System.Collections;
 
 public class TowerManager : MonoBehaviour
 {
@@ -11,11 +9,11 @@ public class TowerManager : MonoBehaviour
 	public List<GameObject> BulletObj;
 
 	public float Addheigth;
-	private MapData MapInfo = MainGameData.MapInfo;
+	private MapData _mapInfo = MainGameData.s_mapInfo;
 
 	private void Awake()
 	{
-		MainGameData.ProgressValue.AddListener(DisActive);
+		MainGameData.s_progressValue.AddListener(DisActive);
 	}
 
 	private void DisActive(GameProgress progress)
@@ -29,14 +27,13 @@ public class TowerManager : MonoBehaviour
 		GameObject TempTower = TowerObjPool.GetObject();
 		TempTower.GetComponent<TowerInfo>().SetTower(Rank,TempTower.transform);
 		TempTower.GetComponent<TowerInfo>().SetMesh(TowerMesh[(int)Rank]);
-		TempTower.transform.position = MapInfo.TouchMap.Value.CenterPoint + Vector3.up * Addheigth;
-		MapInfo.TouchMap.Value.CanBuild = false;
+		TempTower.transform.position = _mapInfo.TouchMap.Value.CenterPoint + Vector3.up * Addheigth;
+		_mapInfo.TouchMap.Value.CanBuild = false;
 
-		if (MapInfo.TouchMap.Value.BuildTower != null)
+		if (_mapInfo.TouchMap.Value.BuildTower != null)
 		{
-			MapInfo.TouchMap.Value.BuildTower.gameObject.SetActive(false);
+			_mapInfo.TouchMap.Value.BuildTower.gameObject.SetActive(false);
 		}
-		MapInfo.TouchMap.Value.BuildTower = TempTower;
+		_mapInfo.TouchMap.Value.BuildTower = TempTower;
 	}
-
 }

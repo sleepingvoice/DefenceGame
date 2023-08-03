@@ -10,7 +10,7 @@ public class SetLobbyUi : MonoBehaviour
 
 	private void Awake()
 	{
-		MainGameData.ProgressValue.AddListener(active);
+		MainGameData.s_progressValue.AddListener(active);
 		StartGame.onClick.AddListener(GameStart);
 		EditMode.onClick.AddListener(EditStart);
 	}
@@ -22,20 +22,20 @@ public class SetLobbyUi : MonoBehaviour
 
 	private void GameStart()
 	{
-		MainGameData.ProgressValue.SetValue(GameProgress.GamePlay);
+		MainGameData.s_progressValue.SetValue(GameProgress.GamePlay);
 		Init();
 	}
 
 	private void EditStart()
 	{
-		MainGameData.ProgressValue.SetValue(GameProgress.Edit);
+		MainGameData.s_progressValue.SetValue(GameProgress.Edit);
 	}
 
 
 	private void Init()
 	{
-		MainGameData.EnemyNum.SetValue(0);
-		MainGameData.Money.SetValue(500);
-		MainGameData.NowRound.SetValue(1);
+		MainGameData.s_enemyNum.SetValue(0);
+		MainGameData.s_money.SetValue(500);
+		MainGameData.s_nowRound.SetValue(1);
 	}
 }

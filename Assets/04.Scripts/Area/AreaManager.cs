@@ -41,7 +41,7 @@ namespace Gu
         private float heightLength;
         [HideInInspector]public Vector3 AreaSize;
 
-        private MapData MapInfo = MainGameData.MapInfo;
+        private MapData MapInfo = MainGameData.s_mapInfo;
 
 		void Update()
         {
@@ -53,7 +53,7 @@ namespace Gu
                 Instantiate(StartLastPos, this.transform).transform.position = MapInfo.PointList[new Vector2Int(7, 0)].CenterPoint;
                 Instantiate(StartLastPos, this.transform).transform.position = MapInfo.PointList[new Vector2Int(0, 7)].CenterPoint;
 
-                foreach (var Target in MainGameData.EnemyInfo.TargetList)
+                foreach (var Target in MainGameData.s_enemyInfo.TargetList)
                 {
                     Instantiate(LineTest, this.transform).transform.position = Target.CenterPoint;
                 }

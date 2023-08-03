@@ -15,18 +15,18 @@ public class SetGameUi : MonoBehaviour
 	public Button ShowArea;
 
 	private bool AreaShow = true;
-	private MapData MapInfo = MainGameData.MapInfo;
+	private MapData MapInfo = MainGameData.s_mapInfo;
 
 	private void Awake()
 	{
-		MainGameData.ProgressValue.AddListener(active);
-		MainGameData.Money.AddListener((value) => Money.text = value.ToString());
-		MainGameData.EnemyNum.AddListener((value) => UnityNum.text = value.ToString());
-		MainGameData.RoundTime.AddListener((value) => RoundTime.text = value.ToString());
-		MainGameData.NowRound.AddListener((value) => Round.text = value.ToString());
+		MainGameData.s_progressValue.AddListener(active);
+		MainGameData.s_money.AddListener((value) => Money.text = value.ToString());
+		MainGameData.s_enemyNum.AddListener((value) => UnityNum.text = value.ToString());
+		MainGameData.s_roundTime.AddListener((value) => RoundTime.text = value.ToString());
+		MainGameData.s_nowRound.AddListener((value) => Round.text = value.ToString());
 
-		MainGameData.Money.SetValue(MainGameData.Money.Value);
-		MainGameData.EnemyNum.SetValue(MainGameData.EnemyNum.Value);
+		MainGameData.s_money.SetValue(MainGameData.s_money.Value);
+		MainGameData.s_enemyNum.SetValue(MainGameData.s_enemyNum.Value);
 
 		ShowArea.onClick.AddListener(() => ShowAreaEvent(AreaShow));
 	}

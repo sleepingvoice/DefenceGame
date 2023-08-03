@@ -9,7 +9,7 @@ public class EndUI : MonoBehaviour
 
 	private void Awake()
 	{
-		MainGameData.ProgressValue.AddListener(active);
+		MainGameData.s_progressValue.AddListener(active);
 		ReturnLobby.onClick.AddListener(Return);
 	}
 
@@ -20,6 +20,6 @@ public class EndUI : MonoBehaviour
 
 	private void Return()
 	{
-		MainGameData.ProgressValue.SetValue(GameProgress.Lobby);
+		MainGameData.s_progressValue.SetValue(GameProgress.Lobby);
 	}
 }

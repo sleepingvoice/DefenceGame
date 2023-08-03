@@ -6,8 +6,8 @@ using System.IO;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager Instance;
-    public static GameManager ins => Instance;
+    private static GameManager _instance;
+    public static GameManager ins => _instance;
 
     public AreaManager AreaManager;
 	public TowerManager TowerManager;
@@ -18,25 +18,25 @@ public class GameManager : MonoBehaviour
 
 	public Camera MainCam;
 
-	private EnemyData EnemyInfo = MainGameData.EnemyInfo;
-	private MapData MapInfo = MainGameData.MapInfo;
+	private EnemyData _enemyInfo = MainGameData.s_enemyInfo;
+	private MapData _mapInfo = MainGameData.s_mapInfo;
 
 	private void Awake()
 	{
-		if (Instance == null)
-			Instance = this;
+		if (_instance == null)
+			_instance = this;
 
 		SetJsonValue();
 	}
 
 	private void Start()
 	{
-		MainGameData.ProgressValue.SetValue(GameProgress.Lobby);
+		MainGameData.s_progressValue.SetValue(GameProgress.Lobby);
 	}
 
 	private void Update()
 	{
-		if (MainGameData.ProgressValue.Value == GameProgress.GamePlay)
+		if (MainGameData.s_progressValue.Value == GameProgress.GamePlay)
 		{
 			TouchCheck();
 		}
@@ -49,8 +49,8 @@ public class GameManager : MonoBehaviour
 			Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
 			if (Physics.Raycast(ray, out RaycastHit hit, 100f, 1 << 6))
 			{
-				Vector2Int MapNum = new Vector2Int((int)((int)(hit.point.x + AreaManager.AreaSize.x / 2) / MainGameData.MapInfo.AreawidthLength), (int)((int)(hit.point.z + AreaManager.AreaSize.z / 2) / MainGameData.MapInfo.AreaheigthLength));
-				MapInfo.TouchMap.SetValue(MapInfo.PointList[MapNum]);
+				Vector2Int MapNum = new Vector2Int((int)((int)(hit.point.x + AreaManager.AreaSize.x / 2) / MainGameData.s_mapInfo.AreawidthLength), (int)((int)(hit.point.z + AreaManager.AreaSize.z / 2) / MainGameData.s_mapInfo.AreaheigthLength));
+				_mapInfo.TouchMap.SetValue(_mapInfo.PointList[MapNum]);
 			}
 		}
 	}
@@ -80,47 +80,47 @@ public class GameManager : MonoBehaviour
 		var List = JsonUtility.FromJson<TowerList>(File.ReadAllText(Application.streamingAssetsPath + "/TowerClass.json"));
 		foreach (var value in List.Tower)
 		{
-			MainGameData.TowerState.Add(value.RankValue, value);
+			MainGameData.s_towerState.Add(value.RankValue, value);
 		}
 	}
 
 	//움직이는 꼭짓점 받아오기
 	public void SetMovePos()
 	{
-		EnemyInfo.TargetList = new List<MapAreaInfo>();
+		_enemyInfo.TargetList = new List<MapAreaInfo>();
 		List<Vector2Int> TargetPos = JsonUtility.FromJson<MovePostion>(File.ReadAllText(Application.streamingAssetsPath + "/MoveCoodinate.json")).MoveCoordinate;
-		EnemyInfo.TargetList.Add(MapInfo.PointList[Vector2Int.zero]);
+		_enemyInfo.TargetList.Add(_mapInfo.PointList[Vector2Int.zero]);
 		for (int i = 1; i < TargetPos.Count; i++)
 		{
-			MapAreaInfo StartInfo = MapInfo.PointList[TargetPos[i - 1]];
-			MapAreaInfo EndInfo = MapInfo.PointList[TargetPos[i]];
-			EnemyInfo.TargetList.AddRange(Check.PathFindingAstar(StartInfo, EndInfo));
+			MapAreaInfo StartInfo = _mapInfo.PointList[TargetPos[i - 1]];
+			MapAreaInfo EndInfo = _mapInfo.PointList[TargetPos[i]];
+			_enemyInfo.TargetList.AddRange(Check.PathFindingAstar(StartInfo, EndInfo));
 		}
 
-		EnemyInfo.TargetList.AddRange(Check.PathFindingAstar(MapInfo.PointList[TargetPos[TargetPos.Count - 1]], MapInfo.PointList[TargetPos[0]]));
+		_enemyInfo.TargetList.AddRange(Check.PathFindingAstar(_mapInfo.PointList[TargetPos[TargetPos.Count - 1]], _mapInfo.PointList[TargetPos[0]]));
 	}
 
 	//타워 정보
 	private void LoadTower()
 	{
-		MainGameData.NextRankList = JsonUtility.FromJson<NextRankList>(File.ReadAllText(Application.streamingAssetsPath + "/NextRankList.json"));
+		MainGameData.s_nextRankList = JsonUtility.FromJson<NextRankList>(File.ReadAllText(Application.streamingAssetsPath + "/NextRankList.json"));
 	}
 
 	//맵 정보
 	private void LoadMapinfo()
 	{
-		MapInfo.NotMoveList = JsonUtility.FromJson<NotMovePoint>(File.ReadAllText(Application.streamingAssetsPath + "/NotMoveList.json"));
+		_mapInfo.NotMoveList = JsonUtility.FromJson<NotMovePoint>(File.ReadAllText(Application.streamingAssetsPath + "/NotMoveList.json"));
 	}
 	
 	//총알 정보
 	private void LoadBulletInfo()
 	{
-		MainGameData.BulletList.Add(ChessRank.Pawn, new KeyValuePair<int, int>(0,0));
-		MainGameData.BulletList.Add(ChessRank.Knight, new KeyValuePair<int, int>(0, 0));
-		MainGameData.BulletList.Add(ChessRank.Bishop, new KeyValuePair<int, int>(0, 1));
-		MainGameData.BulletList.Add(ChessRank.Rook, new KeyValuePair<int, int>(0, 0));
-		MainGameData.BulletList.Add(ChessRank.Queen, new KeyValuePair<int, int>(0, 0));
-		MainGameData.BulletList.Add(ChessRank.King, new KeyValuePair<int, int>(0, 0));
+		MainGameData.s_bulletList.Add(ChessRank.Pawn, new KeyValuePair<int, int>(0,0));
+		MainGameData.s_bulletList.Add(ChessRank.Knight, new KeyValuePair<int, int>(0, 0));
+		MainGameData.s_bulletList.Add(ChessRank.Bishop, new KeyValuePair<int, int>(0, 1));
+		MainGameData.s_bulletList.Add(ChessRank.Rook, new KeyValuePair<int, int>(0, 0));
+		MainGameData.s_bulletList.Add(ChessRank.Queen, new KeyValuePair<int, int>(0, 0));
+		MainGameData.s_bulletList.Add(ChessRank.King, new KeyValuePair<int, int>(0, 0));
 	}
 
 	private void LoadEnemyInfo()
@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
 		var info = JsonUtility.FromJson<RoundEnemyInfoList>(File.ReadAllText(Application.streamingAssetsPath + "/RoundEnemyInfo.json"));
 		foreach (var infoValue in info.EnemyInfoList) 
 		{
-			EnemyInfo.EnemyInfo.Add(infoValue.RoundNum, infoValue);
+			_enemyInfo.EnemyInfo.Add(infoValue.RoundNum, infoValue);
 		}
 	}
 

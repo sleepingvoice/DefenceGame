@@ -10,7 +10,7 @@ public class MapData
     public int Width = 0;
     public int Hegith = 0;
 
-    public Type<MapAreaInfo> TouchMap = new Type<MapAreaInfo>();
+    public SortDicAction<MapAreaInfo> TouchMap = new SortDicAction<MapAreaInfo>("TouchMap");
     public NotMovePoint NotMoveList = new NotMovePoint();
     public List<MapAreaInfo> MoveList = new List<MapAreaInfo>();
     public List<GameObject> CanBuildObj = new List<GameObject>();

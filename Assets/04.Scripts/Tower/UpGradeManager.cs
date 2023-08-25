@@ -11,7 +11,7 @@ public class UpGradeManager : MonoBehaviour
 
 	private void Awake()
 	{
-		MapInfo.TouchMap.AddListener(Init);
+		MapInfo.TouchMap.InsertDic(Init);
 	}
 
 	private void Start()
@@ -21,6 +21,9 @@ public class UpGradeManager : MonoBehaviour
 
 	private void Init(MapAreaInfo info)
 	{
+		if (MainGameData.s_progressValue.Value != GameProgress.GamePlay)
+			return;
+
 		if (info == null || !info.NotMove)
 		{
 			this.gameObject.SetActive(false);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -24,9 +25,17 @@ public class SetGameUi : MonoBehaviour
 		MainGameData.s_enemyNum.AddListener((value) => UnityNum.text = value.ToString());
 		MainGameData.s_roundTime.AddListener((value) => RoundTime.text = value.ToString());
 		MainGameData.s_nowRound.AddListener((value) => Round.text = value.ToString());
+		MainGameData.s_progressValue.AddListener((value) =>
+		{
+			foreach (var obj in MapInfo.CanBuildObj)
+			{
+				obj.SetActive(value == GameProgress.GamePlay);
+			}
+		});
 
 		MainGameData.s_money.SetValue(MainGameData.s_money.Value);
 		MainGameData.s_enemyNum.SetValue(MainGameData.s_enemyNum.Value);
+
 
 		ShowArea.onClick.AddListener(() => ShowAreaEvent(AreaShow));
 	}
@@ -38,10 +47,6 @@ public class SetGameUi : MonoBehaviour
 
 	private void ShowAreaEvent(bool Active)
 	{
-		foreach (var obj in MapInfo.CanBuildObj)
-		{
-			obj.SetActive(Active);
-		}
 		foreach (var obj in MapInfo.NotBuildObj)
 		{
 			obj.SetActive(Active);

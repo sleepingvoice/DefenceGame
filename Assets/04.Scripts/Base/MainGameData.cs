@@ -2,8 +2,6 @@ using System.Collections.Generic;
 
 public static class MainGameData
 {
-    public static bool s_editMode = false;
-
     public static MapData s_mapInfo = new MapData();
     public static EnemyData s_enemyInfo = new EnemyData();
     public static NextRankList s_nextRankList = new NextRankList();

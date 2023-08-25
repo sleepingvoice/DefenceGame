@@ -69,28 +69,16 @@ public class MovePostion
 public class TowerBasic
 {
 	public bool CanAttack = true;
+	public float DelayTime = 0f;
+
 	public TowerState State;
 	public BulletCreate NowBullet;
 	public Transform Trans;
-
-	private float _delayTime = 0f;
 
 	public void InitState(ChessRank Rank)
 	{
 		State = MainGameData.s_towerState[Rank];
 		NowBullet = new BulletCreate(Rank);
-	}
-
-	public async UniTaskVoid UT_WaitTime()
-	{
-		CanAttack = false;
-		while (_delayTime < State.AttackSpeed)
-		{
-			_delayTime += Time.deltaTime;
-			await UniTask.DelayFrame(1);
-		}
-		_delayTime = 0f;
-		CanAttack = true;
 	}
 }
 
@@ -149,7 +137,10 @@ public class PawnTower : TowerBasic, Tower
 			   {
 				   Target.Demaged(State.Damage);
 			   });
-			UT_WaitTime().Forget();
+
+			CanAttack = false;
+			DelayTime = GameManager.ins.nowTime + State.AttackSpeed;
+			GameManager.ins.AddTower(this);
 		}
 	}
 
@@ -180,7 +171,10 @@ public class KnightTower : TowerBasic, Tower
 			{
 				Target.Demaged(State.Damage);
 			});
-			UT_WaitTime().Forget();
+
+			CanAttack = false;
+			DelayTime = GameManager.ins.nowTime + State.AttackSpeed;
+			GameManager.ins.AddTower(this);
 		}
 	}
 
@@ -212,7 +206,10 @@ public class BishopTower : TowerBasic, Tower
 			{
 				Target.Demaged(State.Damage);
 			});
-			UT_WaitTime().Forget();
+
+			CanAttack = false;
+			DelayTime = GameManager.ins.nowTime + State.AttackSpeed;
+			GameManager.ins.AddTower(this);
 		}
 	}
 
@@ -242,7 +239,10 @@ public class RookTower : TowerBasic, Tower
 			{
 				Target.Demaged(State.Damage);
 			});
-			UT_WaitTime().Forget();
+
+			CanAttack = false;
+			DelayTime = GameManager.ins.nowTime + State.AttackSpeed;
+			GameManager.ins.AddTower(this);
 		}
 	}
 
@@ -273,7 +273,10 @@ public class QueenTower : TowerBasic, Tower
 			{
 				Target.Demaged(State.Damage);
 			});
-			UT_WaitTime().Forget();
+
+			CanAttack = false;
+			DelayTime = GameManager.ins.nowTime + State.AttackSpeed;
+			GameManager.ins.AddTower(this);
 		}
 	}
 
@@ -304,7 +307,10 @@ public class KingTower : TowerBasic, Tower
 			{
 				Target.Demaged(State.Damage);
 			});
-			UT_WaitTime().Forget();
+
+			CanAttack = false;
+			DelayTime = GameManager.ins.nowTime + State.AttackSpeed;
+			GameManager.ins.AddTower(this);
 		}
 	}
 

@@ -11,12 +11,18 @@ public class UpgradeMenu : MonoBehaviour
 
 	public Button ClickBtn;
 	public TMP_Text PriceValue;
+	private bool _checkGame;
 
 	private void Awake()
 	{
-		MainGameData.s_mapInfo.TouchMap.AddListener((value) =>
+		MainGameData.s_progressValue.AddListener((value) =>
 		{
-			if (value == null)
+			_checkGame = value == GameProgress.GamePlay ? true : false;
+		});
+
+		MainGameData.s_mapInfo.TouchMap.InsertDic((value) =>
+		{
+			if (value == null || !_checkGame)
 				return;
 
 			this.gameObject.SetActive(false);

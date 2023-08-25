@@ -4,6 +4,7 @@ using Gu;
 using System.Collections.Generic;
 using System.IO;
 
+
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
@@ -21,6 +22,17 @@ public class GameManager : MonoBehaviour
 	private EnemyData _enemyInfo = MainGameData.s_enemyInfo;
 	private MapData _mapInfo = MainGameData.s_mapInfo;
 
+	#region 타워 딜레이
+	[HideInInspector]public float nowTime = 0f;
+	private Queue<TowerBasic> _delayTower = new Queue<TowerBasic>();
+
+	public void AddTower(TowerBasic NewTower)
+	{
+		_delayTower.Enqueue(NewTower);
+	}
+
+	#endregion
+
 	private void Awake()
 	{
 		if (_instance == null)
@@ -36,10 +48,25 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
+		//클릭 체크
 		if (MainGameData.s_progressValue.Value == GameProgress.GamePlay)
 		{
 			TouchCheck();
 		}
+
+		//시간 체크
+		for (int i = 0; i < _delayTower.Count; i++)
+		{
+			var tmpTower = _delayTower.Dequeue();
+
+			if (tmpTower.DelayTime > nowTime) // 시간이 덜됐으면 반환
+				_delayTower.Enqueue(tmpTower);
+			else // 다됐으면 공격가능으로 변경
+				tmpTower.CanAttack = true;
+		}
+
+		nowTime += Time.deltaTime;
+
 	}
 
 	private void TouchCheck()

@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		MainGameData.s_progressValue.SetValue(GameProgress.Lobby);
+		MainGameData.s_progressValue.SetValue(GameProgress.Login);
 	}
 
 	private void Update()

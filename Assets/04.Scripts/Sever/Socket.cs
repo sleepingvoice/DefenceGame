@@ -55,7 +55,9 @@ public class Socket : MonoBehaviour
 	private void ws_OnMessage(object sender, MessageEventArgs e)
     {
         var str = e.Data.Split('/');
-        SocketEventDic[str[0]].Invoke(str[1]);
+        
+        if(SocketEventDic.ContainsKey(str[0]))
+            SocketEventDic[str[0]].Invoke(str[1]);
 
         Debug.Log(e.Data);//받은 메세지를 디버그 콘솔에 출력한다.
     }

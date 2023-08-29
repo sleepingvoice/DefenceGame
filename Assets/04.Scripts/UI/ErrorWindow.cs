@@ -19,7 +19,10 @@ public class ErrorWindow : MonoBehaviour
 	public void SetError(string str,LoginProgress before)
 	{
 		BeforeProgress = before;
+
+		str = str.Replace("\\n", "\n");
 		Detail.text = str;
+
 		this.gameObject.SetActive(true);
 		MainGameData.s_loginProgress.SetValue(LoginProgress.error);
 	}

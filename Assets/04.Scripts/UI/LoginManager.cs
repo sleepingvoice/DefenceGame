@@ -36,7 +36,7 @@ public class LoginManager : MonoBehaviour
 			MainGameData.s_loginProgress.SetValue(LoginProgress.signup);
 			SignBtn.interactable = false;
 		});
-		FindBtn.onClick.AddListener(() => MainGameData.s_loginProgress.SetValue(LoginProgress.findID));
+		FindBtn.onClick.AddListener(() => MainGameData.s_loginProgress.SetValue(LoginProgress.find));
 
 		AddSocketEvent();
 	}
@@ -88,6 +88,8 @@ public class LoginManager : MonoBehaviour
 	{
 		Socket.ins.SocketEventDic.Add("Check_Login", CheckID);
 		Socket.ins.SocketEventDic.Add("Check_Email", CheckEmail);
+		Socket.ins.SocketEventDic.Add("Find_ID", FindId);
+		Socket.ins.SocketEventDic.Add("Find_Pwd", FindPwd);
 	}
 
 	private void CheckID(string callback)
@@ -119,6 +121,42 @@ public class LoginManager : MonoBehaviour
 		{
 			SignUI.CheckNoDelete = true;
 			Error.SetError("이메일이 중복됩니다.", LoginProgress.error);
+		}
+	}
+
+	private void FindId(string callback)
+	{
+		if (callback == "false")
+		{
+			_socketAct = () =>
+			{
+				Error.SetError("없는 이메일 주소입니다.", LoginProgress.findID);
+			};
+		}
+		else
+		{
+			_socketAct = () =>
+			{
+				Error.SetError("아이디 : " + callback, LoginProgress.main);
+			};
+		}
+	}
+
+	private void FindPwd(string callback)
+	{
+		if (callback == "false")
+		{
+			_socketAct = () =>
+			{
+				Error.SetError("아이디와 이메일이 다릅니다\n 다시한번 확인해주세요", LoginProgress.findPwd);
+			};
+		}
+		else
+		{
+			_socketAct = () =>
+			{
+				Error.SetError("비밀번호 : " + callback, LoginProgress.main);
+			};
 		}
 	}
 

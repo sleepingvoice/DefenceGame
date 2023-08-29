@@ -18,4 +18,6 @@ public static class MainGameData
     public static Type<GameProgress> s_progressValue = new Type<GameProgress>(GameProgress.Lobby);
     public static Type<int> s_nowRound = new Type<int>(0);
     public static GameRule s_mainGameRule = new GameRule();
+
+    public static Type<LoginProgress> s_loginProgress = new Type<LoginProgress>(LoginProgress.main);
 }

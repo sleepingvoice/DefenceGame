@@ -55,7 +55,7 @@ public class Socket : MonoBehaviour
 	private void ws_OnMessage(object sender, MessageEventArgs e)
     {
         var str = e.Data.Split('/');
-        
+
         if(SocketEventDic.ContainsKey(str[0]))
             SocketEventDic[str[0]].Invoke(str[1]);
 

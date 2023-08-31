@@ -16,7 +16,9 @@ public class MapData
     public int Hegith = 0;
 
     public SortDicAction<AreaInfo> GameTouchMap = new SortDicAction<AreaInfo>("GameTouchMap"); // 게임모드일때 클릭한 지점
-    public SortDicAction<AreaInfo> EidtTouchMap = new SortDicAction<AreaInfo>("EditTouchMap"); // 에딧모드일때 클릭한 지점
+    public SortDicAction<AreaInfo> EditTouchMap = new SortDicAction<AreaInfo>("EditTouchMap"); // 에딧모드일때 클릭한 지점
+
+    public int EditTouchMode = 0;
 
     public List<GameObject> CanBuildObj = new List<GameObject>();
     public List<GameObject> NotBuildObj = new List<GameObject>();

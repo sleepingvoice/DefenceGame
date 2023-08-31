@@ -11,12 +11,21 @@ public class EditManager : MonoBehaviour
     private void Awake()
     {
         MainGameData.s_progressValue.AddListener(Active);
-
-    }
+        MainGameData.s_mapData.EditTouchMap.InsertDic(BuildClick);
+     }
 
 	private void Start()
 	{
         MainGameData.s_editProgress.SetValue(EditProgrss.main);
+    }
+
+    private void BuildClick(AreaInfo targetarea)
+    {
+        if (MainGameData.s_editProgress.Value == EditProgrss.build)
+        {
+
+            targetarea.OutLineObj.SetActive(MainGameData.s_mapData.EditTouchMode == 1 ? true : false);
+        }
     }
 
 	private void Active(GameProgress progress)
@@ -27,11 +36,6 @@ public class EditManager : MonoBehaviour
         {
             GameManager.ins.AreaManager.SetMapObj();
         }
-    }
-
-	private void Init()
-    {
-
     }
 
     private void ChangeOn()

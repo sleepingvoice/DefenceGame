@@ -16,11 +16,10 @@ public class GameManager : MonoBehaviour
 	public EnemyManager EnemyManager;
 	public BulletManager BulletManager;
 	public AstarCheck Check;
-
-	public Camera MainCam;
+	public ClickCheck Click;
 
 	private EnemyData _enemyInfo = MainGameData.s_enemyInfo;
-	private MapData _mapInfo = MainGameData.s_mapInfo;
+	private MapData _mapInfo = MainGameData.s_mapData;
 
 	#region 타워 딜레이
 	[HideInInspector]public float nowTime = 0f;
@@ -38,7 +37,19 @@ public class GameManager : MonoBehaviour
 		if (_instance == null)
 			_instance = this;
 
-		SetJsonValue();
+		MainGameData.s_mapData.NowMap.AddListener(SetData);
+	}
+
+	private void SetData(MapInfo info)
+	{
+		var codiList = JsonUtility.FromJson<CodinateList>(info.codinate);
+		var moveList = JsonUtility.FromJson<MapInfoList>(info.movelist);
+
+		AreaManager.SetMapObj(moveList);
+
+		foreach (var codienate in codiList.NodeList) {
+			_mapInfo.CodinateDic.Add(codienate, _mapInfo.AreaList[codienate]);
+		}
 	}
 
 	private void Start()
@@ -48,12 +59,6 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
-		//클릭 체크
-		if (MainGameData.s_progressValue.Value == GameProgress.GamePlay)
-		{
-			TouchCheck();
-		}
-
 		//시간 체크
 		for (int i = 0; i < _delayTower.Count; i++)
 		{
@@ -66,20 +71,6 @@ public class GameManager : MonoBehaviour
 		}
 
 		nowTime += Time.deltaTime;
-
-	}
-
-	private void TouchCheck()
-	{
-		if (Input.GetMouseButtonDown(0))
-		{
-			Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
-			if (Physics.Raycast(ray, out RaycastHit hit, 100f, 1 << 6))
-			{
-				Vector2Int MapNum = new Vector2Int((int)((int)(hit.point.x + AreaManager.AreaSize.x / 2) / MainGameData.s_mapInfo.AreawidthLength), (int)((int)(hit.point.z + AreaManager.AreaSize.z / 2) / MainGameData.s_mapInfo.AreaheigthLength));
-				_mapInfo.TouchMap.SetValue(_mapInfo.PointList[MapNum]);
-			}
-		}
 	}
 
 	#region Json 값 받아오기
@@ -88,18 +79,10 @@ public class GameManager : MonoBehaviour
 	{
 		SetTowerClass();
 		LoadTower();
-		LoadMap();
 		SetMovePos();
 		LoadBulletInfo();
 		LoadEnemyInfo();
 	}
-
-	public void LoadMap()
-	{
-		LoadMapinfo();
-		AreaManager.SetList();
-	}
-
 
 	//타워 능력치 받아오기
 	private void SetTowerClass()
@@ -114,29 +97,23 @@ public class GameManager : MonoBehaviour
 	//움직이는 꼭짓점 받아오기
 	public void SetMovePos()
 	{
-		_enemyInfo.TargetList = new List<MapAreaInfo>();
+		_enemyInfo.TargetList = new List<AreaInfo>();
 		List<Vector2Int> TargetPos = JsonUtility.FromJson<MovePostion>(File.ReadAllText(Application.streamingAssetsPath + "/MoveCoodinate.json")).MoveCoordinate;
-		_enemyInfo.TargetList.Add(_mapInfo.PointList[Vector2Int.zero]);
+		_enemyInfo.TargetList.Add(_mapInfo.CodinateDic[Vector2Int.zero]);
 		for (int i = 1; i < TargetPos.Count; i++)
 		{
-			MapAreaInfo StartInfo = _mapInfo.PointList[TargetPos[i - 1]];
-			MapAreaInfo EndInfo = _mapInfo.PointList[TargetPos[i]];
+			AreaInfo StartInfo = _mapInfo.CodinateDic[TargetPos[i - 1]];
+			AreaInfo EndInfo = _mapInfo.CodinateDic[TargetPos[i]];
 			_enemyInfo.TargetList.AddRange(Check.PathFindingAstar(StartInfo, EndInfo));
 		}
 
-		_enemyInfo.TargetList.AddRange(Check.PathFindingAstar(_mapInfo.PointList[TargetPos[TargetPos.Count - 1]], _mapInfo.PointList[TargetPos[0]]));
+		_enemyInfo.TargetList.AddRange(Check.PathFindingAstar(_mapInfo.CodinateDic[TargetPos[TargetPos.Count - 1]], _mapInfo.CodinateDic[TargetPos[0]]));
 	}
 
 	//타워 정보
 	private void LoadTower()
 	{
 		MainGameData.s_nextRankList = JsonUtility.FromJson<NextRankList>(File.ReadAllText(Application.streamingAssetsPath + "/NextRankList.json"));
-	}
-
-	//맵 정보
-	private void LoadMapinfo()
-	{
-		_mapInfo.NotMoveList = JsonUtility.FromJson<NotMovePoint>(File.ReadAllText(Application.streamingAssetsPath + "/NotMoveList.json"));
 	}
 	
 	//총알 정보

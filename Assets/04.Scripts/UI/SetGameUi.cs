@@ -16,7 +16,7 @@ public class SetGameUi : MonoBehaviour
 	public Button ShowArea;
 
 	private bool AreaShow = true;
-	private MapData MapInfo = MainGameData.s_mapInfo;
+	private MapData MapInfo = MainGameData.s_mapData;
 
 	private void Awake()
 	{

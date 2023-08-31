@@ -1,12 +1,10 @@
 using UnityEngine;
 using System.Collections;
-using Unity.VisualScripting;
 
 public class RoundStart : MonoBehaviour
 {
     GameManager gameManger;
     GameRule Rule = MainGameData.s_mainGameRule;
-    IEnumerator CheckTimeIenumerator = null;
 
     private void Awake()
     {

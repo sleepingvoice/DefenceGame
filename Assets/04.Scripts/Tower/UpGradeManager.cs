@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class UpGradeManager : MonoBehaviour
 {
-	private MapData MapInfo = MainGameData.s_mapInfo;
+	private MapData MapInfo = MainGameData.s_mapData;
 
-	private MapAreaInfo AreaInfo = null;
+	private AreaInfo AreaInfo = null;
 
 
 	private void Awake()
 	{
-		MapInfo.TouchMap.InsertDic(Init);
+		MapInfo.GameTouchMap.InsertDic(Init);
 	}
 
 	private void Start()
@@ -19,7 +19,7 @@ public class UpGradeManager : MonoBehaviour
 		this.gameObject.SetActive(false);
 	}
 
-	private void Init(MapAreaInfo info)
+	private void Init(AreaInfo info)
 	{
 		if (MainGameData.s_progressValue.Value != GameProgress.GamePlay)
 			return;

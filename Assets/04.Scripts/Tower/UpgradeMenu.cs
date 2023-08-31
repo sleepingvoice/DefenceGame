@@ -20,7 +20,7 @@ public class UpgradeMenu : MonoBehaviour
 			_checkGame = value == GameProgress.GamePlay ? true : false;
 		});
 
-		MainGameData.s_mapInfo.TouchMap.InsertDic((value) =>
+		MainGameData.s_mapData.GameTouchMap.InsertDic((value) =>
 		{
 			if (value == null || !_checkGame)
 				return;
@@ -31,7 +31,7 @@ public class UpgradeMenu : MonoBehaviour
 
 			if (list == null)
 			{
-				MainGameData.s_mapInfo.TouchMap.SetValue(null);
+				MainGameData.s_mapData.GameTouchMap.SetValue(null);
 				return;
 			}
 
@@ -53,9 +53,9 @@ public class UpgradeMenu : MonoBehaviour
 			{
 				GameManager.ins.TowerManager.AddTower(MenuRank);
 				MainGameData.s_money.SetValue(MainGameData.s_money.Value - Price);
-				MainGameData.s_mapInfo.TouchMap.Value.NowRank = MenuRank;
+				MainGameData.s_mapData.GameTouchMap.Value.NowRank = MenuRank;
 			}
-			MainGameData.s_mapInfo.TouchMap.SetValue(null);
+			MainGameData.s_mapData.GameTouchMap.SetValue(null);
 		});
 
 		//ClickBtn.onClick.AddListener(() =>

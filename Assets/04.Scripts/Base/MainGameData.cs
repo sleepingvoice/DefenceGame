@@ -2,7 +2,8 @@ using System.Collections.Generic;
 
 public static class MainGameData
 {
-    public static MapData s_mapInfo = new MapData();
+    public static MapData s_mapData = new MapData();
+
     public static EnemyData s_enemyInfo = new EnemyData();
     public static NextRankList s_nextRankList = new NextRankList();
 
@@ -20,4 +21,5 @@ public static class MainGameData
     public static GameRule s_mainGameRule = new GameRule();
 
     public static Type<LoginProgress> s_loginProgress = new Type<LoginProgress>(LoginProgress.main);
+    public static Type<EditProgrss> s_editProgress = new Type<EditProgrss>(EditProgrss.main);
 }

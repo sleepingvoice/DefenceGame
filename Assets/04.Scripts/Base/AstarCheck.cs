@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AStarNode
 {
-    public AStarNode(MapAreaInfo info)
+    public AStarNode(AreaInfo info)
     {
         Pos = info.NodeNum;
         NotMove = info.NotMove;
@@ -14,7 +14,7 @@ public class AStarNode
 
     public Vector2Int Pos;
     public bool NotMove;
-    public MapAreaInfo InfoNum;
+    public AreaInfo InfoNum;
     public Vector2Int ParentPos;
 
     // G : 시작으로부터 이동했던 거리, H : |가로|+|세로| 장애물 무시하여 목표까지의 거리, F : G + H
@@ -31,16 +31,16 @@ public class AStarNode
 public class AstarCheck : MonoBehaviour
 {
     private AStarNode[,] _nodeArray;
-    private MapData _mapInfo = MainGameData.s_mapInfo;
+    private MapData _mapInfo = MainGameData.s_mapData;
 
     private Vector2Int _startPos, _targetPos;
     private List<Vector2Int> _openPosList,_closePosList, _finalPosList;
     private Vector2Int _curPos;
 
-    public List<MapAreaInfo> PathFindingAstar(MapAreaInfo startArea, MapAreaInfo finalArea)
+    public List<AreaInfo> PathFindingAstar(AreaInfo startArea, AreaInfo finalArea)
     {
         _nodeArray = new AStarNode[_mapInfo.Width, _mapInfo.Hegith];
-        foreach (var info in _mapInfo.PointList)
+        foreach (var info in _mapInfo.CodinateDic)
         {
             _nodeArray[info.Key.x, info.Key.y] = new AStarNode(info.Value);
         }
@@ -85,7 +85,7 @@ public class AstarCheck : MonoBehaviour
             OpenListAdd(_curPos.x - 1, _curPos.y);
         }
 
-        List<MapAreaInfo> mapInfoList = new List<MapAreaInfo>();
+        List<AreaInfo> mapInfoList = new List<AreaInfo>();
         for (int i = 1; i < _finalPosList.Count; i++)
         {
             mapInfoList.Add(FindNode(_finalPosList[i]).InfoNum);

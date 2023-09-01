@@ -10,8 +10,8 @@ public class RoundEnemyInfoList
 [Serializable]
 public class RoundEnemyInfo
 {
-	public int RoundNum;
-	public int hp;
-	public int Speed;
-	public int EnemyType;
+	public int RoundNum = 0;
+	public int hp = 0;
+	public int Speed = 0;
+	public int EnemyType = 0;
 }

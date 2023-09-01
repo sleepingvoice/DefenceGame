@@ -47,7 +47,7 @@ public class AreaInfo
 		_nodeNum = nodeNum;
 		_nodePoint = nodePoint;
 		_centerPoint = centerPoint;
-		_notMove = notMove;
+		Notmove = notMove;
 
 		outlineObj.transform.position = centerPoint + Vector3.up * 0.1f;
 		_outlineObj = outlineObj;
@@ -81,14 +81,7 @@ public class AreaInfo
 		}
 	}
 
-	private bool _notMove = false;
-	public bool NotMove
-	{
-		get
-		{
-			return _notMove;
-		}
-	}
+	public bool Notmove = false;
 
 	private GameObject _outlineObj;
 	public GameObject OutLineObj
@@ -118,7 +111,7 @@ public class MapAreaInfoSave
 [Serializable]
 public class MapInfoList
 {
-	public List<MapAreaInfoSave> InfoList;
+	public List<MapAreaInfoSave> InfoList = new List<MapAreaInfoSave>();
 }
 
 #endregion

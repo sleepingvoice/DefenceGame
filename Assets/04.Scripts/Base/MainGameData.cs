@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 public static class MainGameData
 {
+    public static int s_userId;
+    public static string s_userName;
+
     public static MapData s_mapData = new MapData();
 
     public static EnemyData s_enemyInfo = new EnemyData();

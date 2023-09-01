@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EndUI : MonoBehaviour
+public class UIManager_EndGame : MonoBehaviour
 {
 	public Button ReturnLobby;
 

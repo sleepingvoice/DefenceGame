@@ -24,7 +24,7 @@ public class UpGradeManager : MonoBehaviour
 		if (MainGameData.s_progressValue.Value != GameProgress.GamePlay)
 			return;
 
-		if (info == null || !info.NotMove)
+		if (info == null || !info.Notmove)
 		{
 			this.gameObject.SetActive(false);
 		}

@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EditSelect : MonoBehaviour
+public class UIManager_EditSelect : MonoBehaviour
 {
 	[Header("SelectMenu")]
 	public Button SelectMapBtn;

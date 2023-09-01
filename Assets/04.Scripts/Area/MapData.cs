@@ -7,7 +7,7 @@ public class MapData
     public MapList GetMapInfo; // 전체 맵 정보
     public Type<MapInfo> NowMap = new Type<MapInfo>(new MapInfo()); // 현재 사용중인 맵 정보
 
-    public Dictionary<Vector2Int, AreaInfo> AreaList = new Dictionary<Vector2Int, AreaInfo>(); // 맵 지점의 정보 리스트
+    public Dictionary<Vector2Int, AreaInfo> AreaDic = new Dictionary<Vector2Int, AreaInfo>(); // 맵 지점의 정보 리스트
     public Dictionary<Vector2Int, AreaInfo> CodinateDic = new Dictionary<Vector2Int, AreaInfo>(); // 꼭짓점
 
     public float AreawidthLength = 0f;

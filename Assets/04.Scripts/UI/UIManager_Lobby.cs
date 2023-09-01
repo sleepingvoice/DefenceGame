@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LobbyUI : MonoBehaviour
+public class UIManager_Lobby : MonoBehaviour
 {
     public Button StartGame;
 	public Button EditMode;

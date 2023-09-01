@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public static GameManager ins => _instance;
 
+	[Header("Game")]
     public AreaManager AreaManager;
 	public TowerManager TowerManager;
 	public UpGradeManager UpGradeManager;
@@ -17,6 +18,15 @@ public class GameManager : MonoBehaviour
 	public BulletManager BulletManager;
 	public AstarCheck Check;
 	public ClickCheck Click;
+
+	[Header("UI")]
+	public UIManager_Login UI_Login;
+	public UIManager_Lobby Ui_Lobby;
+	public UIManager_Game UI_Game;
+	public UIManager_EndGame UI_EndGame;
+	public UIManager_EditSelect UI_EditSelect;
+	public UIManager_Edit UI_Edit;
+
 
 	private EnemyData _enemyInfo = MainGameData.s_enemyInfo;
 	private MapData _mapInfo = MainGameData.s_mapData;
@@ -37,10 +47,10 @@ public class GameManager : MonoBehaviour
 		if (_instance == null)
 			_instance = this;
 
-		MainGameData.s_mapData.NowMap.AddListener(SetData);
+		MainGameData.s_mapData.NowMap.AddListener(GetData);
 	}
 
-	private void SetData(MapInfo info)
+	private void GetData(MapInfo info)
 	{
 		var codiList = JsonUtility.FromJson<CodinateList>(info.codinate);
 		var moveList = JsonUtility.FromJson<MapInfoList>(info.movelist);
@@ -48,7 +58,7 @@ public class GameManager : MonoBehaviour
 		AreaManager.SetMapObj(moveList);
 
 		foreach (var codienate in codiList.NodeList) {
-			_mapInfo.CodinateDic.Add(codienate, _mapInfo.AreaList[codienate]);
+			_mapInfo.CodinateDic.Add(codienate, _mapInfo.AreaDic[codienate]);
 		}
 	}
 

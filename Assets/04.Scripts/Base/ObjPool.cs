@@ -26,6 +26,7 @@ namespace Gu
 				GameObject obj = _disactivePool.Dequeue();
 				_activePool.Enqueue(obj);
 				obj.SetActive(true);
+				obj.transform.SetAsLastSibling();
 				return obj;
 			}
 			else

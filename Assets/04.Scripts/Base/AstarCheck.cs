@@ -8,7 +8,7 @@ public class AStarNode
     public AStarNode(AreaInfo info)
     {
         Pos = info.NodeNum;
-        NotMove = info.NotMove;
+        NotMove = info.Notmove;
         InfoNum = info;
     }
 
@@ -40,7 +40,7 @@ public class AstarCheck : MonoBehaviour
     public List<AreaInfo> PathFindingAstar(AreaInfo startArea, AreaInfo finalArea)
     {
         _nodeArray = new AStarNode[_mapInfo.Width, _mapInfo.Hegith];
-        foreach (var info in _mapInfo.CodinateDic)
+        foreach (var info in _mapInfo.AreaDic)
         {
             _nodeArray[info.Key.x, info.Key.y] = new AStarNode(info.Value);
         }

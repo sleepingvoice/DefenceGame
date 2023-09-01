@@ -51,7 +51,7 @@ public class ClickCheck : MonoBehaviour
 				Vector2Int MapNum = new Vector2Int((int)((int)(hit.point.x + GameManager.ins.AreaManager.AreaSize.x / 2) / MainGameData.s_mapData.AreawidthLength), (int)((int)(hit.point.z + GameManager.ins.AreaManager.AreaSize.z / 2) / MainGameData.s_mapData.AreaheigthLength));
 				MapNum = new Vector2Int(Math.Clamp(MapNum.x, 0, GameManager.ins.AreaManager.width-1), Math.Clamp(MapNum.y, 0, GameManager.ins.AreaManager.height-1));
 
-				_mapInfo.GameTouchMap.SetValue(_mapInfo.AreaList[MapNum]);
+				_mapInfo.GameTouchMap.SetValue(_mapInfo.AreaDic[MapNum]);
 			}
 		}
 	}
@@ -68,14 +68,14 @@ public class ClickCheck : MonoBehaviour
 				Vector2Int MapNum = new Vector2Int((int)((int)(hit.point.x + GameManager.ins.AreaManager.AreaSize.x / 2) / MainGameData.s_mapData.AreawidthLength), (int)((int)(hit.point.z + GameManager.ins.AreaManager.AreaSize.z / 2) / MainGameData.s_mapData.AreaheigthLength));
 				MapNum = new Vector2Int(Math.Clamp(MapNum.x, 0, GameManager.ins.AreaManager.width-1), Math.Clamp(MapNum.y, 0, GameManager.ins.AreaManager.height-1));
 
-				if (beforehit == _mapInfo.AreaList[MapNum])
+				if (beforehit == _mapInfo.AreaDic[MapNum])
 					return;
 
 				if(MainGameData.s_mapData.EditTouchMode == 0)
-					MainGameData.s_mapData.EditTouchMode = _mapInfo.AreaList[MapNum].OutLineObj.activeSelf ? 2 : 1;
+					MainGameData.s_mapData.EditTouchMode = _mapInfo.AreaDic[MapNum].OutLineObj.activeSelf ? 2 : 1;
 
-				beforehit = _mapInfo.AreaList[MapNum];
-				_mapInfo.EditTouchMap.SetValue(_mapInfo.AreaList[MapNum]);
+				beforehit = _mapInfo.AreaDic[MapNum];
+				_mapInfo.EditTouchMap.SetValue(_mapInfo.AreaDic[MapNum]);
 			}
 		}
 		else

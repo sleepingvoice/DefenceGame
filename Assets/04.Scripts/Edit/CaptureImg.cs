@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class CaptureImg : MonoBehaviour
 {
-	public byte[] Texbinary;
+	[HideInInspector]public byte[] Texbinary;
 
 	public IEnumerator CaptureCam(Camera TargetCam,int resWidth,int resHeight)
 	{

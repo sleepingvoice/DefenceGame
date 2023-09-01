@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 
 
-public class LoginManager : MonoBehaviour
+public class UIManager_Login : MonoBehaviour
 {
 	[Header("List")]
 	public List<AccountUI> AccountWindow;
@@ -94,17 +94,20 @@ public class LoginManager : MonoBehaviour
 
 	private void CheckID(string callback)
 	{
-		if (callback == "true")
+		if (callback == "false")
 		{
-			_socketAct = () =>
-			{
-				MainGameData.s_loginProgress.SetValue(LoginProgress.finish);
-				MainGameData.s_progressValue.SetValue(GameProgress.Lobby);
-			};
+			Error.SetError("아이디나 비밀번호가 잘못되었습니다.", LoginProgress.main);
 		}
 		else
 		{
-			Error.SetError("아이디나 비밀번호가 잘못되었습니다.", LoginProgress.main);
+			_socketAct = () =>
+			{
+				var str = callback.Split(':');
+				MainGameData.s_userName = str[0];
+				MainGameData.s_userId = int.Parse(str[1]);
+				MainGameData.s_loginProgress.SetValue(LoginProgress.finish);
+				MainGameData.s_progressValue.SetValue(GameProgress.Lobby);
+			};
 		}
 	}
 

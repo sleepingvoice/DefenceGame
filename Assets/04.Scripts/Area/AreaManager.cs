@@ -86,12 +86,12 @@ namespace Gu
             if (Mapinfolist != null)
                 list = Mapinfolist.InfoList;
 
-            MapInfo.AreaList = new Dictionary<Vector2Int, AreaInfo>();
+            MapInfo.AreaDic = new Dictionary<Vector2Int, AreaInfo>();
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    bool MoveCheck = true;
+                    bool MoveCheck = false;
                     foreach (var Targetinfo in list)
                     {
                         if (Targetinfo.NodeNum == new Vector2Int(i, j))
@@ -108,7 +108,7 @@ namespace Gu
                     outline.GetComponent<MeshRenderer>().material = MoveCheck ? CanBuildMat : NotBuildMat;
 
                     AreaInfo info = new AreaInfo(new Vector2Int(i, j), newPos, newPos + new Vector3(widthLength / 2, 0, heightLength / 2), MoveCheck, outline);
-                    MapInfo.AreaList.Add(new Vector2Int(i, j), info);
+                    MapInfo.AreaDic.Add(new Vector2Int(i, j), info);
                 }
             }
         }

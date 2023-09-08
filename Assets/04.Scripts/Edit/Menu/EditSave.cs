@@ -37,12 +37,9 @@ public class EditSave : EditMenuBase
 		sendData.userId = MainGameData.s_userId;
 		sendData.mapName = MapNameInput.text;
 
-		yield return StartCoroutine(Capture.CaptureCam());
-		sendData.mapImg = Capture.Texbinary;
+		yield return StartCoroutine(Capture.CaptureCam((value) => sendData.mapImg = value));
 
 		var sendJson = JsonUtility.ToJson(sendData);
-		sendJson = sendJson.Substring(10);
-		sendJson = sendJson.Substring(0, sendJson.Length - 1);
 
 		Socket.ins.ws_SendMessage("Add_Map/" + sendJson);
 	}

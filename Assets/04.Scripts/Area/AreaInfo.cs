@@ -21,7 +21,7 @@ public class MapInfo
 	public string movelist;
 	public string enemyInfo;
 	public string mapName;
-	public byte[] mapImg;
+	public int mapImg;
 }
 
 [Serializable]
@@ -32,7 +32,7 @@ public class MapInfo_Send
 	public string movelist;
 	public string enemyInfo;
 	public string mapName;
-	public byte[] mapImg;
+	public int mapImg;
 }
 
 #endregion

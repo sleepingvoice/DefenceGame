@@ -1,23 +1,28 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using Gu;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
 
 public class CaptureImg : MonoBehaviour
 {
 	[HideInInspector]public byte[] Texbinary;
 	public Camera TargetCam;
 
+	public int num;
+	public RawImage Img;
+
 	public void Set()
 	{
-		StartCoroutine(CaptureCam());
+		StartCoroutine(CaptureCam((value) => Debug.Log(value)));
 	}
 
-	public IEnumerator CaptureCam()
+	public void Get()
+	{
+		StartCoroutine(LoadImg());
+	}
+
+	public IEnumerator CaptureCam(Action<int> actMapID)
 	{
 		yield return new WaitForEndOfFrame();
 		int resWidth = Screen.width;
@@ -39,8 +44,13 @@ public class CaptureImg : MonoBehaviour
 
 		var tempSprite = Sprite.Create(tempTex, new Rect(0, 0, resWidth, resHeight), Vector2.one * 0.5f);
 		var temptex = utility.textureFromSprite(tempSprite);
-		var data = temptex.GetRawTextureData();
+		var data = temptex.EncodeToPNG();
 
-		yield return Socket.ins.PostImg(data);
+		yield return Socket.ins.PostImg(data, actMapID);
+	}
+
+	public IEnumerator LoadImg()
+	{
+		yield return Socket.ins.GetImg(num, (tex) => Img.texture = tex);
 	}
 }

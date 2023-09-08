@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEditor.MemoryProfiler;
 using UnityEditor.PackageManager.Requests;
 using UnityEngine;
@@ -101,7 +102,7 @@ public class Socket : MonoBehaviour
         _openCheck = null;
     }
 
-    public IEnumerator PostImg(byte[] data)
+    public IEnumerator PostImg(byte[] data,Action<int> actMapID)
     {
         string serverURL = "http://localhost:5000/imgfile";
         WWWForm form = new WWWForm();
@@ -116,32 +117,28 @@ public class Socket : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log(webRequest.downloadHandler.text);
+            actMapID.Invoke(int.Parse(webRequest.downloadHandler.text));
 		}
-	}
 
-	IEnumerator Post(string uri, byte[] data)
+        webRequest.Dispose();
+    }
+
+    public IEnumerator GetImg(int ImgId,Action<Texture2D> TexAct)
     {
+        string serverURL = "http://localhost:5000/getImage";
+        UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(serverURL + "/" + ImgId.ToString());
+        yield return webRequest.SendWebRequest();
 
-        using (UnityWebRequest www = new UnityWebRequest(uri, UnityWebRequest.kHttpVerbPOST))
+        if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
         {
-            UploadHandlerRaw uH = new UploadHandlerRaw(data);
-            DownloadHandlerBuffer dH = new DownloadHandlerBuffer();
-
-            www.uploadHandler = uH;
-            www.downloadHandler = dH;
-            www.SetRequestHeader("Content-Type", "application/data");
-            yield return www.SendWebRequest();
-
-            if (www.isHttpError || www.isNetworkError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                Debug.Log(www.ToString());
-                Debug.Log(www.downloadHandler.text);
-            }
+            Debug.Log("이미지 불러오기 실패: " + webRequest.error);
         }
+        else
+        {
+            Texture2D texture = DownloadHandlerTexture.GetContent(webRequest);
+            TexAct.Invoke(texture);
+        }
+
+        webRequest.Dispose();
     }
 }

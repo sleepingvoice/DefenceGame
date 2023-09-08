@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.MemoryProfiler;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
+using UnityEngine.Networking;
 using WebSocketSharp;
 
 public class Socket : MonoBehaviour
@@ -97,5 +99,49 @@ public class Socket : MonoBehaviour
             Debug.Log("서버와 연결이 되지않습니다 서버를 확인해보세요");
         }
         _openCheck = null;
+    }
+
+    public IEnumerator PostImg(byte[] data)
+    {
+        string serverURL = "http://localhost:5000/imgfile";
+        WWWForm form = new WWWForm();
+        form.AddBinaryData("image", data, "image.png", "image/png");
+
+        UnityWebRequest webRequest = UnityWebRequest.Post(serverURL, form);
+
+        yield return webRequest.SendWebRequest();
+		if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+		{
+			Debug.Log("네트워크 환경이 안좋아서 통신을 할수 없습니다.");
+		}
+		else
+		{
+			Debug.Log(webRequest.downloadHandler.text);
+		}
+	}
+
+	IEnumerator Post(string uri, byte[] data)
+    {
+
+        using (UnityWebRequest www = new UnityWebRequest(uri, UnityWebRequest.kHttpVerbPOST))
+        {
+            UploadHandlerRaw uH = new UploadHandlerRaw(data);
+            DownloadHandlerBuffer dH = new DownloadHandlerBuffer();
+
+            www.uploadHandler = uH;
+            www.downloadHandler = dH;
+            www.SetRequestHeader("Content-Type", "application/data");
+            yield return www.SendWebRequest();
+
+            if (www.isHttpError || www.isNetworkError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log(www.ToString());
+                Debug.Log(www.downloadHandler.text);
+            }
+        }
     }
 }

@@ -8,7 +8,6 @@ public class EditSave : EditMenuBase
 {
 	public TMP_InputField MapNameInput;
 	public CaptureImg Capture;
-	public Camera MainCam;
 
 	public Button SaveBtn;
 
@@ -38,7 +37,7 @@ public class EditSave : EditMenuBase
 		sendData.userId = MainGameData.s_userId;
 		sendData.mapName = MapNameInput.text;
 
-		yield return StartCoroutine(Capture.CaptureCam(MainCam, Screen.width,Screen.height));
+		yield return StartCoroutine(Capture.CaptureCam());
 		sendData.mapImg = Capture.Texbinary;
 
 		var sendJson = JsonUtility.ToJson(sendData);

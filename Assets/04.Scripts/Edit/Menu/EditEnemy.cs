@@ -47,6 +47,12 @@ public class EditEnemy : EditMenuBase
 		MainGameData.s_progressValue.AddListener((value) => EnemyInfoCheck = false);
 	}
 
+	protected override void Start()
+	{
+		base.Start();
+		Init();
+	}
+
 	private void OnEnable()
 	{
 		if(editManager!=null && !EnemyInfoCheck)

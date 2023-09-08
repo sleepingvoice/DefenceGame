@@ -15,7 +15,7 @@ public class EditCodinate : EditMenuBase
 	private int _targetNum = 0;
 	private List<Material> _codinateMatList = new List<Material>();
 	private List<EditCodinateMenu> _menuList = new List<EditCodinateMenu>();
-
+	private bool CheckFinish = false;
 	private AreaInfo _nowTarget = null;
 	
 	protected override void Awake()
@@ -33,6 +33,27 @@ public class EditCodinate : EditMenuBase
 
 		MainGameData.s_mapData.EditTouchMap.InsertDic(ClickMap);
 		SaveBtn.onClick.AddListener(Save);
+	}
+
+	private void OnEnable()
+	{
+		CheckFinish = false;
+		if (editManager != null)
+			editManager.EditNode = new CodinateList();
+	}
+
+	private void OnDisable()
+	{
+		if (CheckFinish)
+			return;
+		foreach(var info in MainGameData.s_mapData.AreaDic.Values)
+		{
+			if (info.OutLineObj.GetComponent<MeshRenderer>().material == editManager.AreaMat)
+				continue;
+
+			info.OutLineObj.GetComponent<MeshRenderer>().material = editManager.AreaMat;
+			info.OutLineObj.SetActive(false);
+		}
 	}
 
 	private void AddMenu()
@@ -72,7 +93,7 @@ public class EditCodinate : EditMenuBase
 
 			if (_nowTarget.OutLineObj != null)
 			{
-				_nowTarget.OutLineObj.GetComponent<MeshRenderer>().material = editManager.AreaMat;
+				_nowTarget.OutLineObj.GetComponent<MeshRenderer>().material = editManager.NormalMat;
 				_nowTarget.OutLineObj.SetActive(false);
 			}
 			info.OutLineObj.GetComponent<MeshRenderer>().material = _codinateMatList[_targetNum - 1];
@@ -107,6 +128,7 @@ public class EditCodinate : EditMenuBase
 		}
 
 		editManager.EditNode = temList;
+		CheckFinish = true;
 		MainGameData.s_editProgress.SetValue(EditProgrss.main);
 	}
 

@@ -31,7 +31,8 @@ public class AStarNode
 public class AstarCheck : MonoBehaviour
 {
     private AStarNode[,] _nodeArray;
-    private MapData _mapInfo = MainGameData.s_mapData;
+    private ServerData _mapInfo = MainGameData.s_serverData;
+    private ClientData _clientInfo = MainGameData.s_clientData;
 
     private Vector2Int _startPos, _targetPos;
     private List<Vector2Int> _openPosList,_closePosList, _finalPosList;
@@ -39,7 +40,7 @@ public class AstarCheck : MonoBehaviour
 
     public List<AreaInfo> PathFindingAstar(AreaInfo startArea, AreaInfo finalArea)
     {
-        _nodeArray = new AStarNode[_mapInfo.Width, _mapInfo.Hegith];
+        _nodeArray = new AStarNode[_clientInfo.Width, _clientInfo.Hegith];
         foreach (var info in _mapInfo.AreaDic)
         {
             _nodeArray[info.Key.x, info.Key.y] = new AStarNode(info.Value);
@@ -102,7 +103,7 @@ public class AstarCheck : MonoBehaviour
     void OpenListAdd(int checkX, int checkY)
     {
         // 상하좌우 범위를 벗어나지 않고, 벽이 아니면서, 닫힌리스트에 없다면
-        if (checkX >= 0 && checkX < _mapInfo.Width && checkY >= 0 && checkY < _mapInfo.Hegith && 
+        if (checkX >= 0 && checkX < _clientInfo.Width && checkY >= 0 && checkY < _clientInfo.Hegith && 
             !_nodeArray[checkX, checkY].NotMove && !_closePosList.Contains(new Vector2Int(checkX, checkY)))
         {
             // 이웃노드에 넣고, 직선은 10, 대각선은 14비용

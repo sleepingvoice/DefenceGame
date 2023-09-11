@@ -44,7 +44,7 @@ public class EditEnemy : EditMenuBase
 		HpBtn.onClick.AddListener(SetHp);
 		StateValue.onValueChanged.AddListener(SetValue);
 		SaveBtn.onClick.AddListener(SaveData);
-		MainGameData.s_progressValue.AddListener((value) => EnemyInfoCheck = false);
+		MainGameData.s_progressMainGame.AddListener((value) => EnemyInfoCheck = false);
 	}
 
 	protected override void Start()
@@ -121,7 +121,7 @@ public class EditEnemy : EditMenuBase
 			}	
 		}
 
-		MainGameData.s_editProgress.SetValue(EditProgrss.main);
+		MainGameData.s_progressEdit.SetValue(EditProgrss.main);
 		EnemyInfoCheck = true;
 	}
 

@@ -10,7 +10,7 @@ public class AreaObjActive : MonoBehaviour
 	private void Awake()
 	{
 
-		MainGameData.s_progressValue.AddListener((value) =>
+		MainGameData.s_progressMainGame.AddListener((value) =>
 		{
 			_activeCheck = false;
 			foreach (var progress in ShowProgress)

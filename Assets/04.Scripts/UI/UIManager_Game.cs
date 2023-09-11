@@ -12,43 +12,23 @@ public class UIManager_Game : MonoBehaviour
 
 	public Button ShowArea;
 
-	private bool AreaShow = true;
-	private MapData MapInfo = MainGameData.s_mapData;
+	private GameData UserData = MainGameData.s_gameData;
 
 	private void Awake()
 	{
-		MainGameData.s_progressValue.AddListener(active);
-		MainGameData.s_money.AddListener((value) => Money.text = value.ToString());
-		MainGameData.s_enemyNum.AddListener((value) => UnityNum.text = value.ToString());
-		MainGameData.s_roundTime.AddListener((value) => RoundTime.text = value.ToString());
-		MainGameData.s_nowRound.AddListener((value) => Round.text = value.ToString());
-		MainGameData.s_progressValue.AddListener((value) =>
-		{
-			foreach (var obj in MapInfo.CanBuildObj)
-			{
-				obj.SetActive(value == GameProgress.GamePlay);
-			}
-		});
+		MainGameData.s_progressMainGame.AddListener(active);
 
-		MainGameData.s_money.SetValue(MainGameData.s_money.Value);
-		MainGameData.s_enemyNum.SetValue(MainGameData.s_enemyNum.Value);
+		UserData.NowMoney.AddListener((value) => Money.text = value.ToString());
+		UserData.NowEnemyNum.AddListener((value) => UnityNum.text = value.ToString());
+		UserData.NowRoundTime.AddListener((value) => RoundTime.text = value.ToString());
+		UserData.NowRoundTime.AddListener((value) => Round.text = value.ToString());
 
-
-		ShowArea.onClick.AddListener(() => ShowAreaEvent(AreaShow));
+		UserData.NowMoney.SetValue(MainGameData.s_gameData.NowMoney.Value);
+		UserData.NowEnemyNum.SetValue(UserData.NowEnemyNum.Value);
 	}
 
 	private void active(GameProgress Progress)
 	{
 		this.gameObject.SetActive(Progress == GameProgress.GamePlay);
 	}
-
-	private void ShowAreaEvent(bool Active)
-	{
-		foreach (var obj in MapInfo.NotBuildObj)
-		{
-			obj.SetActive(Active);
-		}
-		AreaShow = !Active;
-	}
-
 }

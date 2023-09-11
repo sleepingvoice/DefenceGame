@@ -15,23 +15,23 @@ public class UpgradeMenu : MonoBehaviour
 
 	private void Awake()
 	{
-		MainGameData.s_progressValue.AddListener((value) =>
+		MainGameData.s_progressMainGame.AddListener((value) =>
 		{
 			_checkGame = value == GameProgress.GamePlay ? true : false;
 		});
 
-		MainGameData.s_mapData.GameTouchMap.InsertDic((value) =>
+		MainGameData.GameTouchMap.InsertDic((value) =>
 		{
 			if (value == null || !_checkGame)
 				return;
 
 			this.gameObject.SetActive(false);
 
-			var list = MainGameData.s_nextRankList.ReturnNextRank(value.NowRank);
+			var list = MainGameData.s_clientData.NextRank.ReturnNextRank(value.NowRank);
 
 			if (list == null)
 			{
-				MainGameData.s_mapData.GameTouchMap.SetValue(null);
+				MainGameData.GameTouchMap.SetValue(null);
 				return;
 			}
 
@@ -49,13 +49,13 @@ public class UpgradeMenu : MonoBehaviour
 
 		ClickBtn.onClick.AddListener(() =>
 		{
-			if (MainGameData.s_money.Value >= Price)
+			if (MainGameData.s_gameData.NowMoney.Value >= Price)
 			{
 				GameManager.ins.TowerManager.AddTower(MenuRank);
-				MainGameData.s_money.SetValue(MainGameData.s_money.Value - Price);
-				MainGameData.s_mapData.GameTouchMap.Value.NowRank = MenuRank;
+				MainGameData.s_gameData.NowMoney.SetValue(MainGameData.s_gameData.NowMoney.Value - Price);
+				MainGameData.GameTouchMap.Value.NowRank = MenuRank;
 			}
-			MainGameData.s_mapData.GameTouchMap.SetValue(null);
+			MainGameData.GameTouchMap.SetValue(null);
 		});
 
 		//ClickBtn.onClick.AddListener(() =>

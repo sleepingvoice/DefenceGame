@@ -10,12 +10,32 @@ public class UIManager_EditSelect : MonoBehaviour
 
 	[Header("MapSelect")]
 	public GameObject MapSelectWindow;
+
 	private void Awake()
 	{
-		MainGameData.s_progressValue.AddListener((value) => this.gameObject.SetActive(value == GameProgress.EditSelect));
+		MainGameData.s_progressMainGame.AddListener(Active);
 
-		SelectMapBtn.onClick.AddListener(() => MapSelectWindow.SetActive(true));
-		MapaEditBtn.onClick.AddListener(() => MainGameData.s_progressValue.SetValue(GameProgress.Edit));
-		BackBtn.onClick.AddListener(() => MainGameData.s_progressValue.SetValue(GameProgress.Lobby));
+		SelectMapBtn.onClick.AddListener(InitWindow);
+		MapaEditBtn.onClick.AddListener(() => MainGameData.s_progressMainGame.SetValue(GameProgress.Edit));
+		BackBtn.onClick.AddListener(() => MainGameData.s_progressMainGame.SetValue(GameProgress.Lobby));
+	}
+
+	private void Active(GameProgress progress)
+	{
+		this.gameObject.SetActive(progress == GameProgress.EditSelect);
+		MapSelectWindow.SetActive(false);
+	}
+
+	private void InitWindow()
+	{
+		MapSelectWindow.SetActive(true);
+		var window = MapSelectWindow.GetComponent<EditMapWindow>();
+		window.InitBar();
+		window.StartGameBtn.onClick.RemoveAllListeners();
+		window.StartGameBtn.onClick.AddListener(StartGame);
+	}
+
+	private void StartGame()
+	{
 	}
 }

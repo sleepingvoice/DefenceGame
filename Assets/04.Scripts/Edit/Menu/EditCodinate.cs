@@ -31,7 +31,7 @@ public class EditCodinate : EditMenuBase
 			_menuList.RemoveAt(_menuList.Count - 1);
 		});
 
-		MainGameData.s_mapData.EditTouchMap.InsertDic(ClickMap);
+		MainGameData.EditTouchMap.InsertDic(ClickMap);
 		SaveBtn.onClick.AddListener(Save);
 	}
 
@@ -46,7 +46,7 @@ public class EditCodinate : EditMenuBase
 	{
 		if (CheckFinish)
 			return;
-		foreach(var info in MainGameData.s_mapData.AreaDic.Values)
+		foreach(var info in MainGameData.s_serverData.AreaDic.Values)
 		{
 			if (info.OutLineObj.GetComponent<MeshRenderer>().material == editManager.AreaMat)
 				continue;
@@ -86,7 +86,7 @@ public class EditCodinate : EditMenuBase
 
 	private void ClickMap(AreaInfo info)
 	{
-		if (MainGameData.s_editProgress.Value == EditProgrss.destination)
+		if (MainGameData.s_progressEdit.Value == EditProgrss.destination)
 		{
 			if (_targetNum <= 0 && !info.Notmove)
 				return;
@@ -119,7 +119,7 @@ public class EditCodinate : EditMenuBase
 
 		for (int i = 0; i < temp.Count-1; i++)
 		{
-			if (GameManager.ins.Check.PathFindingAstar(MainGameData.s_mapData.AreaDic[temp[i]], MainGameData.s_mapData.AreaDic[temp[i + 1]]).Count == 0)
+			if (GameManager.ins.Check.PathFindingAstar(MainGameData.s_serverData.AreaDic[temp[i]], MainGameData.s_serverData.AreaDic[temp[i + 1]]).Count == 0)
 			{
 				Debug.Log(i);
 				Debug.LogError("길이 없습니다.");
@@ -129,7 +129,7 @@ public class EditCodinate : EditMenuBase
 
 		editManager.EditNode = temList;
 		CheckFinish = true;
-		MainGameData.s_editProgress.SetValue(EditProgrss.main);
+		MainGameData.s_progressEdit.SetValue(EditProgrss.main);
 	}
 
 	protected override void Start()

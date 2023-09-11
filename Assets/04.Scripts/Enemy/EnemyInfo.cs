@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Data;
 using UnityEngine;
 
 public class EnemyInfo : MonoBehaviour
@@ -15,14 +13,14 @@ public class EnemyInfo : MonoBehaviour
 	public Type<Vector3> MovePos = new Type<Vector3>(Vector3.zero);
 	public bool Die = false;
 
-	public void Init(EnemyData Data,int round)
+	public void Init(int round)
 	{
 		TargetNum = new Type<int>();
 		MovePos = new Type<Vector3>(Vector3.zero);
 
-		MainGameData.s_enemyInfo.EnemyList.Value.Add(this);
+		MainGameData.s_gameData.EnemyList.Value.Add(this);
 
-		var info= MainGameData.s_enemyInfo.EnemyInfo[round];
+		var info= MainGameData.s_serverData.EnemyInfo[round];
 
 		MaxSpeed = info.Speed;
 		MaxHp = info.hp;
@@ -37,13 +35,13 @@ public class EnemyInfo : MonoBehaviour
 
 		TargetNum.AddListener((value) =>
 		{
-			if (Data.TargetList.Count <= value)
+			if (MainGameData.s_serverData.Codinate.Count <= value)
 			{
 				TargetNum.SetValue(0);
 			}
 			else
 			{
-				MovePos.SetValue(Data.TargetList[value].CenterPoint);
+				MovePos.SetValue(MainGameData.s_serverData.Codinate[value].CenterPoint);
 			}
 		});
 
@@ -56,8 +54,8 @@ public class EnemyInfo : MonoBehaviour
 		if (NowHp <= 0 && !Die)
 		{
 			Die = true;
-			MainGameData.s_money.SetValue(MainGameData.s_money.Value + 100);
-			MainGameData.s_enemyNum.SetValue(MainGameData.s_enemyNum.Value - 1);
+			MainGameData.s_gameData.NowMoney.SetValue(MainGameData.s_gameData.NowMoney.Value + 100);
+			MainGameData.s_gameData.NowEnemyNum.SetValue(MainGameData.s_gameData.NowEnemyNum.Value - 1);
 			GameManager.ins.EnemyManager.DieEnemy(this);
 		}
 	}

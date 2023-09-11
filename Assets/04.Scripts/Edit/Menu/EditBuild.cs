@@ -8,15 +8,16 @@ public class EditBuild : EditMenuBase
     [Header("Function")]
     public Button CorrectBtn;
     public Color BuildColor;
+    public bool CheckClick = false;
 
-    private MapData _mapData = MainGameData.s_mapData;
+    private ServerData _mapData = MainGameData.s_serverData;
     private Material BuildMat;
 
     protected override void Awake()
 	{
         base.Awake();
-        _mapData.EditTouchMap.InsertDic(BuildClick);
-        CorrectBtn.onClick.AddListener(() => MainGameData.s_editProgress.SetValue(EditProgrss.main));
+        MainGameData.EditTouchMap.InsertDic(BuildClick);
+        CorrectBtn.onClick.AddListener(() => MainGameData.s_progressEdit.SetValue(EditProgrss.main));
     }
 
 	protected override void Start()
@@ -28,19 +29,17 @@ public class EditBuild : EditMenuBase
 
 	private void BuildClick(AreaInfo targetarea)
     {
-        if (MainGameData.s_editProgress.Value == EditProgrss.build)
+        if (MainGameData.s_progressEdit.Value == EditProgrss.build)
         {
-            bool CheckOnOff = _mapData.EditTouchMode == 1 ? true : false;
-
-            if (targetarea.OutLineObj.activeSelf == CheckOnOff)
+            if (targetarea.OutLineObj.activeSelf == CheckClick)
                 return;
 
-            targetarea.OutLineObj.SetActive(CheckOnOff);
-            targetarea.OutLineObj.GetComponent<MeshRenderer>().material = CheckOnOff ? BuildMat : editManager.NormalMat;
+            targetarea.OutLineObj.SetActive(CheckClick);
+            targetarea.OutLineObj.GetComponent<MeshRenderer>().material = CheckClick ? BuildMat : editManager.NormalMat;
 
             if (_mapData.AreaDic.ContainsKey(targetarea.NodeNum))
             {
-                _mapData.AreaDic[targetarea.NodeNum].Notmove = CheckOnOff;
+                _mapData.AreaDic[targetarea.NodeNum].Notmove = CheckClick;
             }
         }
     }

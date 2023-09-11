@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class UpGradeManager : MonoBehaviour
 {
-	private MapData MapInfo = MainGameData.s_mapData;
+	private ServerData MapInfo = MainGameData.s_serverData;
 
 	private AreaInfo AreaInfo = null;
 
 
 	private void Awake()
 	{
-		MapInfo.GameTouchMap.InsertDic(Init);
+		MainGameData.GameTouchMap.InsertDic(Init);
 	}
 
 	private void Start()
@@ -21,7 +21,7 @@ public class UpGradeManager : MonoBehaviour
 
 	private void Init(AreaInfo info)
 	{
-		if (MainGameData.s_progressValue.Value != GameProgress.GamePlay)
+		if (MainGameData.s_progressMainGame.Value != GameProgress.GamePlay)
 			return;
 
 		if (info == null || !info.Notmove)

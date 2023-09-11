@@ -11,13 +11,13 @@ public class UIManager_Edit : MonoBehaviour
 
     private void Awake()
     {
-        MainGameData.s_progressValue.AddListener(Active);
+        MainGameData.s_progressMainGame.AddListener(Active);
         NormalMatReturn();
      }
 
 	private void Start()
 	{
-        MainGameData.s_editProgress.SetValue(EditProgrss.main);
+        MainGameData.s_progressEdit.SetValue(EditProgrss.main);
     }
 
 	private void Active(GameProgress progress)

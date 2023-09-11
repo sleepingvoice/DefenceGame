@@ -7,7 +7,7 @@ public class UIManager_EndGame : MonoBehaviour
 
 	private void Awake()
 	{
-		MainGameData.s_progressValue.AddListener(active);
+		MainGameData.s_progressMainGame.AddListener(active);
 		ReturnLobby.onClick.AddListener(Return);
 	}
 
@@ -18,6 +18,6 @@ public class UIManager_EndGame : MonoBehaviour
 
 	private void Return()
 	{
-		MainGameData.s_progressValue.SetValue(GameProgress.Lobby);
+		MainGameData.s_progressMainGame.SetValue(GameProgress.Lobby);
 	}
 }

@@ -12,9 +12,9 @@ public class FindWindow : MonoBehaviour
 
 	public void Awake()
 	{
-		MainGameData.s_loginProgress.AddListener((value) => this.gameObject.SetActive(value == TargetProgrees));
-		ID_FindBtn.onClick.AddListener(() => MainGameData.s_loginProgress.SetValue(LoginProgress.findID));
-		Pwd_FindBtn.onClick.AddListener(() => MainGameData.s_loginProgress.SetValue(LoginProgress.findPwd));
-		ExitBtn.onClick.AddListener(() => MainGameData.s_loginProgress.SetValue(LoginProgress.main));
+		MainGameData.s_progressLogin.AddListener((value) => this.gameObject.SetActive(value == TargetProgrees));
+		ID_FindBtn.onClick.AddListener(() => MainGameData.s_progressLogin.SetValue(LoginProgress.findID));
+		Pwd_FindBtn.onClick.AddListener(() => MainGameData.s_progressLogin.SetValue(LoginProgress.findPwd));
+		ExitBtn.onClick.AddListener(() => MainGameData.s_progressLogin.SetValue(LoginProgress.main));
 	}
 }

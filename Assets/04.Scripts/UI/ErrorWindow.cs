@@ -12,8 +12,8 @@ public class ErrorWindow : MonoBehaviour
 
 	private void Awake()
 	{
-		MainGameData.s_loginProgress.AddListener((value) => this.gameObject.SetActive(value == LoginProgress.error));
-		ExitBtn.onClick.AddListener(() => MainGameData.s_loginProgress.SetValue(BeforeProgress));
+		MainGameData.s_progressLogin.AddListener((value) => this.gameObject.SetActive(value == LoginProgress.error));
+		ExitBtn.onClick.AddListener(() => MainGameData.s_progressLogin.SetValue(BeforeProgress));
 	}
 
 	public void SetError(string str,LoginProgress before)
@@ -24,6 +24,6 @@ public class ErrorWindow : MonoBehaviour
 		Detail.text = str;
 
 		this.gameObject.SetActive(true);
-		MainGameData.s_loginProgress.SetValue(LoginProgress.error);
+		MainGameData.s_progressLogin.SetValue(LoginProgress.error);
 	}
 }

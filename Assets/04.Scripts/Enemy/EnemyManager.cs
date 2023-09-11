@@ -7,12 +7,13 @@ public class EnemyManager : MonoBehaviour
 {
 	public ObjPool EnemyPool;
 
-	EnemyData EnemyInfo = MainGameData.s_enemyInfo;
+	ServerData Mapinfo = MainGameData.s_serverData;
+	GameData GameInfo = MainGameData.s_gameData;
 
 	private void Awake()
 	{
-		EnemyInfo.EnemyList.SetValue(new List<EnemyInfo>());
-		MainGameData.s_progressValue.AddListener(DisActive);
+		GameInfo.EnemyList.SetValue(new List<EnemyInfo>());
+		MainGameData.s_progressMainGame.AddListener(DisActive);
 	}
 
 	private void DisActive(GameProgress progress)
@@ -24,16 +25,16 @@ public class EnemyManager : MonoBehaviour
 	public void MakeEnemy(int round)
 	{
 		GameObject obj = EnemyPool.GetObject();
-		obj.transform.position = EnemyInfo.TargetList[0].CenterPoint;
-		obj.GetComponent<EnemyInfo>().Init(EnemyInfo,round);
-		MainGameData.s_enemyNum.SetValue(MainGameData.s_enemyNum.Value + 1);
+		obj.transform.position = Mapinfo.Codinate[0].CenterPoint;
+		obj.GetComponent<EnemyInfo>().Init(round);
+		GameInfo.NowEnemyNum.SetValue(GameInfo.NowEnemyNum.Value + 1);
 	}
 
 	public void DieEnemy(EnemyInfo Target)
 	{
 		EnemyPool.DisableObject(Target.gameObject);
-		EnemyInfo.EnemyList.Value.Remove(Target);
-		EnemyInfo.EnemyList.SetValue(EnemyInfo.EnemyList.Value);
+		GameInfo.EnemyList.Value.Remove(Target);
+		GameInfo.EnemyList.SetValue(GameInfo.EnemyList.Value);
 	}
 
 }

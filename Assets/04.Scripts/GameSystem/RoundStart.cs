@@ -3,15 +3,15 @@ using System.Collections;
 
 public class RoundStart : MonoBehaviour
 {
-    GameManager gameManger;
-    GameRule Rule = MainGameData.s_mainGameRule;
+    GameData _userData = MainGameData.s_gameData;
+    ClientData _clientData = MainGameData.s_clientData;
 
     private void Awake()
     {
-        MainGameData.s_progressValue.AddListener(SetEnd);
-        MainGameData.s_nowRound.AddListener(SetRound);
-        MainGameData.s_roundTime.AddListener(SetTime);
-        MainGameData.s_enemyNum.AddListener(SetMaxEnemy);
+        MainGameData.s_progressMainGame.AddListener(SetEnd);
+        _userData.NowRound.AddListener(SetRound);
+        _userData.NowRoundTime.AddListener(SetTime);
+        _userData.NowEnemyNum.AddListener(SetMaxEnemy);
     }
 
     private void SetEnd(GameProgress Progress)
@@ -27,13 +27,13 @@ public class RoundStart : MonoBehaviour
 
     public IEnumerator RoundEnemy(int value)
     {
-        if (value == MainGameData.s_enemyInfo.EnemyInfo.Count)
+        if (value == MainGameData.s_serverData.EnemyInfo.Count)
         {
             StartCoroutine(FinishGame());
             yield break;
         }
-        MainGameData.s_roundTime.SetValue(Rule.RoundTime);
-        for (int i = 0; i < Rule.RoundEnemy; i++)
+        _userData.NowRoundTime.SetValue(_clientData.RoundTime);
+        for (int i = 0; i < _clientData.RoundEnemy; i++)
         {
             GameManager.ins.EnemyManager.MakeEnemy(value);
             yield return new WaitForSeconds(0.5f);
@@ -49,25 +49,25 @@ public class RoundStart : MonoBehaviour
     {
         if (value <= 0)
         {
-            MainGameData.s_nowRound.SetValue(MainGameData.s_nowRound.Value + 1);
+            _userData.NowRound.SetValue(_userData.NowRound.Value + 1);
             yield break;
         }
         yield return new WaitForSeconds(1f);
-        MainGameData.s_roundTime.SetValue(value - 1);
+        _userData.NowRoundTime.SetValue(value - 1);
     }
 
     private IEnumerator FinishGame()
     {
-        while (MainGameData.s_enemyNum.Value > 0)
+        while (_userData.NowEnemyNum.Value > 0)
             yield return new WaitForSeconds(1f);
-        MainGameData.s_progressValue.SetValue(GameProgress.End);
+        MainGameData.s_progressMainGame.SetValue(GameProgress.End);
     }
 
     public void SetMaxEnemy(int value)
     {
-        if (value >= MainGameData.s_mainGameRule.LimitEnemy)
+        if (value >= _clientData.LimitEnemy)
         {
-            MainGameData.s_progressValue.SetValue(GameProgress.End);
+            MainGameData.s_progressMainGame.SetValue(GameProgress.End);
         }
     }
 }

@@ -77,7 +77,7 @@ public class TowerBasic
 
 	public void InitState(ChessRank Rank)
 	{
-		State = MainGameData.s_towerState[Rank];
+		State = MainGameData.s_clientData.TowerStateDic[Rank];
 		NowBullet = new BulletCreate(Rank);
 	}
 }
@@ -333,7 +333,7 @@ public class BulletCreate
 
 	public void ShotBullet(Transform Trans,EnemyInfo Target,float BulletSpeed,Action Act)
 	{
-		var BulletNum = MainGameData.s_bulletList[NowRank];
+		var BulletNum = MainGameData.s_clientData.BulletDic[NowRank];
 		var NowBullet = GameManager.ins.BulletManager.BulletSet(BulletNum);
 		NowBullet.ShotBullet(Trans.transform.position, Target, BulletSpeed, Act).Forget();
 	}

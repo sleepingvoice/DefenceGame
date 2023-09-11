@@ -24,7 +24,7 @@ public class TowerInfo : MonoBehaviour
 		NowTower = TowerCreate.CreateTower(rank);
 		NowTower.SetPos(trans);
 
-		AttackCol.GetComponent<SphereCollider>().radius = NowTower.ReturnState().State.Range * MainGameData.s_mapData.AreaheigthLength / 2;
+		AttackCol.GetComponent<SphereCollider>().radius = NowTower.ReturnState().State.Range * MainGameData.s_clientData.AreaHeigthLength / 2;
 	}
 
 	public void SetMesh(Mesh mesh)

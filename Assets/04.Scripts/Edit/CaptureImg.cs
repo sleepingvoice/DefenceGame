@@ -6,20 +6,14 @@ using UnityEngine.UI;
 
 public class CaptureImg : MonoBehaviour
 {
-	[HideInInspector]public byte[] Texbinary;
+	[HideInInspector] public byte[] Texbinary;
+
 	public Camera TargetCam;
 
-	public int num;
-	public RawImage Img;
 
 	public void Set()
 	{
 		StartCoroutine(CaptureCam((value) => Debug.Log(value)));
-	}
-
-	public void Get()
-	{
-		StartCoroutine(LoadImg());
 	}
 
 	public IEnumerator CaptureCam(Action<int> actMapID)
@@ -47,10 +41,5 @@ public class CaptureImg : MonoBehaviour
 		var data = temptex.EncodeToPNG();
 
 		yield return Socket.ins.PostImg(data, actMapID);
-	}
-
-	public IEnumerator LoadImg()
-	{
-		yield return Socket.ins.GetImg(num, (tex) => Img.texture = tex);
 	}
 }

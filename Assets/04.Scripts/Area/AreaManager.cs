@@ -9,10 +9,6 @@ namespace Gu
 {
     public class AreaManager : MonoBehaviour
     {
-        [Header("AreaSize")]
-        public int width;
-        public int height;
-
         [Header("GizmosCheck")]
         public bool CheckGizmos;
 
@@ -35,19 +31,16 @@ namespace Gu
         private float heightLength;
         [HideInInspector]public Vector3 AreaSize;
 
-        private MapData MapInfo = MainGameData.s_mapData;
+        private ServerData _mapInfo = MainGameData.s_serverData;
+        private ClientData _clientInfo = MainGameData.s_clientData;
 
 		void Update()
         {
             // AStar체크용(에디터 전용)
             if (CheckAStar)
             {
-                Instantiate(StartLastPos, this.transform).transform.position = MapInfo.CodinateDic[new Vector2Int(0, 0)].CenterPoint;
-                Instantiate(StartLastPos, this.transform).transform.position = MapInfo.CodinateDic[new Vector2Int(7, 7)].CenterPoint;
-                Instantiate(StartLastPos, this.transform).transform.position = MapInfo.CodinateDic[new Vector2Int(7, 0)].CenterPoint;
-                Instantiate(StartLastPos, this.transform).transform.position = MapInfo.CodinateDic[new Vector2Int(0, 7)].CenterPoint;
 
-                foreach (var Target in MainGameData.s_enemyInfo.TargetList)
+                foreach (var Target in _mapInfo.Codinate)
                 {
                     Instantiate(LineTest, this.transform).transform.position = Target.CenterPoint;
                 }
@@ -58,11 +51,11 @@ namespace Gu
 
         public void SetMap(int mapID)
         {
-            foreach (var data in MapInfo.GetMapInfo.List)
+            foreach (var data in _mapInfo.MapinfoSever.List)
             {
                 if (data.mapid == mapID)
                 {
-                    MapInfo.NowMap.SetValue(data);
+                    _mapInfo.NowMap.SetValue(data);
                     break;
                 }
             }
@@ -86,10 +79,10 @@ namespace Gu
             if (Mapinfolist != null)
                 list = Mapinfolist.InfoList;
 
-            MapInfo.AreaDic = new Dictionary<Vector2Int, AreaInfo>();
-            for (int i = 0; i < width; i++)
+            _mapInfo.AreaDic = new Dictionary<Vector2Int, AreaInfo>();
+            for (int i = 0; i < _clientInfo.Hegith; i++)
             {
-                for (int j = 0; j < height; j++)
+                for (int j = 0; j < _clientInfo.Width; j++)
                 {
                     bool MoveCheck = false;
                     foreach (var Targetinfo in list)
@@ -108,21 +101,18 @@ namespace Gu
                     outline.GetComponent<MeshRenderer>().material = MoveCheck ? CanBuildMat : NotBuildMat;
 
                     AreaInfo info = new AreaInfo(new Vector2Int(i, j), newPos, newPos + new Vector3(widthLength / 2, 0, heightLength / 2), MoveCheck, outline);
-                    MapInfo.AreaDic.Add(new Vector2Int(i, j), info);
+                    _mapInfo.AreaDic.Add(new Vector2Int(i, j), info);
                 }
             }
         }
 
         private void SetLength(Vector3 AreaSize)
         {
-            MapInfo.Hegith = height;
-            MapInfo.Width = width;
+            _clientInfo.AreaWidthLength = AreaSize.x / _clientInfo.Width;
+            _clientInfo.AreaHeigthLength = AreaSize.z / _clientInfo.Hegith;
 
-            MapInfo.AreawidthLength = AreaSize.x / width;
-            MapInfo.AreaheigthLength = AreaSize.z / height;
-
-            widthLength = MapInfo.AreawidthLength;
-            heightLength = MapInfo.AreaheigthLength;
+            widthLength = _clientInfo.AreaWidthLength;
+            heightLength = _clientInfo.AreaHeigthLength;
         }
         #endregion
 
@@ -135,11 +125,11 @@ namespace Gu
 
             Gizmos.color = Color.white;
             Vector3 TempSize = AreaObj.GetComponent<Renderer>().bounds.size;
-            float widthLength = TempSize.x / width;
-            float heigthLength = TempSize.z / height;
-            for (int i = 0; i < width; i++)
+            float widthLength = TempSize.x / _clientInfo.Width;
+            float heigthLength = TempSize.z / _clientInfo.Hegith;
+            for (int i = 0; i < _clientInfo.Width; i++)
             {
-                for (int j = 0; j < height; j++)
+                for (int j = 0; j < _clientInfo.Hegith; j++)
                 {
                     Vector3 newPos = new Vector3(widthLength * i - TempSize.x / 2, 1f, heigthLength * j - TempSize.z / 2);
                     Gizmos.DrawSphere(newPos, 0.5f);

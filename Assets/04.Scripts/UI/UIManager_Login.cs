@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,10 +32,10 @@ public class UIManager_Login : MonoBehaviour
 		SetBase();
 		EmailBtn.onClick.AddListener(CheckSignEmail);
 		RegistBtn.onClick.AddListener(() => { 
-			MainGameData.s_loginProgress.SetValue(LoginProgress.signup);
+			MainGameData.s_progressLogin.SetValue(LoginProgress.signup);
 			SignBtn.interactable = false;
 		});
-		FindBtn.onClick.AddListener(() => MainGameData.s_loginProgress.SetValue(LoginProgress.find));
+		FindBtn.onClick.AddListener(() => MainGameData.s_progressLogin.SetValue(LoginProgress.find));
 
 		AddSocketEvent();
 	}
@@ -57,7 +56,7 @@ public class UIManager_Login : MonoBehaviour
 
 	private void Start()
 	{
-		MainGameData.s_loginProgress.SetValue(LoginProgress.main);
+		MainGameData.s_progressLogin.SetValue(LoginProgress.main);
 	}
 
 	public void CheckSignEmail()
@@ -103,10 +102,10 @@ public class UIManager_Login : MonoBehaviour
 			_socketAct = () =>
 			{
 				var str = callback.Split(':');
-				MainGameData.s_userName = str[0];
-				MainGameData.s_userId = int.Parse(str[1]);
-				MainGameData.s_loginProgress.SetValue(LoginProgress.finish);
-				MainGameData.s_progressValue.SetValue(GameProgress.Lobby);
+				MainGameData.s_serverData.UserName = str[0];
+				MainGameData.s_serverData.UserId = int.Parse(str[1]);
+				MainGameData.s_progressLogin.SetValue(LoginProgress.finish);
+				MainGameData.s_progressMainGame.SetValue(GameProgress.Lobby);
 			};
 		}
 	}

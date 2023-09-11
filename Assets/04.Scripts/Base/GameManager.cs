@@ -3,7 +3,8 @@ using UnityEngine;
 using Gu;
 using System.Collections.Generic;
 using System.IO;
-
+using System;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,9 +28,11 @@ public class GameManager : MonoBehaviour
 	public UIManager_EditSelect UI_EditSelect;
 	public UIManager_Edit UI_Edit;
 
+	[HideInInspector] public Texture2D SaveTex;
 
-	private EnemyData _enemyInfo = MainGameData.s_enemyInfo;
-	private MapData _mapInfo = MainGameData.s_mapData;
+	private ServerData _mapInfo = MainGameData.s_serverData;
+
+	private Action _socketAct = null;
 
 	#region 타워 딜레이
 	[HideInInspector]public float nowTime = 0f;
@@ -47,24 +50,34 @@ public class GameManager : MonoBehaviour
 		if (_instance == null)
 			_instance = this;
 
-		MainGameData.s_mapData.NowMap.AddListener(GetData);
+		MainGameData.s_serverData.NowMap.AddListener(GetData);
+
+		Socket.ins.SocketEventDic.Add("Get_MapList", MapListGet);
 	}
 
 	private void GetData(MapInfo info)
 	{
 		var codiList = JsonUtility.FromJson<CodinateList>(info.codinate);
 		var moveList = JsonUtility.FromJson<MapInfoList>(info.movelist);
+		var EnemyList = JsonUtility.FromJson<RoundEnemyInfoList>(info.enemyInfo);
 
 		AreaManager.SetMapObj(moveList);
 
 		foreach (var codienate in codiList.NodeList) {
-			_mapInfo.CodinateDic.Add(codienate, _mapInfo.AreaDic[codienate]);
+			_mapInfo.Codinate.Add(_mapInfo.AreaDic[codienate]);
 		}
+
+		foreach (var enemyinfo in EnemyList.EnemyInfoList)
+		{
+			_mapInfo.EnemyInfo.Add(enemyinfo.RoundNum, enemyinfo);
+		}
+
 	}
 
 	private void Start()
 	{
-		MainGameData.s_progressValue.SetValue(GameProgress.Login);
+		MainGameData.s_progressMainGame.SetValue(GameProgress.Login);
+		GetMapinfo();
 	}
 
 	private void Update()
@@ -81,6 +94,37 @@ public class GameManager : MonoBehaviour
 		}
 
 		nowTime += Time.deltaTime;
+
+		if (_socketAct != null) // 소켓 이벤트 발생
+			_socketAct.Invoke();
+	}
+
+	public void GetMapinfo()
+	{
+		Socket.ins.ws_SendMessage("Get_MapList/");
+	}
+
+	private void MapListGet(string callback)
+	{
+		var chagneCallback = "{\"List\":" + callback + "}";
+		_socketAct = () =>
+		{
+			MainGameData.s_serverData.MapinfoSever = JsonUtility.FromJson<MapList>(chagneCallback);
+
+			_socketAct = null;
+		};
+	}
+
+	public void SetImg(int Num,Action<Texture2D> TexAct)
+	{
+		StartCoroutine(LoadImg(Num,TexAct));
+	}
+
+	public IEnumerator LoadImg(int Num,Action<Texture2D> TexAct)
+	{
+		DestroyImmediate(SaveTex);
+		yield return Socket.ins.GetImg(Num, ((tex) => SaveTex = tex));
+		TexAct.Invoke(SaveTex);
 	}
 
 	#region Json 값 받아오기
@@ -89,9 +133,7 @@ public class GameManager : MonoBehaviour
 	{
 		SetTowerClass();
 		LoadTower();
-		SetMovePos();
 		LoadBulletInfo();
-		LoadEnemyInfo();
 	}
 
 	//타워 능력치 받아오기
@@ -100,50 +142,25 @@ public class GameManager : MonoBehaviour
 		var List = JsonUtility.FromJson<TowerList>(File.ReadAllText(Application.streamingAssetsPath + "/TowerClass.json"));
 		foreach (var value in List.Tower)
 		{
-			MainGameData.s_towerState.Add(value.RankValue, value);
+			MainGameData.s_clientData.TowerStateDic.Add(value.RankValue, value);
 		}
-	}
-
-	//움직이는 꼭짓점 받아오기
-	public void SetMovePos()
-	{
-		_enemyInfo.TargetList = new List<AreaInfo>();
-		List<Vector2Int> TargetPos = JsonUtility.FromJson<MovePostion>(File.ReadAllText(Application.streamingAssetsPath + "/MoveCoodinate.json")).MoveCoordinate;
-		_enemyInfo.TargetList.Add(_mapInfo.CodinateDic[Vector2Int.zero]);
-		for (int i = 1; i < TargetPos.Count; i++)
-		{
-			AreaInfo StartInfo = _mapInfo.CodinateDic[TargetPos[i - 1]];
-			AreaInfo EndInfo = _mapInfo.CodinateDic[TargetPos[i]];
-			_enemyInfo.TargetList.AddRange(Check.PathFindingAstar(StartInfo, EndInfo));
-		}
-
-		_enemyInfo.TargetList.AddRange(Check.PathFindingAstar(_mapInfo.CodinateDic[TargetPos[TargetPos.Count - 1]], _mapInfo.CodinateDic[TargetPos[0]]));
 	}
 
 	//타워 정보
 	private void LoadTower()
 	{
-		MainGameData.s_nextRankList = JsonUtility.FromJson<NextRankList>(File.ReadAllText(Application.streamingAssetsPath + "/NextRankList.json"));
+		MainGameData.s_clientData.NextRank = JsonUtility.FromJson<NextRankList>(File.ReadAllText(Application.streamingAssetsPath + "/NextRankList.json"));
 	}
 	
 	//총알 정보
 	private void LoadBulletInfo()
 	{
-		MainGameData.s_bulletList.Add(ChessRank.Pawn, new KeyValuePair<int, int>(0,0));
-		MainGameData.s_bulletList.Add(ChessRank.Knight, new KeyValuePair<int, int>(0, 0));
-		MainGameData.s_bulletList.Add(ChessRank.Bishop, new KeyValuePair<int, int>(0, 1));
-		MainGameData.s_bulletList.Add(ChessRank.Rook, new KeyValuePair<int, int>(0, 0));
-		MainGameData.s_bulletList.Add(ChessRank.Queen, new KeyValuePair<int, int>(0, 0));
-		MainGameData.s_bulletList.Add(ChessRank.King, new KeyValuePair<int, int>(0, 0));
-	}
-
-	private void LoadEnemyInfo()
-	{
-		var info = JsonUtility.FromJson<RoundEnemyInfoList>(File.ReadAllText(Application.streamingAssetsPath + "/RoundEnemyInfo.json"));
-		foreach (var infoValue in info.EnemyInfoList) 
-		{
-			_enemyInfo.EnemyInfo.Add(infoValue.RoundNum, infoValue);
-		}
+		MainGameData.s_clientData.BulletDic.Add(ChessRank.Pawn, new KeyValuePair<int, int>(0,0));
+		MainGameData.s_clientData.BulletDic.Add(ChessRank.Knight, new KeyValuePair<int, int>(0, 0));
+		MainGameData.s_clientData.BulletDic.Add(ChessRank.Bishop, new KeyValuePair<int, int>(0, 1));
+		MainGameData.s_clientData.BulletDic.Add(ChessRank.Rook, new KeyValuePair<int, int>(0, 0));
+		MainGameData.s_clientData.BulletDic.Add(ChessRank.Queen, new KeyValuePair<int, int>(0, 0));
+		MainGameData.s_clientData.BulletDic.Add(ChessRank.King, new KeyValuePair<int, int>(0, 0));
 	}
 
 	#endregion

@@ -20,13 +20,13 @@ public class AccountUI : MonoBehaviour
 
 	private void Awake()
 	{
-		MainGameData.s_loginProgress.AddListener((value) => this.gameObject.SetActive(value == TargetProgrees));
+		MainGameData.s_progressLogin.AddListener((value) => this.gameObject.SetActive(value == TargetProgrees));
 
 		if (ExitBtn != null)
 			ExitBtn.onClick.AddListener(() => 
 			{
 				this.gameObject.SetActive(false);
-				MainGameData.s_loginProgress.SetValue(LoginProgress.main);
+				MainGameData.s_progressLogin.SetValue(LoginProgress.main);
 			});
 
 		EnterBtn.onClick.AddListener(EnterEvent);

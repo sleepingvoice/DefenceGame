@@ -9,7 +9,7 @@ public class TowerCol : MonoBehaviour
 
 	private void Start()
 	{
-		MainGameData.s_enemyInfo.EnemyList.AddListener((value) =>
+		MainGameData.s_gameData.EnemyList.AddListener((value) =>
 		{
 			NotEnemy = new List<Collider>();
 

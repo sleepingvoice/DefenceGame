@@ -8,10 +8,11 @@ public class EditMenuBase : MonoBehaviour
 	public Button ClickBtn;
 
 	protected UIManager_Edit editManager;
+
 	protected virtual void Awake()
 	{
-		ClickBtn.onClick.AddListener(() => MainGameData.s_editProgress.SetValue(ActiveProgress));
-		MainGameData.s_editProgress.AddListener((progress) => this.gameObject.SetActive(progress == ActiveProgress));
+		ClickBtn.onClick.AddListener(() => MainGameData.s_progressEdit.SetValue(ActiveProgress));
+		MainGameData.s_progressEdit.AddListener((progress) => this.gameObject.SetActive(progress == ActiveProgress));
 	}
 
 	protected virtual void Start()

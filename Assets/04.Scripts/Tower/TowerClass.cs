@@ -1,10 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 
 
@@ -73,7 +69,7 @@ public class TowerBasic
 
 	public TowerState State;
 	public BulletCreate NowBullet;
-	public Transform Trans;
+	public Vector3 ShotPos;
 
 	public void InitState(ChessRank Rank)
 	{
@@ -114,7 +110,7 @@ public interface Tower
 {
 	public void Attack(EnemyInfo Target);
 	public TowerBasic ReturnState();
-	public void SetPos(Transform Trans);
+	public void SetPos(Vector3 Pos);
 }
 
 public class PawnTower : TowerBasic, Tower
@@ -123,17 +119,15 @@ public class PawnTower : TowerBasic, Tower
 	{
 		InitState(ChessRank.Pawn);
 	}
-
-	public void SetPos(Transform trans)
+	public void SetPos(Vector3 Pos)
 	{
-		Trans = trans;
+		base.ShotPos = Pos;
 	}
-
 	public void Attack(EnemyInfo Target)
 	{
 		if (CanAttack)
 		{
-			NowBullet.ShotBullet(Trans, Target, State.BulletSpeed, () =>
+			NowBullet.ShotBullet(ShotPos, Target, State.BulletSpeed, () =>
 			   {
 				   Target.Demaged(State.Damage);
 			   });
@@ -157,9 +151,9 @@ public class KnightTower : TowerBasic, Tower
 		InitState(ChessRank.Knight);
 	}
 
-	public void SetPos(Transform trans)
+	public void SetPos(Vector3 Pos)
 	{
-		Trans = trans;
+		base.ShotPos = Pos;
 	}
 
 
@@ -167,7 +161,7 @@ public class KnightTower : TowerBasic, Tower
 	{
 		if (CanAttack)
 		{
-			NowBullet.ShotBullet(Trans, Target, State.BulletSpeed, () =>
+			NowBullet.ShotBullet(ShotPos, Target, State.BulletSpeed, () =>
 			{
 				Target.Demaged(State.Damage);
 			});
@@ -193,16 +187,16 @@ public class BishopTower : TowerBasic, Tower
 		InitState(ChessRank.Bishop);
 	}
 
-	public void SetPos(Transform trans)
+	public void SetPos(Vector3 Pos)
 	{
-		Trans = trans;
+		base.ShotPos = Pos;
 	}
 
 	public void Attack(EnemyInfo Target)
 	{
 		if (CanAttack)
 		{
-			NowBullet.ShotBullet(Trans, Target, State.BulletSpeed, () =>
+			NowBullet.ShotBullet(ShotPos, Target, State.BulletSpeed, () =>
 			{
 				Target.Demaged(State.Damage);
 			});
@@ -226,16 +220,16 @@ public class RookTower : TowerBasic, Tower
 		InitState(ChessRank.Rook);
 	}
 
-	public void SetPos(Transform trans)
+	public void SetPos(Vector3 Pos)
 	{
-		Trans = trans;
+		base.ShotPos = Pos;
 	}
 
 	public void Attack(EnemyInfo Target)
 	{
 		if (CanAttack)
 		{
-			NowBullet.ShotBullet(Trans, Target, State.BulletSpeed, () =>
+			NowBullet.ShotBullet(ShotPos, Target, State.BulletSpeed, () =>
 			{
 				Target.Demaged(State.Damage);
 			});
@@ -259,9 +253,9 @@ public class QueenTower : TowerBasic, Tower
 		InitState(ChessRank.Queen);
 	}
 
-	public void SetPos(Transform trans)
+	public void SetPos(Vector3 Pos)
 	{
-		Trans = trans;
+		base.ShotPos = Pos;
 	}
 
 
@@ -269,7 +263,7 @@ public class QueenTower : TowerBasic, Tower
 	{
 		if (CanAttack)
 		{
-			NowBullet.ShotBullet(Trans, Target, State.BulletSpeed, () =>
+			NowBullet.ShotBullet(ShotPos, Target, State.BulletSpeed, () =>
 			{
 				Target.Demaged(State.Damage);
 			});
@@ -293,9 +287,9 @@ public class KingTower : TowerBasic, Tower
 		InitState(ChessRank.King);
 	}
 
-	public void SetPos(Transform trans)
+	public void SetPos(Vector3 Pos)
 	{
-		Trans = trans;
+		base.ShotPos = Pos;
 	}
 
 
@@ -303,7 +297,7 @@ public class KingTower : TowerBasic, Tower
 	{
 		if (CanAttack)
 		{
-			NowBullet.ShotBullet(Trans, Target, State.BulletSpeed, () =>
+			NowBullet.ShotBullet(ShotPos, Target, State.BulletSpeed, () =>
 			{
 				Target.Demaged(State.Damage);
 			});
@@ -331,10 +325,10 @@ public class BulletCreate
 		NowRank = Rank;
 	}
 
-	public void ShotBullet(Transform Trans,EnemyInfo Target,float BulletSpeed,Action Act)
+	public void ShotBullet(Vector3 TransPos,EnemyInfo Target,float BulletSpeed,Action Act)
 	{
 		var BulletNum = MainGameData.s_clientData.BulletDic[NowRank];
 		var NowBullet = GameManager.ins.BulletManager.BulletSet(BulletNum);
-		NowBullet.ShotBullet(Trans.transform.position, Target, BulletSpeed, Act).Forget();
+		NowBullet.ShotBullet(TransPos, Target, BulletSpeed, Act).Forget();
 	}
 }

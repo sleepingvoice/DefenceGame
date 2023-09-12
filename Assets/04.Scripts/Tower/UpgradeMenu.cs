@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -47,20 +45,25 @@ public class UpgradeMenu : MonoBehaviour
 			}
 		});
 
-		ClickBtn.onClick.AddListener(() =>
-		{
-			if (MainGameData.s_gameData.NowMoney.Value >= Price)
-			{
-				GameManager.ins.TowerManager.AddTower(MenuRank);
-				MainGameData.s_gameData.NowMoney.SetValue(MainGameData.s_gameData.NowMoney.Value - Price);
-				MainGameData.GameTouchMap.Value.NowRank = MenuRank;
-			}
-			MainGameData.GameTouchMap.SetValue(null);
-		});
+		ClickBtn.onClick.AddListener(CheckTowerBtn);
+	}
 
-		//ClickBtn.onClick.AddListener(() =>
-		//{
-		//	GameManager.ins.UpGradeManager.gameObject.SetActive(false);
-		//});
+	public void CheckTowerBtn()
+	{
+		if (MainGameData.s_gameData.NowMoney.Value >= Price)
+		{
+			if (GameManager.ins.UpGradeManager.AreaInfo == null)
+				GameManager.ins.TowerManager.AddTower(MenuRank, MainGameData.GameTouchMap.Value);
+			else
+			{
+				foreach (var tower in MainGameData.s_gameData.BuildTowerInfoList)
+				{
+					tower.GetComponent<TowerInfo>().SetTower(MenuRank, GameManager.ins.UpGradeManager.AreaInfo, GameManager.ins.TowerManager.TowerMesh[(int)MenuRank]);
+				}
+			}
+			MainGameData.s_gameData.NowMoney.SetValue(MainGameData.s_gameData.NowMoney.Value - Price);
+			MainGameData.GameTouchMap.Value.NowRank = MenuRank;
+		}
+		MainGameData.GameTouchMap.SetValue(null);
 	}
 }

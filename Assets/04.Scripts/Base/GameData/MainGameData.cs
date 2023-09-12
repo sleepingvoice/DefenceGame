@@ -13,5 +13,4 @@ public static class MainGameData
     //Click
     public static SortDicAction<AreaInfo> GameTouchMap = new SortDicAction<AreaInfo>("GameTouchMap"); // 게임모드일때 클릭한 지점
     public static SortDicAction<AreaInfo> EditTouchMap = new SortDicAction<AreaInfo>("EditTouchMap"); // 에딧모드일때 클릭한 지점
-
 }

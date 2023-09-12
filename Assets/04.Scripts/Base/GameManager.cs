@@ -53,6 +53,8 @@ public class GameManager : MonoBehaviour
 		MainGameData.s_serverData.NowMap.AddListener(GetData);
 
 		Socket.ins.SocketEventDic.Add("Get_MapList", MapListGet);
+
+		SetJsonValue();
 	}
 
 	private void GetData(MapInfo info)
@@ -63,7 +65,8 @@ public class GameManager : MonoBehaviour
 
 		AreaManager.SetMapObj(moveList);
 
-		foreach (var codienate in codiList.NodeList) {
+		foreach (var codienate in codiList.NodeList) 
+		{
 			_mapInfo.Codinate.Add(_mapInfo.AreaDic[codienate]);
 		}
 
@@ -71,6 +74,16 @@ public class GameManager : MonoBehaviour
 		{
 			_mapInfo.EnemyInfo.Add(enemyinfo.RoundNum, enemyinfo);
 		}
+
+		MainGameData.s_gameData.MoveList = new List<AreaInfo>();
+		MainGameData.s_gameData.MoveList.Add(_mapInfo.Codinate[0]);
+
+		for (int i = 0; i < _mapInfo.Codinate.Count - 1; i++) 
+		{
+			MainGameData.s_gameData.MoveList.AddRange(Check.PathFindingAstar(_mapInfo.Codinate[i], _mapInfo.Codinate[i + 1]));
+		}
+
+		MainGameData.s_gameData.MoveList.AddRange(Check.PathFindingAstar(_mapInfo.Codinate[_mapInfo.Codinate.Count - 1], _mapInfo.Codinate[0]));
 
 	}
 
@@ -97,6 +110,15 @@ public class GameManager : MonoBehaviour
 
 		if (_socketAct != null) // 소켓 이벤트 발생
 			_socketAct.Invoke();
+	}
+
+	public void GameStart()
+	{
+		MainGameData.s_progressMainGame.SetValue(GameProgress.GamePlay);
+
+		MainGameData.s_gameData.NowEnemyNum.SetValue(0);
+		MainGameData.s_gameData.NowMoney.SetValue(500);
+		MainGameData.s_gameData.NowRound.SetValue(1);
 	}
 
 	public void GetMapinfo()

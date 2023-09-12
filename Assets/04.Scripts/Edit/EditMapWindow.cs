@@ -11,6 +11,11 @@ public class EditMapWindow : MonoBehaviour
 
 	private EditMapBar _selectMap = null;
 
+	private void Awake()
+	{
+		StartGameBtn.onClick.AddListener(GameStart);
+	}
+
 	public void InitBar()
 	{
 		BarPool.ReturnObjectAll();
@@ -42,5 +47,11 @@ public class EditMapWindow : MonoBehaviour
 
 		GameManager.ins.SetImg(TargetBar.MapInfo.mapImg, (tex) => MenuImg.texture = tex);
 		StartGameBtn.interactable = true;
+	}
+
+	private void GameStart()
+	{
+		MainGameData.s_serverData.NowMap.SetValue(_selectMap.MapInfo);
+		GameManager.ins.GameStart();
 	}
 }

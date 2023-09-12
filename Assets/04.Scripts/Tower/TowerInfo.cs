@@ -3,7 +3,7 @@ using UnityEngine;
 public class TowerInfo : MonoBehaviour
 {
 	public ChessRank NowRank = ChessRank.None;
-	public Tower NowTower;
+	public Tower NowTower = null;
 
 	public GameObject Target;
 	public TowerCol AttackCol;
@@ -16,19 +16,15 @@ public class TowerInfo : MonoBehaviour
 		}
 	}
 
-	public void SetTower(ChessRank rank, Transform trans)
-	{
+	public void SetTower(ChessRank rank, AreaInfo info, Mesh mesh)
+	{		
 		NowRank = rank;
 
 		CreateChessTower TowerCreate = new CreateChessTower();
 		NowTower = TowerCreate.CreateTower(rank);
-		NowTower.SetPos(trans);
+		NowTower.SetPos(info.CenterPoint);
 
 		AttackCol.GetComponent<SphereCollider>().radius = NowTower.ReturnState().State.Range * MainGameData.s_clientData.AreaHeigthLength / 2;
-	}
-
-	public void SetMesh(Mesh mesh)
-	{
 		this.GetComponent<MeshFilter>().mesh = mesh;
 	}
 }

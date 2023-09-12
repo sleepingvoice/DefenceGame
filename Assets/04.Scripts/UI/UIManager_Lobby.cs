@@ -8,6 +8,7 @@ public class UIManager_Lobby : MonoBehaviour
 	public Button EditMode;
 
 	private GameData _userData = MainGameData.s_gameData;
+	private ServerData _serverData = MainGameData.s_serverData;
 
 	private void Awake()
 	{
@@ -23,10 +24,16 @@ public class UIManager_Lobby : MonoBehaviour
 
 	private void GameStart()
 	{
-		MainGameData.s_progressMainGame.SetValue(GameProgress.GamePlay);
+		GetBaseData();
+		GameManager.ins.GameStart();
+	}
 
-		_userData.NowEnemyNum.SetValue(0);
-		_userData.NowMoney.SetValue(500);
-		_userData.NowRoundTime.SetValue(1);
+	private void GetBaseData()
+	{
+		foreach (var info in _serverData.MapinfoSever.List) {
+			if (info.userId != 0)
+				continue;
+			_serverData.NowMap.SetValue(info);
+		}
 	}
 }

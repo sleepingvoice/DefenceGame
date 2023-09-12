@@ -31,11 +31,5 @@ public class UIManager_EditSelect : MonoBehaviour
 		MapSelectWindow.SetActive(true);
 		var window = MapSelectWindow.GetComponent<EditMapWindow>();
 		window.InitBar();
-		window.StartGameBtn.onClick.RemoveAllListeners();
-		window.StartGameBtn.onClick.AddListener(StartGame);
-	}
-
-	private void StartGame()
-	{
 	}
 }

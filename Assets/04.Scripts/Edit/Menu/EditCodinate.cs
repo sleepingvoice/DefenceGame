@@ -26,7 +26,8 @@ public class EditCodinate : EditMenuBase
 		RemoveBtn.onClick.AddListener(() =>
 		{
 			var TmpObj = _menuList[_menuList.Count - 1];
-			TmpObj.TargetInfo.OutLineObj.SetActive(false);
+			if(TmpObj.TargetInfo.OutLineObj != null)
+				TmpObj.TargetInfo.OutLineObj.SetActive(false);
 			MenuPool.DisableObject(TmpObj.gameObject);
 			_menuList.RemoveAt(_menuList.Count - 1);
 		});

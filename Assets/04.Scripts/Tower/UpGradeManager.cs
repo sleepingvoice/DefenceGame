@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UpGradeManager : MonoBehaviour
 {
-	private ServerData MapInfo = MainGameData.s_serverData;
-
-	private AreaInfo AreaInfo = null;
+	[HideInInspector]public AreaInfo AreaInfo = null;
 
 
 	private void Awake()

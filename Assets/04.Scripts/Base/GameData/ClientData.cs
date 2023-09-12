@@ -12,7 +12,7 @@ public class ClientData
 	public int Width = 8;
 	public int Hegith = 8;
 
-	public int RoundTime = 20;
+	public int RoundTime = 40;
 	public int RoundEnemy = 30;
 	public int LimitEnemy = 50;
 }

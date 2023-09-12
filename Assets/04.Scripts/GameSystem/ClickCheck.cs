@@ -68,8 +68,11 @@ public class ClickCheck : MonoBehaviour
 				if (beforehit == _mapInfo.AreaDic[MapNum])
 					return;
 
-				if(!CheckEdit.CheckClick)
+				if (!CheckEdit.TouchOut) 
+				{
+					CheckEdit.TouchOut = true;
 					CheckEdit.CheckClick = _mapInfo.AreaDic[MapNum].OutLineObj.activeSelf ? false : true;
+				}
 
 				beforehit = _mapInfo.AreaDic[MapNum];
 				MainGameData.EditTouchMap.SetValue(_mapInfo.AreaDic[MapNum]);
@@ -77,8 +80,8 @@ public class ClickCheck : MonoBehaviour
 		}
 		else
 		{
-			if (!CheckEdit.CheckClick)
-				CheckEdit.CheckClick = true;
+			if (CheckEdit.TouchOut)
+				CheckEdit.TouchOut = false;
 		}
 	}
 

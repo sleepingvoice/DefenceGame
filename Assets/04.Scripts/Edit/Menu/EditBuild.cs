@@ -8,7 +8,8 @@ public class EditBuild : EditMenuBase
     [Header("Function")]
     public Button CorrectBtn;
     public Color BuildColor;
-    public bool CheckClick = false;
+    [HideInInspector]public bool CheckClick = false;
+    [HideInInspector]public bool TouchOut = false;
 
     private ServerData _mapData = MainGameData.s_serverData;
     private Material BuildMat;

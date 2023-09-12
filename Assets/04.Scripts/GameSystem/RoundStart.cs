@@ -27,7 +27,7 @@ public class RoundStart : MonoBehaviour
 
     public IEnumerator RoundEnemy(int value)
     {
-        if (value == MainGameData.s_serverData.EnemyInfo.Count)
+        if (value == MainGameData.s_serverData.EnemyInfo.Count + 1)
         {
             StartCoroutine(FinishGame());
             yield break;

@@ -9,7 +9,6 @@ public class TowerManager : MonoBehaviour
 	public List<GameObject> BulletObj;
 
 	public float Addheigth;
-	private ServerData _mapInfo = MainGameData.s_serverData;
 
 	private void Awake()
 	{
@@ -22,11 +21,10 @@ public class TowerManager : MonoBehaviour
 			TowerObjPool.ReturnObjectAll();
 	}
 
-	public void AddTower(ChessRank Rank)
+	public void AddTower(ChessRank Rank, AreaInfo info)
 	{
 		GameObject TempTower = TowerObjPool.GetObject();
-		TempTower.GetComponent<TowerInfo>().SetTower(Rank,TempTower.transform);
-		TempTower.GetComponent<TowerInfo>().SetMesh(TowerMesh[(int)Rank]);
+		TempTower.GetComponent<TowerInfo>().SetTower(Rank, info, TowerMesh[(int)Rank]);
 		TempTower.transform.position = MainGameData.GameTouchMap.Value.CenterPoint + Vector3.up * Addheigth;
 		MainGameData.GameTouchMap.Value.CanBuild = false;
 
@@ -35,5 +33,7 @@ public class TowerManager : MonoBehaviour
 			MainGameData.GameTouchMap.Value.BuildTower.gameObject.SetActive(false);
 		}
 		MainGameData.GameTouchMap.Value.BuildTower = TempTower;
+
+		MainGameData.s_gameData.BuildTowerInfoList.Add(TempTower);
 	}
 }

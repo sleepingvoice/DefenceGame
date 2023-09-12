@@ -10,13 +10,15 @@ public class EnemyInfo : MonoBehaviour
 	public int NowSpeed;
 
 	public Type<int> TargetNum = new Type<int>(0);
-	public Type<Vector3> MovePos = new Type<Vector3>(Vector3.zero);
 	public bool Die = false;
+
+	private Type<Vector3> _movePos = new Type<Vector3>(Vector3.zero);
+	public Vector2Int CheckMovePos;
 
 	public void Init(int round)
 	{
 		TargetNum = new Type<int>();
-		MovePos = new Type<Vector3>(Vector3.zero);
+		_movePos = new Type<Vector3>(Vector3.zero);
 
 		MainGameData.s_gameData.EnemyList.Value.Add(this);
 
@@ -27,7 +29,7 @@ public class EnemyInfo : MonoBehaviour
 		NowHp = MaxHp;
 		NowSpeed = MaxSpeed;
 
-		MovePos.AddListener((value) =>
+		_movePos.AddListener((value) =>
 		{
 			StopAllCoroutines();
 			StartCoroutine(MoveEnemy());
@@ -35,17 +37,18 @@ public class EnemyInfo : MonoBehaviour
 
 		TargetNum.AddListener((value) =>
 		{
-			if (MainGameData.s_serverData.Codinate.Count <= value)
+			if (MainGameData.s_gameData.MoveList.Count <= value)
 			{
 				TargetNum.SetValue(0);
 			}
 			else
 			{
-				MovePos.SetValue(MainGameData.s_serverData.Codinate[value].CenterPoint);
+				_movePos.SetValue(MainGameData.s_gameData.MoveList[value].CenterPoint);
+				CheckMovePos = MainGameData.s_gameData.MoveList[value].NodeNum;
 			}
 		});
 
-		TargetNum.SetValue(0);
+		TargetNum.SetValue(1);
 	}
 
 	public void Demaged(int Damage)
@@ -62,10 +65,10 @@ public class EnemyInfo : MonoBehaviour
 
 	public IEnumerator MoveEnemy()
 	{
-		this.transform.LookAt(MovePos.Value);
-		Vector3 TargetDir = Vector3.Normalize(MovePos.Value - this.transform.position);
+		this.transform.LookAt(_movePos.Value);
+		Vector3 TargetDir = Vector3.Normalize(_movePos.Value - this.transform.position);
 
-		while (Vector3.Distance(MovePos.Value, this.transform.position) * 1000 > 1)
+		while (Vector3.Distance(_movePos.Value, this.transform.position) * 10 > 1)
 		{
 			this.transform.Translate(TargetDir * NowSpeed * 0.01f,Space.World);
 			yield return new WaitForEndOfFrame();

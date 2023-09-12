@@ -15,7 +15,7 @@ public class AccountUI : MonoBehaviour
 
 	public ErrorWindow Error;
 
-	[HideInInspector]public bool CheckNoDelete = false;
+	[HideInInspector] public bool CheckNoDelete = false;
 	[HideInInspector] public string BaseStr = "";
 
 	private void Awake()
@@ -23,7 +23,7 @@ public class AccountUI : MonoBehaviour
 		MainGameData.s_progressLogin.AddListener((value) => this.gameObject.SetActive(value == TargetProgrees));
 
 		if (ExitBtn != null)
-			ExitBtn.onClick.AddListener(() => 
+			ExitBtn.onClick.AddListener(() =>
 			{
 				this.gameObject.SetActive(false);
 				MainGameData.s_progressLogin.SetValue(LoginProgress.main);

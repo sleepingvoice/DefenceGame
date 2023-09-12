@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class ServerData
 {
-    public int UserId;
-    public string UserName; 
+	public int UserId;
+	public string UserName;
 
-    public MapList MapinfoSever; // ÀüÃ¼ ¸Ê Á¤º¸
+	public MapList MapinfoSever; // ÀüÃ¼ ¸Ê Á¤º¸
 
-    //¸Ê Á¤º¸
-    public Type<MapInfo> NowMap = new Type<MapInfo>(new MapInfo()); // ÇöÀç »ç¿ëÁßÀÎ ¸Ê Á¤º¸
-    public Dictionary<Vector2Int, AreaInfo> AreaDic = new Dictionary<Vector2Int, AreaInfo>(); // °¢ ¸Ê ÁöÁ¡ÀÇ Á¤º¸ ¸®½ºÆ®
-    public List<AreaInfo> Codinate = new List<AreaInfo>(); // ²ÀÁþÁ¡
+	//¸Ê Á¤º¸
+	public Type<MapInfo> NowMap = new Type<MapInfo>(new MapInfo()); // ÇöÀç »ç¿ëÁßÀÎ ¸Ê Á¤º¸
+	public Dictionary<Vector2Int, AreaInfo> AreaDic = new Dictionary<Vector2Int, AreaInfo>(); // °¢ ¸Ê ÁöÁ¡ÀÇ Á¤º¸ ¸®½ºÆ®
+	public List<AreaInfo> Codinate = new List<AreaInfo>(); // ²ÀÁþÁ¡
 
-    //Àû Á¤º¸
-    public Dictionary<int, RoundEnemyInfo> EnemyInfo = new Dictionary<int, RoundEnemyInfo>();
+	//Àû Á¤º¸
+	public Dictionary<int, RoundEnemyInfo> EnemyInfo = new Dictionary<int, RoundEnemyInfo>();
 }

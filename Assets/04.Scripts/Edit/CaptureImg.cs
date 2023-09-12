@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using Gu;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CaptureImg : MonoBehaviour
 {

@@ -1,7 +1,6 @@
+using System.Collections.Generic;
 using Gu;
 using UnityEngine;
-using System.Collections.Generic;
-using static UnityEditor.PlayerSettings;
 
 public class EnemyManager : MonoBehaviour
 {

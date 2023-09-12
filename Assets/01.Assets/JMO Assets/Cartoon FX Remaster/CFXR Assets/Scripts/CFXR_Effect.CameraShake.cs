@@ -73,7 +73,7 @@ namespace CartoonFX
 			static void OnPostRenderCamera_Static(Camera cam)
 			{
 				int count = s_CameraShakes.Count;
-				for (int i = count-1; i >= 0; i--)
+				for (int i = count - 1; i >= 0; i--)
 				{
 					var ss = s_CameraShakes[i];
 					ss.onPostRenderCamera(cam);
@@ -87,11 +87,11 @@ namespace CartoonFX
 				if (!s_CallbackRegistered)
 				{
 #if UNITY_2019_1_OR_NEWER
-	#if UNITY_2019_3_OR_NEWER
+#if UNITY_2019_3_OR_NEWER
 					if (GraphicsSettings.currentRenderPipeline == null)
-	#else
+#else
 					if (GraphicsSettings.renderPipelineAsset == null)
-	#endif
+#endif
 					{
 						// Built-in Render Pipeline
 						Camera.onPreRender += OnPreRenderCamera_Static;
@@ -119,11 +119,11 @@ namespace CartoonFX
 				if (s_CallbackRegistered && s_CameraShakes.Count == 0)
 				{
 #if UNITY_2019_1_OR_NEWER
-	#if UNITY_2019_3_OR_NEWER
+#if UNITY_2019_3_OR_NEWER
 					if (GraphicsSettings.currentRenderPipeline == null)
-	#else
+#else
 					if (GraphicsSettings.renderPipelineAsset == null)
-	#endif
+#endif
 					{
 						// Built-in Render Pipeline
 						Camera.onPreRender -= OnPreRenderCamera_Static;
@@ -254,7 +254,7 @@ namespace CartoonFX
 					}
 
 					// duration of the camera shake
-					float delta = Mathf.Clamp01(time/totalDuration);
+					float delta = Mathf.Clamp01(time / totalDuration);
 
 					// delay between each camera move
 					if (shakesDelay > 0)

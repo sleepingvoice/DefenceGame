@@ -8,16 +8,16 @@ public enum ChessRank
 
 public enum GameProgress
 {
-	Login,Lobby,GamePlay,End,EditSelect,Edit
+	Login, Lobby, GamePlay, End, EditSelect, Edit
 }
 
 
 public enum LoginProgress
 {
-	main,signup,find,findID,findPwd,error,finish
+	main, signup, find, findID, findPwd, error, finish
 }
 
 public enum EditProgrss
 {
-	main,build,destination,enemy,test,save
+	main, build, destination, enemy, test, save
 }

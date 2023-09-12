@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,7 +20,7 @@ public class EditEnemy : EditMenuBase
 	public Button SaveBtn;
 
 	private bool _nowStateHp = false;
-	private Type<int> _nowRoundInt = new Type<int>(1) ;
+	private Type<int> _nowRoundInt = new Type<int>(1);
 	private bool EnemyInfoCheck = false;
 
 	protected override void Awake()
@@ -55,7 +52,7 @@ public class EditEnemy : EditMenuBase
 
 	private void OnEnable()
 	{
-		if(editManager!=null && !EnemyInfoCheck)
+		if (editManager != null && !EnemyInfoCheck)
 			Init();
 	}
 
@@ -118,7 +115,7 @@ public class EditEnemy : EditMenuBase
 			{
 				Debug.LogError("값이 입력되지않았습니다.");
 				return;
-			}	
+			}
 		}
 
 		MainGameData.s_progressEdit.SetValue(EditProgrss.main);

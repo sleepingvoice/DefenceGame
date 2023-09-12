@@ -1,7 +1,6 @@
 using System;
-using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.UI;
+using UnityEngine;
 
 
 #region 맵 전체 정보

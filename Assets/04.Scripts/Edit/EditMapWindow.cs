@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class EditMapWindow : MonoBehaviour
 {
-    public ObjPool BarPool;
+	public ObjPool BarPool;
 	public RawImage MenuImg;
 	public Texture SampleTex;
 	public Button StartGameBtn;

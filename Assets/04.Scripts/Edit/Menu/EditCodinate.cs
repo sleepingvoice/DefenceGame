@@ -17,7 +17,7 @@ public class EditCodinate : EditMenuBase
 	private List<EditCodinateMenu> _menuList = new List<EditCodinateMenu>();
 	private bool CheckFinish = false;
 	private AreaInfo _nowTarget = null;
-	
+
 	protected override void Awake()
 	{
 		base.Awake();
@@ -26,7 +26,7 @@ public class EditCodinate : EditMenuBase
 		RemoveBtn.onClick.AddListener(() =>
 		{
 			var TmpObj = _menuList[_menuList.Count - 1];
-			if(TmpObj.TargetInfo.OutLineObj != null)
+			if (TmpObj.TargetInfo.OutLineObj != null)
 				TmpObj.TargetInfo.OutLineObj.SetActive(false);
 			MenuPool.DisableObject(TmpObj.gameObject);
 			_menuList.RemoveAt(_menuList.Count - 1);
@@ -47,7 +47,7 @@ public class EditCodinate : EditMenuBase
 	{
 		if (CheckFinish)
 			return;
-		foreach(var info in MainGameData.s_serverData.AreaDic.Values)
+		foreach (var info in MainGameData.s_serverData.AreaDic.Values)
 		{
 			if (info.OutLineObj.GetComponent<MeshRenderer>().material == editManager.AreaMat)
 				continue;
@@ -73,7 +73,7 @@ public class EditCodinate : EditMenuBase
 		Tmpobj.SelectBtn.onClick.AddListener(() =>
 		{
 			_targetNum = Tmpobj.CodinateNum;
-			
+
 			foreach (var menu in _menuList)
 			{
 				menu.SelectCheck(false);
@@ -99,7 +99,7 @@ public class EditCodinate : EditMenuBase
 			}
 			info.OutLineObj.GetComponent<MeshRenderer>().material = _codinateMatList[_targetNum - 1];
 			info.OutLineObj.SetActive(true);
-			_menuList[_targetNum-1].TargetInfo = info;
+			_menuList[_targetNum - 1].TargetInfo = info;
 			_nowTarget = info;
 		}
 	}
@@ -108,7 +108,7 @@ public class EditCodinate : EditMenuBase
 	{
 		var temList = new CodinateList();
 
-		for (int i=0;i<_menuList.Count;i++)
+		for (int i = 0; i < _menuList.Count; i++)
 		{
 			if (_menuList[i].TargetInfo.OutLineObj.activeSelf)
 			{
@@ -118,7 +118,7 @@ public class EditCodinate : EditMenuBase
 
 		List<Vector2Int> temp = temList.NodeList;
 
-		for (int i = 0; i < temp.Count-1; i++)
+		for (int i = 0; i < temp.Count - 1; i++)
 		{
 			if (GameManager.ins.Check.PathFindingAstar(MainGameData.s_serverData.AreaDic[temp[i]], MainGameData.s_serverData.AreaDic[temp[i + 1]]).Count == 0)
 			{
@@ -137,9 +137,10 @@ public class EditCodinate : EditMenuBase
 	{
 		base.Start();
 
-		for (int i = 0; i < TargetColor.Count; i++) {
+		for (int i = 0; i < TargetColor.Count; i++)
+		{
 			var tmpMat = Instantiate(editManager.AreaMat);
-			tmpMat.SetColor("_OutlineColor",TargetColor[i]);
+			tmpMat.SetColor("_OutlineColor", TargetColor[i]);
 			_codinateMatList.Add(tmpMat);
 		}
 	}

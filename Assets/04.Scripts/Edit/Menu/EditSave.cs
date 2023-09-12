@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Linq;
-using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,7 +29,7 @@ public class EditSave : EditMenuBase
 	private IEnumerator SaveFunction()
 	{
 		var sendData = new MapInfo_Send();
-		sendData.codinate =JsonUtility.ToJson(editManager.EditNode);
+		sendData.codinate = JsonUtility.ToJson(editManager.EditNode);
 		sendData.enemyInfo = JsonUtility.ToJson(editManager.EnemyList);
 		MapInfoList saveMapinfo = new MapInfoList();
 		foreach (var info in MainGameData.s_serverData.AreaDic.Values)

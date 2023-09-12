@@ -1,18 +1,18 @@
 
-using UnityEngine;
-using Gu;
-using System.Collections.Generic;
-using System.IO;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using Gu;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager _instance;
-    public static GameManager ins => _instance;
+	private static GameManager _instance;
+	public static GameManager ins => _instance;
 
 	[Header("Game")]
-    public AreaManager AreaManager;
+	public AreaManager AreaManager;
 	public TowerManager TowerManager;
 	public UpGradeManager UpGradeManager;
 	public EnemyManager EnemyManager;
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 	private Action _socketAct = null;
 
 	#region Å¸¿ö µô·¹ÀÌ
-	[HideInInspector]public float nowTime = 0f;
+	[HideInInspector] public float nowTime = 0f;
 	private Queue<TowerBasic> _delayTower = new Queue<TowerBasic>();
 
 	public void AddTower(TowerBasic NewTower)
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
 
 		AreaManager.SetMapObj(moveList);
 
-		foreach (var codienate in codiList.NodeList) 
+		foreach (var codienate in codiList.NodeList)
 		{
 			_mapInfo.Codinate.Add(_mapInfo.AreaDic[codienate]);
 		}
@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
 		MainGameData.s_gameData.MoveList = new List<AreaInfo>();
 		MainGameData.s_gameData.MoveList.Add(_mapInfo.Codinate[0]);
 
-		for (int i = 0; i < _mapInfo.Codinate.Count - 1; i++) 
+		for (int i = 0; i < _mapInfo.Codinate.Count - 1; i++)
 		{
 			MainGameData.s_gameData.MoveList.AddRange(Check.PathFindingAstar(_mapInfo.Codinate[i], _mapInfo.Codinate[i + 1]));
 		}
@@ -137,12 +137,12 @@ public class GameManager : MonoBehaviour
 		};
 	}
 
-	public void SetImg(int Num,Action<Texture2D> TexAct)
+	public void SetImg(int Num, Action<Texture2D> TexAct)
 	{
-		StartCoroutine(LoadImg(Num,TexAct));
+		StartCoroutine(LoadImg(Num, TexAct));
 	}
 
-	public IEnumerator LoadImg(int Num,Action<Texture2D> TexAct)
+	public IEnumerator LoadImg(int Num, Action<Texture2D> TexAct)
 	{
 		DestroyImmediate(SaveTex);
 		yield return Socket.ins.GetImg(Num, ((tex) => SaveTex = tex));
@@ -173,11 +173,11 @@ public class GameManager : MonoBehaviour
 	{
 		MainGameData.s_clientData.NextRank = JsonUtility.FromJson<NextRankList>(File.ReadAllText(Application.streamingAssetsPath + "/NextRankList.json"));
 	}
-	
+
 	//ÃÑ¾Ë Á¤º¸
 	private void LoadBulletInfo()
 	{
-		MainGameData.s_clientData.BulletDic.Add(ChessRank.Pawn, new KeyValuePair<int, int>(0,0));
+		MainGameData.s_clientData.BulletDic.Add(ChessRank.Pawn, new KeyValuePair<int, int>(0, 0));
 		MainGameData.s_clientData.BulletDic.Add(ChessRank.Knight, new KeyValuePair<int, int>(0, 0));
 		MainGameData.s_clientData.BulletDic.Add(ChessRank.Bishop, new KeyValuePair<int, int>(0, 1));
 		MainGameData.s_clientData.BulletDic.Add(ChessRank.Rook, new KeyValuePair<int, int>(0, 0));

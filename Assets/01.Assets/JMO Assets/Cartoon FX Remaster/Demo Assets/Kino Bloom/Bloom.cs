@@ -41,16 +41,28 @@ namespace Kino
 		/// Filters out pixels under this level of brightness.
 		public float thresholdGamma
 		{
-			get { return Mathf.Max(_threshold, 0); }
-			set { _threshold = value; }
+			get
+			{
+				return Mathf.Max(_threshold, 0);
+			}
+			set
+			{
+				_threshold = value;
+			}
 		}
 
 		/// Prefilter threshold (linearly-encoded)
 		/// Filters out pixels under this level of brightness.
 		public float thresholdLinear
 		{
-			get { return GammaToLinear(thresholdGamma); }
-			set { _threshold = LinearToGamma(value); }
+			get
+			{
+				return GammaToLinear(thresholdGamma);
+			}
+			set
+			{
+				_threshold = LinearToGamma(value);
+			}
 		}
 
 		[SerializeField]
@@ -61,8 +73,14 @@ namespace Kino
 		/// Makes transition between under/over-threshold gradual.
 		public float softKnee
 		{
-			get { return _softKnee; }
-			set { _softKnee = value; }
+			get
+			{
+				return _softKnee;
+			}
+			set
+			{
+				_softKnee = value;
+			}
 		}
 
 		[SerializeField, Range(0, 1)]
@@ -74,8 +92,14 @@ namespace Kino
 		/// resolution-independent fashion.
 		public float radius
 		{
-			get { return _radius; }
-			set { _radius = value; }
+			get
+			{
+				return _radius;
+			}
+			set
+			{
+				_radius = value;
+			}
 		}
 
 		[SerializeField, Range(1, 7)]
@@ -87,8 +111,14 @@ namespace Kino
 		/// Blend factor of the result image.
 		public float intensity
 		{
-			get { return Mathf.Max(_intensity, 0); }
-			set { _intensity = value; }
+			get
+			{
+				return Mathf.Max(_intensity, 0);
+			}
+			set
+			{
+				_intensity = value;
+			}
 		}
 
 		[SerializeField]
@@ -99,8 +129,14 @@ namespace Kino
 		/// Controls filter quality and buffer resolution.
 		public bool highQuality
 		{
-			get { return _highQuality; }
-			set { _highQuality = value; }
+			get
+			{
+				return _highQuality;
+			}
+			set
+			{
+				_highQuality = value;
+			}
 		}
 
 		[SerializeField]
@@ -115,8 +151,14 @@ namespace Kino
 
 		public bool antiFlicker
 		{
-			get { return _antiFlicker; }
-			set { _antiFlicker = value; }
+			get
+			{
+				return _antiFlicker;
+			}
+			set
+			{
+				_antiFlicker = value;
+			}
 		}
 
 		#endregion

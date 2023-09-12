@@ -31,7 +31,8 @@ public class UIManager_Login : MonoBehaviour
 	{
 		SetBase();
 		EmailBtn.onClick.AddListener(CheckSignEmail);
-		RegistBtn.onClick.AddListener(() => { 
+		RegistBtn.onClick.AddListener(() =>
+		{
 			MainGameData.s_progressLogin.SetValue(LoginProgress.signup);
 			SignBtn.interactable = false;
 		});

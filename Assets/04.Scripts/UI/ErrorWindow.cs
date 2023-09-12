@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +14,7 @@ public class ErrorWindow : MonoBehaviour
 		ExitBtn.onClick.AddListener(() => MainGameData.s_progressLogin.SetValue(BeforeProgress));
 	}
 
-	public void SetError(string str,LoginProgress before)
+	public void SetError(string str, LoginProgress before)
 	{
 		BeforeProgress = before;
 

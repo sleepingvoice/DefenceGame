@@ -147,7 +147,7 @@ namespace CartoonFX
 				var effect = this.transform.GetChild(i).gameObject;
 				list.Add(effect);
 
-				var cfxrEffect= effect.GetComponent<CFXR_Effect>();
+				var cfxrEffect = effect.GetComponent<CFXR_Effect>();
 				if (cfxrEffect != null) cfxrEffect.clearBehavior = CFXR_Effect.ClearBehavior.Disable;
 			}
 			effectsList = list.ToArray();
@@ -257,7 +257,7 @@ namespace CartoonFX
 		void UpdateLabels()
 		{
 			labelEffect.text = currentEffect.name;
-			labelIndex.text = string.Format("{0}/{1}", (index+1), effectsList.Length);
+			labelIndex.text = string.Format("{0}/{1}", (index + 1), effectsList.Length);
 		}
 	}
 }

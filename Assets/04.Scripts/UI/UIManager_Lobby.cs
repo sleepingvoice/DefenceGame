@@ -1,10 +1,9 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager_Lobby : MonoBehaviour
 {
-    public Button StartGame;
+	public Button StartGame;
 	public Button EditMode;
 
 	private GameData _userData = MainGameData.s_gameData;
@@ -30,7 +29,8 @@ public class UIManager_Lobby : MonoBehaviour
 
 	private void GetBaseData()
 	{
-		foreach (var info in _serverData.MapinfoSever.List) {
+		foreach (var info in _serverData.MapinfoSever.List)
+		{
 			if (info.userId != 0)
 				continue;
 			_serverData.NowMap.SetValue(info);

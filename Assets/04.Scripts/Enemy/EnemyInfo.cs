@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyInfo : MonoBehaviour
 {
-    private int MaxSpeed;
+	private int MaxSpeed;
 	private int MaxHp;
 
 	public int NowHp;
@@ -22,7 +22,7 @@ public class EnemyInfo : MonoBehaviour
 
 		MainGameData.s_gameData.EnemyList.Value.Add(this);
 
-		var info= MainGameData.s_serverData.EnemyInfo[round];
+		var info = MainGameData.s_serverData.EnemyInfo[round];
 
 		MaxSpeed = info.Speed;
 		MaxHp = info.hp;
@@ -70,10 +70,10 @@ public class EnemyInfo : MonoBehaviour
 
 		while (Vector3.Distance(_movePos.Value, this.transform.position) * 10 > 1)
 		{
-			this.transform.Translate(TargetDir * NowSpeed * 0.01f,Space.World);
+			this.transform.Translate(TargetDir * NowSpeed * 0.01f, Space.World);
 			yield return new WaitForEndOfFrame();
 		}
 
-		TargetNum.SetValue(TargetNum.Value+1);
+		TargetNum.SetValue(TargetNum.Value + 1);
 	}
 }

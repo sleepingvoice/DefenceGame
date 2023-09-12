@@ -5,93 +5,93 @@ using UnityEngine;
 
 namespace Cysharp.Threading.Tasks.Triggers
 {
-    public static partial class AsyncTriggerExtensions
-    {
-        public static AsyncDestroyTrigger GetAsyncDestroyTrigger(this GameObject gameObject)
-        {
-            return GetOrAddComponent<AsyncDestroyTrigger>(gameObject);
-        }
+	public static partial class AsyncTriggerExtensions
+	{
+		public static AsyncDestroyTrigger GetAsyncDestroyTrigger(this GameObject gameObject)
+		{
+			return GetOrAddComponent<AsyncDestroyTrigger>(gameObject);
+		}
 
-        public static AsyncDestroyTrigger GetAsyncDestroyTrigger(this Component component)
-        {
-            return component.gameObject.GetAsyncDestroyTrigger();
-        }
-    }
+		public static AsyncDestroyTrigger GetAsyncDestroyTrigger(this Component component)
+		{
+			return component.gameObject.GetAsyncDestroyTrigger();
+		}
+	}
 
-    [DisallowMultipleComponent]
-    public sealed class AsyncDestroyTrigger : MonoBehaviour
-    {
-        bool awakeCalled = false;
-        bool called = false;
-        CancellationTokenSource cancellationTokenSource;
+	[DisallowMultipleComponent]
+	public sealed class AsyncDestroyTrigger : MonoBehaviour
+	{
+		bool awakeCalled = false;
+		bool called = false;
+		CancellationTokenSource cancellationTokenSource;
 
-        public CancellationToken CancellationToken
-        {
-            get
-            {
-                if (cancellationTokenSource == null)
-                {
-                    cancellationTokenSource = new CancellationTokenSource();
-                }
+		public CancellationToken CancellationToken
+		{
+			get
+			{
+				if (cancellationTokenSource == null)
+				{
+					cancellationTokenSource = new CancellationTokenSource();
+				}
 
-                if (!awakeCalled)
-                {
-                    PlayerLoopHelper.AddAction(PlayerLoopTiming.Update, new AwakeMonitor(this));
-                }
+				if (!awakeCalled)
+				{
+					PlayerLoopHelper.AddAction(PlayerLoopTiming.Update, new AwakeMonitor(this));
+				}
 
-                return cancellationTokenSource.Token;
-            }
-        }
+				return cancellationTokenSource.Token;
+			}
+		}
 
-        void Awake()
-        {
-            awakeCalled = true;
-        }
+		void Awake()
+		{
+			awakeCalled = true;
+		}
 
-        void OnDestroy()
-        {
-            called = true;
+		void OnDestroy()
+		{
+			called = true;
 
-            cancellationTokenSource?.Cancel();
-            cancellationTokenSource?.Dispose();
-        }
+			cancellationTokenSource?.Cancel();
+			cancellationTokenSource?.Dispose();
+		}
 
-        public UniTask OnDestroyAsync()
-        {
-            if (called) return UniTask.CompletedTask;
+		public UniTask OnDestroyAsync()
+		{
+			if (called) return UniTask.CompletedTask;
 
-            var tcs = new UniTaskCompletionSource();
+			var tcs = new UniTaskCompletionSource();
 
-            // OnDestroy = Called Cancel.
-            CancellationToken.RegisterWithoutCaptureExecutionContext(state =>
-            {
-                var tcs2 = (UniTaskCompletionSource)state;
-                tcs2.TrySetResult();
-            }, tcs);
+			// OnDestroy = Called Cancel.
+			CancellationToken.RegisterWithoutCaptureExecutionContext(state =>
+			{
+				var tcs2 = (UniTaskCompletionSource)state;
+				tcs2.TrySetResult();
+			}, tcs);
 
-            return tcs.Task;
-        }
+			return tcs.Task;
+		}
 
-        class AwakeMonitor : IPlayerLoopItem
-        {
-            readonly AsyncDestroyTrigger trigger;
+		class AwakeMonitor : IPlayerLoopItem
+		{
+			readonly AsyncDestroyTrigger trigger;
 
-            public AwakeMonitor(AsyncDestroyTrigger trigger)
-            {
-                this.trigger = trigger;
-            }
+			public AwakeMonitor(AsyncDestroyTrigger trigger)
+			{
+				this.trigger = trigger;
+			}
 
-            public bool MoveNext()
-            {
-                if (trigger.called) return false;
-                if (trigger == null)
-                {
-                    trigger.OnDestroy();
-                    return false;
-                }
-                return true;
-            }
-        }
-    }
+			public bool MoveNext()
+			{
+				if (trigger.called) return false;
+				if (trigger == null)
+				{
+					trigger.OnDestroy();
+					return false;
+				}
+				return true;
+			}
+		}
+	}
 }
 

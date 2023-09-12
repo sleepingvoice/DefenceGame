@@ -5,30 +5,30 @@ using System.Runtime.CompilerServices;
 
 namespace Cysharp.Threading.Tasks
 {
-    public enum UniTaskStatus
-    {
-        /// <summary>The operation has not yet completed.</summary>
-        Pending = 0,
-        /// <summary>The operation completed successfully.</summary>
-        Succeeded = 1,
-        /// <summary>The operation completed with an error.</summary>
-        Faulted = 2,
-        /// <summary>The operation completed due to cancellation.</summary>
-        Canceled = 3
-    }
+	public enum UniTaskStatus
+	{
+		/// <summary>The operation has not yet completed.</summary>
+		Pending = 0,
+		/// <summary>The operation completed successfully.</summary>
+		Succeeded = 1,
+		/// <summary>The operation completed with an error.</summary>
+		Faulted = 2,
+		/// <summary>The operation completed due to cancellation.</summary>
+		Canceled = 3
+	}
 
-    // similar as IValueTaskSource
-    public interface IUniTaskSource
+	// similar as IValueTaskSource
+	public interface IUniTaskSource
 #if !UNITY_2018_3_OR_NEWER && !NETSTANDARD2_0
         : System.Threading.Tasks.Sources.IValueTaskSource
 #pragma warning disable CS0108
 #endif
-    {
-        UniTaskStatus GetStatus(short token);
-        void OnCompleted(Action<object> continuation, object state, short token);
-        void GetResult(short token);
+	{
+		UniTaskStatus GetStatus(short token);
+		void OnCompleted(Action<object> continuation, object state, short token);
+		void GetResult(short token);
 
-        UniTaskStatus UnsafeGetStatus(); // only for debug use.
+		UniTaskStatus UnsafeGetStatus(); // only for debug use.
 
 #if !UNITY_2018_3_OR_NEWER && !NETSTANDARD2_0
 #pragma warning restore CS0108
@@ -50,14 +50,14 @@ namespace Cysharp.Threading.Tasks
         }
 
 #endif
-    }
+	}
 
-    public interface IUniTaskSource<out T> : IUniTaskSource
+	public interface IUniTaskSource<out T> : IUniTaskSource
 #if !UNITY_2018_3_OR_NEWER && !NETSTANDARD2_0
         , System.Threading.Tasks.Sources.IValueTaskSource<T>
 #endif
-    {
-        new T GetResult(short token);
+	{
+		new T GetResult(short token);
 
 #if !UNITY_2018_3_OR_NEWER && !NETSTANDARD2_0
 
@@ -88,37 +88,37 @@ namespace Cysharp.Threading.Tasks
         }
 
 #endif
-    }
+	}
 
-    public static class UniTaskStatusExtensions
-    {
-        /// <summary>status != Pending.</summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsCompleted(this UniTaskStatus status)
-        {
-            return status != UniTaskStatus.Pending;
-        }
+	public static class UniTaskStatusExtensions
+	{
+		/// <summary>status != Pending.</summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool IsCompleted(this UniTaskStatus status)
+		{
+			return status != UniTaskStatus.Pending;
+		}
 
-        /// <summary>status == Succeeded.</summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsCompletedSuccessfully(this UniTaskStatus status)
-        {
-            return status == UniTaskStatus.Succeeded;
-        }
+		/// <summary>status == Succeeded.</summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool IsCompletedSuccessfully(this UniTaskStatus status)
+		{
+			return status == UniTaskStatus.Succeeded;
+		}
 
-        /// <summary>status == Canceled.</summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsCanceled(this UniTaskStatus status)
-        {
-            return status == UniTaskStatus.Canceled;
-        }
+		/// <summary>status == Canceled.</summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool IsCanceled(this UniTaskStatus status)
+		{
+			return status == UniTaskStatus.Canceled;
+		}
 
-        /// <summary>status == Faulted.</summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsFaulted(this UniTaskStatus status)
-        {
-            return status == UniTaskStatus.Faulted;
-        }
-    }
+		/// <summary>status == Faulted.</summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool IsFaulted(this UniTaskStatus status)
+		{
+			return status == UniTaskStatus.Faulted;
+		}
+	}
 }
 

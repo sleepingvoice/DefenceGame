@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Gu;
 using UnityEngine;
@@ -10,14 +8,14 @@ public class BulletInfo : MonoBehaviour
 	public ObjPool Model;
 	public ObjPool Effect;
 
-	public void SetBullet(GameObject model,GameObject effect)
+	public void SetBullet(GameObject model, GameObject effect)
 	{
 		Model.SetPrefab = model;
 		Effect.SetPrefab = effect;
 
 		Model.RemoveList();
 		Effect.RemoveList();
-		
+
 		Model.GetObject();
 		Effect.GetObject().GetComponent<ParticleSystem>().Stop();
 	}

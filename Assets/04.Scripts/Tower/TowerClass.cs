@@ -325,7 +325,7 @@ public class BulletCreate
 		NowRank = Rank;
 	}
 
-	public void ShotBullet(Vector3 TransPos,EnemyInfo Target,float BulletSpeed,Action Act)
+	public void ShotBullet(Vector3 TransPos, EnemyInfo Target, float BulletSpeed, Action Act)
 	{
 		var BulletNum = MainGameData.s_clientData.BulletDic[NowRank];
 		var NowBullet = GameManager.ins.BulletManager.BulletSet(BulletNum);

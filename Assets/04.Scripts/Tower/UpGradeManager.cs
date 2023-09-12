@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class UpGradeManager : MonoBehaviour
 {
-	[HideInInspector]public AreaInfo AreaInfo = null;
+	[HideInInspector] public AreaInfo AreaInfo = null;
 
 
 	private void Awake()

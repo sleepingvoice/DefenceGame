@@ -5,14 +5,14 @@ using System.Collections;
 
 namespace Cysharp.Threading.Tasks
 {
-    // UnityEngine Bridges.
+	// UnityEngine Bridges.
 
-    public partial struct UniTask
-    {
-        public static IEnumerator ToCoroutine(Func<UniTask> taskFactory)
-        {
-            return taskFactory().ToCoroutine();
-        }
-    }
+	public partial struct UniTask
+	{
+		public static IEnumerator ToCoroutine(Func<UniTask> taskFactory)
+		{
+			return taskFactory().ToCoroutine();
+		}
+	}
 }
 

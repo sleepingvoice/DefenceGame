@@ -17,7 +17,7 @@ public class TowerInfo : MonoBehaviour
 	}
 
 	public void SetTower(ChessRank rank, AreaInfo info, Mesh mesh)
-	{		
+	{
 		NowRank = rank;
 
 		CreateChessTower TowerCreate = new CreateChessTower();

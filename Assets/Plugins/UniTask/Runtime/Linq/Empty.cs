@@ -2,46 +2,46 @@
 
 namespace Cysharp.Threading.Tasks.Linq
 {
-    public static partial class UniTaskAsyncEnumerable
-    {
-        public static IUniTaskAsyncEnumerable<T> Empty<T>()
-        {
-            return Cysharp.Threading.Tasks.Linq.Empty<T>.Instance;
-        }
-    }
+	public static partial class UniTaskAsyncEnumerable
+	{
+		public static IUniTaskAsyncEnumerable<T> Empty<T>()
+		{
+			return Cysharp.Threading.Tasks.Linq.Empty<T>.Instance;
+		}
+	}
 
-    internal class Empty<T> : IUniTaskAsyncEnumerable<T>
-    {
-        public static readonly IUniTaskAsyncEnumerable<T> Instance = new Empty<T>();
+	internal class Empty<T> : IUniTaskAsyncEnumerable<T>
+	{
+		public static readonly IUniTaskAsyncEnumerable<T> Instance = new Empty<T>();
 
-        Empty()
-        {
-        }
+		Empty()
+		{
+		}
 
-        public IUniTaskAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default)
-        {
-            return _Empty.Instance;
-        }
+		public IUniTaskAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default)
+		{
+			return _Empty.Instance;
+		}
 
-        class _Empty : IUniTaskAsyncEnumerator<T>
-        {
-            public static readonly IUniTaskAsyncEnumerator<T> Instance = new _Empty();
+		class _Empty : IUniTaskAsyncEnumerator<T>
+		{
+			public static readonly IUniTaskAsyncEnumerator<T> Instance = new _Empty();
 
-            _Empty()
-            {
-            }
+			_Empty()
+			{
+			}
 
-            public T Current => default;
+			public T Current => default;
 
-            public UniTask<bool> MoveNextAsync()
-            {
-                return CompletedTasks.False;
-            }
+			public UniTask<bool> MoveNextAsync()
+			{
+				return CompletedTasks.False;
+			}
 
-            public UniTask DisposeAsync()
-            {
-                return default;
-            }
-        }
-    }
+			public UniTask DisposeAsync()
+			{
+				return default;
+			}
+		}
+	}
 }

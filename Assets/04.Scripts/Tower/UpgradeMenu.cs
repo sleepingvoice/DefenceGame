@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class UpgradeMenu : MonoBehaviour
 {
 	public ChessRank MenuRank;
-	[HideInInspector]public int Price;
+	[HideInInspector] public int Price;
 
 	public Button ClickBtn;
 	public TMP_Text PriceValue;

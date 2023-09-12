@@ -46,7 +46,7 @@ public class ClickCheck : MonoBehaviour
 			if (Physics.Raycast(ray, out RaycastHit hit, 100f, 1 << 6))
 			{
 				Vector2Int MapNum = new Vector2Int((int)((int)(hit.point.x + GameManager.ins.AreaManager.AreaSize.x / 2) / MainGameData.s_clientData.AreaWidthLength), (int)((int)(hit.point.z + GameManager.ins.AreaManager.AreaSize.z / 2) / MainGameData.s_clientData.AreaHeigthLength));
-				MapNum = new Vector2Int(Math.Clamp(MapNum.x, 0, MainGameData.s_clientData.Width- 1), Math.Clamp(MapNum.y, 0, MainGameData.s_clientData.Hegith - 1));
+				MapNum = new Vector2Int(Math.Clamp(MapNum.x, 0, MainGameData.s_clientData.Width - 1), Math.Clamp(MapNum.y, 0, MainGameData.s_clientData.Hegith - 1));
 
 				MainGameData.GameTouchMap.SetValue(_mapInfo.AreaDic[MapNum]);
 			}
@@ -68,7 +68,7 @@ public class ClickCheck : MonoBehaviour
 				if (beforehit == _mapInfo.AreaDic[MapNum])
 					return;
 
-				if (!CheckEdit.TouchOut) 
+				if (!CheckEdit.TouchOut)
 				{
 					CheckEdit.TouchOut = true;
 					CheckEdit.CheckClick = _mapInfo.AreaDic[MapNum].OutLineObj.activeSelf ? false : true;
@@ -110,7 +110,7 @@ public class ClickCheck : MonoBehaviour
 
 	// Update is called once per frame
 	void Update()
-    {
+	{
 		if (_checkClick != null && ClickOk)
 			_checkClick.Invoke();
 

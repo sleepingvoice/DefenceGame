@@ -21,6 +21,8 @@ public class Socket : MonoBehaviour
 	public GameObject Loding;
 	public bool Reset;
 
+	public string ServerIp;
+
 	private WebSocket ws;//소켓 선언
 	private bool _checkOpen = false;
 	private IEnumerator _openCheck = null;
@@ -35,7 +37,8 @@ public class Socket : MonoBehaviour
 
 	void Start()
 	{
-		ws = new WebSocket("ws://127.0.0.1:4000/");
+		ws = new WebSocket("ws://" + ServerIp + ":4000/");
+		Debug.Log(ws.Url);
 		ws.OnMessage += ws_OnMessage; //서버에서 유니티 쪽으로 메세지가 올 경우 실행할 함수를 등록한다.
 		ws.OnOpen += ws_OnOpen;//서버가 연결된 경우 실행할 함수를 등록한다
 		ws.OnClose += ws_OnClose;//서버가 닫힌 경우 실행할 함수를 등록한다.
@@ -107,7 +110,7 @@ public class Socket : MonoBehaviour
 
 	public IEnumerator PostImg(byte[] data, Action<int> actMapID)
 	{
-		string serverURL = "http://localhost:5000/imgfile";
+		string serverURL = "http://"+ ServerIp +"/imgfile";
 		WWWForm form = new WWWForm();
 		form.AddBinaryData("image", data, "image.png", "image/png");
 

@@ -26,13 +26,13 @@ public class TowerManager : MonoBehaviour
 		GameObject TempTower = TowerObjPool.GetObject();
 		TempTower.GetComponent<TowerInfo>().SetTower(Rank, info, TowerMesh[(int)Rank]);
 		TempTower.transform.position = MainGameData.GameTouchMap.Value.CenterPoint + Vector3.up * Addheigth;
-		MainGameData.GameTouchMap.Value.CanBuild = false;
+		info.CanBuild = false;
 
-		if (MainGameData.GameTouchMap.Value.BuildTower != null)
+		if (info.BuildTower != null)
 		{
-			MainGameData.GameTouchMap.Value.BuildTower.gameObject.SetActive(false);
+			TowerObjPool.DisableObject(info.BuildTower);
 		}
-		MainGameData.GameTouchMap.Value.BuildTower = TempTower;
+		info.BuildTower = TempTower;
 
 		MainGameData.s_gameData.BuildTowerInfoList.Add(TempTower);
 	}

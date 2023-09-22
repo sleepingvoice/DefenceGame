@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Gu;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -40,9 +42,9 @@ public class ClickCheck : MonoBehaviour
 
 	private void GamePlayTouchCheck()
 	{
-		if (Input.GetMouseButtonDown(0))
+		if (InputAll() != Vector3.one * int.MaxValue)
 		{
-			Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
+			Ray ray = MainCam.ScreenPointToRay(InputAll());
 			if (Physics.Raycast(ray, out RaycastHit hit, 100f, 1 << 6))
 			{
 				Vector2Int MapNum = new Vector2Int((int)((int)(hit.point.x + GameManager.ins.AreaManager.AreaSize.x / 2) / MainGameData.s_clientData.AreaWidthLength), (int)((int)(hit.point.z + GameManager.ins.AreaManager.AreaSize.z / 2) / MainGameData.s_clientData.AreaHeigthLength));
@@ -57,9 +59,9 @@ public class ClickCheck : MonoBehaviour
 
 	private void EditPlayTouchCheck()
 	{
-		if (Input.GetMouseButton(0))
+		if (InputAll() != Vector3.one * int.MaxValue)
 		{
-			Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
+			Ray ray = MainCam.ScreenPointToRay(InputAll());
 			if (Physics.Raycast(ray, out RaycastHit hit, 100f, 1 << 6))
 			{
 				Vector2Int MapNum = new Vector2Int((int)((int)(hit.point.x + GameManager.ins.AreaManager.AreaSize.x / 2) / MainGameData.s_clientData.AreaWidthLength), (int)((int)(hit.point.z + GameManager.ins.AreaManager.AreaSize.z / 2) / MainGameData.s_clientData.AreaHeigthLength));
@@ -87,6 +89,32 @@ public class ClickCheck : MonoBehaviour
 
 	#endregion
 
+	#region Input
+
+	private Vector3 InputAll()
+	{
+#if UNITY_EDITOR || UNITY_STANDALONE
+		if (Input.GetMouseButton(0))
+		{
+			return Input.mousePosition;
+		}
+		return Vector3.one * int.MaxValue;
+#else
+		if (Input.touchCount != 0)
+		{
+			int Count = Input.touchCount;
+			Queue<int> NoTouchQueue = utility.CheckTouchNum(Count);
+			if (NoTouchQueue.Count != 0)
+			{
+				return Input.GetTouch(NoTouchQueue.Dequeue()).position;
+			}
+		}
+		return Vector3.one * int.MaxValue;
+#endif
+	}
+
+	#endregion
+
 	#region loginUi
 
 	private void LoginUiInput()
@@ -100,7 +128,7 @@ public class ClickCheck : MonoBehaviour
 		}
 	}
 
-	#endregion
+#endregion
 
 
 	void Start()

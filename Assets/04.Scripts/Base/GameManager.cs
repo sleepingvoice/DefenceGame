@@ -137,6 +137,8 @@ public class GameManager : MonoBehaviour
 		};
 	}
 
+	#region 이미지 전송
+
 	public void SetImg(int Num, Action<Texture2D> TexAct)
 	{
 		StartCoroutine(LoadImg(Num, TexAct));
@@ -148,6 +150,8 @@ public class GameManager : MonoBehaviour
 		yield return Socket.ins.GetImg(Num, ((tex) => SaveTex = tex));
 		TexAct.Invoke(SaveTex);
 	}
+
+	#endregion
 
 	#region Json 값 받아오기
 

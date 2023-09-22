@@ -88,6 +88,7 @@ public class UIManager_Login : MonoBehaviour
 	{
 		Socket.ins.SocketEventDic.Add("Check_Login", CheckID);
 		Socket.ins.SocketEventDic.Add("Check_Email", CheckEmail);
+		Socket.ins.SocketEventDic.Add("Add_ID", AddID);
 		Socket.ins.SocketEventDic.Add("Find_ID", FindId);
 		Socket.ins.SocketEventDic.Add("Find_Pwd", FindPwd);
 	}
@@ -102,6 +103,7 @@ public class UIManager_Login : MonoBehaviour
 		{
 			_socketAct = () =>
 			{
+				Debug.Log("발동");
 				var str = callback.Split(':');
 				MainGameData.s_serverData.UserName = str[0];
 				MainGameData.s_serverData.UserId = int.Parse(str[1]);
@@ -124,6 +126,17 @@ public class UIManager_Login : MonoBehaviour
 		{
 			SignUI.CheckNoDelete = true;
 			Error.SetError("이메일이 중복됩니다.", LoginProgress.error);
+		}
+	}
+
+	private void AddID(string callback)
+	{
+		if (callback == "Success")
+		{
+			_socketAct = () =>
+			{
+				MainGameData.s_progressLogin.SetValue(LoginProgress.main);
+			};
 		}
 	}
 

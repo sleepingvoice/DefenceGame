@@ -26,7 +26,21 @@ namespace Gu
 			return Vector3.zero;
 		}
 
-		public static void MobileTouch(Action<Touch> OneTouch = null, Action<List<Touch>> TwoTouch = null, Action NoTouch = null)
+		public static void MobileTouch_One(Action<Touch> UITouchAct = null, Action<Touch> TouchAct = null, Action NoTouchAct = null)
+		{
+
+			if (Input.touchCount != 0)
+			{
+				if (IsPointerOverUIObject(Input.GetTouch(0).position))
+					TouchAct.Invoke(Input.GetTouch(0)); // UI 터치 안한거
+				else
+					UITouchAct.Invoke(Input.GetTouch(0));
+			}
+			else
+				NoTouchAct.Invoke();
+		}
+
+		public static void MobileTouch_Two(Action<Touch> OneTouch = null, Action<List<Touch>> TwoTouch = null, Action NoTouch = null)
 		{
 			int Count = Input.touchCount;
 			Queue<int> NoTouchQueue = CheckTouchNum(Count);
@@ -51,7 +65,7 @@ namespace Gu
 			}
 		}
 
-		private static Queue<int> CheckTouchNum(int Count)
+		public static Queue<int> CheckTouchNum(int Count)
 		{
 			if (Count == 0)
 			{
@@ -95,7 +109,7 @@ namespace Gu
 			return NoTouch;
 		}
 
-		private static bool IsPointerOverUIObject(Vector2 touchPosition)
+		public static bool IsPointerOverUIObject(Vector2 touchPosition)
 		{
 			var eventData = new PointerEventData(EventSystem.current) { position = touchPosition };
 			List<RaycastResult> results = new List<RaycastResult>();

@@ -52,15 +52,12 @@ public class UpgradeMenu : MonoBehaviour
 	{
 		if (MainGameData.s_gameData.NowMoney.Value >= Price)
 		{
-			if (GameManager.ins.UpGradeManager.AreaInfo == null)
+			var info = GameManager.ins.UpGradeManager.AreaInfo;
+			if (info.BuildTower == null)
 				GameManager.ins.TowerManager.AddTower(MenuRank, MainGameData.GameTouchMap.Value);
 			else
-			{
-				foreach (var tower in MainGameData.s_gameData.BuildTowerInfoList)
-				{
-					tower.GetComponent<TowerInfo>().SetTower(MenuRank, GameManager.ins.UpGradeManager.AreaInfo, GameManager.ins.TowerManager.TowerMesh[(int)MenuRank]);
-				}
-			}
+				info.BuildTower.GetComponent<TowerInfo>().SetTower(MenuRank, GameManager.ins.UpGradeManager.AreaInfo, GameManager.ins.TowerManager.TowerMesh[(int)MenuRank]);
+
 			MainGameData.s_gameData.NowMoney.SetValue(MainGameData.s_gameData.NowMoney.Value - Price);
 			MainGameData.GameTouchMap.Value.NowRank = MenuRank;
 		}

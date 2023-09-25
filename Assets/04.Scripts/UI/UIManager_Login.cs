@@ -55,11 +55,6 @@ public class UIManager_Login : MonoBehaviour
 		}
 	}
 
-	private void Start()
-	{
-		MainGameData.s_progressLogin.SetValue(LoginProgress.main);
-	}
-
 	public void CheckSignEmail()
 	{
 		if (EmailInput.text == null || !Regex.IsMatch(EmailInput.text, @"[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"))

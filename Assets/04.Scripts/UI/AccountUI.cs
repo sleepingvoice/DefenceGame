@@ -26,7 +26,7 @@ public class AccountUI : MonoBehaviour
 			ExitBtn.onClick.AddListener(() =>
 			{
 				this.gameObject.SetActive(false);
-				MainGameData.s_progressLogin.SetValue(LoginProgress.main);
+				MainGameData.s_progressLogin.SetValue(LoginProgress.select);
 			});
 
 		EnterBtn.onClick.AddListener(EnterEvent);

@@ -90,6 +90,7 @@ public class GameManager : MonoBehaviour
 	private void Start()
 	{
 		MainGameData.s_progressMainGame.SetValue(GameProgress.Login);
+		MainGameData.s_progressLogin.SetValue(LoginProgress.select);
 		GetMapinfo();
 	}
 

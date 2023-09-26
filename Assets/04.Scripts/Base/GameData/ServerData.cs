@@ -4,7 +4,7 @@ using UnityEngine;
 public class ServerData
 {
 	public int UserId;
-	public string UserName;
+	public string UserNickName;
 
 	public MapList MapinfoSever; // 전체 맵 정보
 

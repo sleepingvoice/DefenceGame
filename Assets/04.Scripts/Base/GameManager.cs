@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
 	public ClickCheck Click;
 
 	[Header("UI")]
-	public UIManager_Login UI_Login;
 	public UIManager_Lobby Ui_Lobby;
 	public UIManager_Game UI_Game;
 	public UIManager_EndGame UI_EndGame;
@@ -90,7 +89,7 @@ public class GameManager : MonoBehaviour
 	private void Start()
 	{
 		MainGameData.s_progressMainGame.SetValue(GameProgress.Login);
-		MainGameData.s_progressLogin.SetValue(LoginProgress.select);
+		MainGameData.s_progressLogin.SetValue(LoginProgress.selectLogin);
 		GetMapinfo();
 	}
 
@@ -166,17 +165,23 @@ public class GameManager : MonoBehaviour
 	//타워 능력치 받아오기
 	private void SetTowerClass()
 	{
-		var List = JsonUtility.FromJson<TowerList>(File.ReadAllText(Application.streamingAssetsPath + "/TowerClass.json"));
-		foreach (var value in List.Tower)
-		{
-			MainGameData.s_clientData.TowerStateDic.Add(value.RankValue, value);
-		}
+		StartCoroutine(utility.GetJson(Application.streamingAssetsPath + "/TowerClass.json", (str) =>
+		 {
+			 var List = JsonUtility.FromJson<TowerList>(str);
+			 foreach (var value in List.Tower)
+			 {
+				 MainGameData.s_clientData.TowerStateDic.Add(value.RankValue, value);
+			 }
+		 }));
 	}
 
 	//타워 정보
 	private void LoadTower()
 	{
-		MainGameData.s_clientData.NextRank = JsonUtility.FromJson<NextRankList>(File.ReadAllText(Application.streamingAssetsPath + "/NextRankList.json"));
+		StartCoroutine(utility.GetJson(Application.streamingAssetsPath + "/NextRankList.json", (str) =>
+		{
+			MainGameData.s_clientData.NextRank = JsonUtility.FromJson<NextRankList>(str);
+		}));
 	}
 
 	//총알 정보

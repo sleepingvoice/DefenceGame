@@ -14,7 +14,7 @@ public enum GameProgress
 
 public enum LoginProgress
 {
-	main, signup, find, findID, findPwd, error, finish, select
+	selectLogin,nickNameSelect,finish
 }
 
 public enum EditProgrss

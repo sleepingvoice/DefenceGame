@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Networking;
 
 namespace Gu
 {
@@ -132,6 +134,33 @@ namespace Gu
 			}
 			else
 				return sprite.texture;
+		}
+
+		public static IEnumerator GetJson(string url, Action<string> success = null, Action<UnityWebRequest> fail = null, Action complete = null, Action<float> progress = null)
+		{
+			using (UnityWebRequest www = UnityWebRequest.Get(url))
+			{
+				yield return DownloadProgress(www.SendWebRequest(), progress);
+				if (www.result != UnityWebRequest.Result.Success) //불러오기 실패 시
+				{
+					Debug.Log("Error : " + www.result + www.error + url);
+					fail?.Invoke(www);
+				}
+				else
+				{
+					success?.Invoke(System.Text.Encoding.UTF8.GetString(www.downloadHandler.data));
+				}
+				complete?.Invoke();
+			}
+		}
+
+		public static IEnumerator DownloadProgress(UnityWebRequestAsyncOperation operation, Action<float> Progress, UnityWebRequest Test = null)
+		{
+			while (!operation.isDone)
+			{
+				Progress?.Invoke(operation.progress);
+				yield return null;
+			}
 		}
 	}
 }

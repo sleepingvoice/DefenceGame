@@ -7,7 +7,7 @@ public static class MainGameData
 
 	//progress
 	public static Type<GameProgress> s_progressMainGame = new Type<GameProgress>(GameProgress.Lobby); // 전체 과정
-	public static Type<LoginProgress> s_progressLogin = new Type<LoginProgress>(LoginProgress.main);  // 로그인 과정
+	public static Type<LoginProgress> s_progressLogin = new Type<LoginProgress>(LoginProgress.selectLogin);  // 로그인 과정
 	public static Type<EditProgrss> s_progressEdit = new Type<EditProgrss>(EditProgrss.main);         // 에딧기능 과정
 
 	//Click

@@ -18,6 +18,7 @@ public class Socket : MonoBehaviour
 
 	public float CheckTime;
 	public Dictionary<string, Action<string>> SocketEventDic = new Dictionary<string, Action<string>>();
+	public List<Action> OpenActDic = new List<Action>();
 	public GameObject Loding;
 	public bool Reset;
 
@@ -77,6 +78,11 @@ public class Socket : MonoBehaviour
 		_checkOpen = true;
 		Debug.Log("open");
 		Loding.SetActive(false);
+
+		foreach (var act in OpenActDic)
+		{
+			act.Invoke();
+		}
 	}
 
 	private void ws_OnClose(object sender, CloseEventArgs e)

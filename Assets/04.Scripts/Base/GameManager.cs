@@ -123,6 +123,7 @@ public class GameManager : MonoBehaviour
 
 	public void GetMapinfo()
 	{
+		Debug.Log("¸®½ºÆ® º¸³¿");
 		Socket.ins.ws_SendMessage("Get_MapList/");
 	}
 

@@ -8,21 +8,17 @@ public class UIManager_Login : MonoBehaviour
 {
     private Action _socketAct = null;
 
-    private void Start()
+	private void Start()
     {
         Socket.ins.SocketEventDic.Add("Check_Login", CheckLogin);
         Socket.ins.SocketEventDic.Add("Add_ID", AddId);
 
         PlayGamesPlatform.Activate();
 
-
-        Socket.ins.OpenActDic.Add(() =>
+        if (PlayerPrefs.HasKey("LoginKey"))
         {
-            if (PlayerPrefs.HasKey("LoginKey"))
-            {
-                Socket.ins.ws_SendMessage("Check_Login/" + PlayerPrefs.GetString("LoginKey"));
-            }
-        });
+            Socket.ins.ws_SendMessage("Check_Login/" + PlayerPrefs.GetString("LoginKey"));
+        }
     }
 
 

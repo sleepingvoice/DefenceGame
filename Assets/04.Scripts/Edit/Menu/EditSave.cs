@@ -15,6 +15,7 @@ public class EditSave : EditMenuBase
 		base.Awake();
 
 		SaveBtn.onClick.AddListener(SetSave);
+		Socket.ins.SocketEventDic.Add("Add_Map", (str) => AddMapCheck());
 	}
 
 	private void SetSave()
@@ -49,8 +50,14 @@ public class EditSave : EditMenuBase
 
 		Socket.ins.ws_SendMessage("Add_Map/" + sendJson);
 
+
+	}
+
+	private void AddMapCheck()
+	{
+		GameManager.ins.GetMapinfo();
 		MainGameData.s_progressEdit.SetValue(EditProgrss.main);
 		MainGameData.s_progressMainGame.SetValue(GameProgress.EditSelect);
-		GameManager.ins.GetMapinfo();
 	}
+
 }

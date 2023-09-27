@@ -7,7 +7,6 @@ public class EditSave : EditMenuBase
 {
 	public TMP_InputField MapNameInput;
 	public CaptureImg Capture;
-	public TMP_InputField NameField;
 
 	public Button SaveBtn;
 
@@ -20,7 +19,7 @@ public class EditSave : EditMenuBase
 
 	private void SetSave()
 	{
-		if (NameField.text == "")
+		if (MapNameInput.text == "")
 			return;
 
 		StartCoroutine(SaveFunction());

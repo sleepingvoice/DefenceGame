@@ -20,14 +20,12 @@ public class Socket : MonoBehaviour
 	public Dictionary<string, Action<string>> SocketEventDic = new Dictionary<string, Action<string>>();
 	public List<Action> OpenActDic = new List<Action>();
 	public GameObject Loding;
-	public bool Reset;
 
 	public string ServerIp;
 
 	private WebSocket ws;//소켓 선언
 	private bool _checkOpen = false;
 	private IEnumerator _openCheck = null;
-	private int ConnectInt = 0;
 
 	private void Awake()
 	{
@@ -44,22 +42,8 @@ public class Socket : MonoBehaviour
 		ws.OnOpen += ws_OnOpen;//서버가 연결된 경우 실행할 함수를 등록한다
 		ws.OnClose += ws_OnClose;//서버가 닫힌 경우 실행할 함수를 등록한다.
 		ws.Connect();
-	}
 
-	private void Update()
-	{
-		if (!ws.Ping() && _openCheck == null && ConnectInt < 5)
-		{
-			_openCheck = CheckConnect();
-			StartCoroutine(_openCheck);
-			Loding.SetActive(true);
-		}
-
-		if (Reset)
-		{
-			Reset = false;
-			ConnectInt = 0;
-		}
+		_openCheck = CheckConnect();
 	}
 
 	private void ws_OnMessage(object sender, MessageEventArgs e)
@@ -74,9 +58,10 @@ public class Socket : MonoBehaviour
 
 	private void ws_OnOpen(object sender, System.EventArgs e)
 	{
-		ConnectInt = 0;
 		_checkOpen = true;
 		Debug.Log("open");
+
+		StopCoroutine(_openCheck);
 		Loding.SetActive(false);
 
 		foreach (var act in OpenActDic)
@@ -89,6 +74,9 @@ public class Socket : MonoBehaviour
 	{
 		_checkOpen = false;
 		Debug.Log("close");
+
+		StartCoroutine(_openCheck);
+		Loding.SetActive(true);
 	}
 
 	public void ws_SendMessage(string message)
@@ -100,7 +88,8 @@ public class Socket : MonoBehaviour
 
 	IEnumerator CheckConnect()
 	{
-		while (!_checkOpen && ConnectInt < 5)
+		int ConnectInt = 0;
+		while (ConnectInt < 5)
 		{
 			yield return new WaitForSeconds(CheckTime); // 1초마다 체크
 			ws.Connect();

@@ -69,7 +69,7 @@ namespace Gu
 
 		public static Queue<int> CheckTouchNum(int Count)
 		{
-			if (Count == 0)
+			if (UiFingerState.Count == 0)
 			{
 				UiFingerState[true] = new Queue<int>();
 				UiFingerState[false] = new Queue<int>();

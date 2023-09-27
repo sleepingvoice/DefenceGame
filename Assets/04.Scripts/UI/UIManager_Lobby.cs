@@ -5,6 +5,7 @@ public class UIManager_Lobby : MonoBehaviour
 {
 	public Button StartGame;
 	public Button EditMode;
+	public Button Exit;
 
 	private GameData _userData = MainGameData.s_gameData;
 	private ServerData _serverData = MainGameData.s_serverData;
@@ -14,6 +15,7 @@ public class UIManager_Lobby : MonoBehaviour
 		MainGameData.s_progressMainGame.AddListener(SetActive);
 		StartGame.onClick.AddListener(GameStart);
 		EditMode.onClick.AddListener(() => MainGameData.s_progressMainGame.SetValue(GameProgress.EditSelect));
+		Exit.onClick.AddListener(() => Application.Quit());
 	}
 
 	private void SetActive(GameProgress progress)

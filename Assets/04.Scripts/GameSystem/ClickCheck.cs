@@ -42,7 +42,8 @@ public class ClickCheck : MonoBehaviour
 
 	private void GamePlayTouchCheck()
 	{
-		if (InputAll() != Vector3.one * int.MaxValue)
+
+		if (InputAll() != Vector3.zero)
 		{
 			Ray ray = MainCam.ScreenPointToRay(InputAll());
 			if (Physics.Raycast(ray, out RaycastHit hit, 100f, 1 << 6))
@@ -59,7 +60,8 @@ public class ClickCheck : MonoBehaviour
 
 	private void EditPlayTouchCheck()
 	{
-		if (InputAll() != Vector3.one * int.MaxValue)
+
+		if (InputAll() != Vector3.zero)
 		{
 			Ray ray = MainCam.ScreenPointToRay(InputAll());
 			if (Physics.Raycast(ray, out RaycastHit hit, 100f, 1 << 6))
@@ -98,7 +100,7 @@ public class ClickCheck : MonoBehaviour
 		{
 			return Input.mousePosition;
 		}
-		return Vector3.one * int.MaxValue;
+		return Vector3.zero;
 #else
 		if (Input.touchCount != 0)
 		{
@@ -106,10 +108,11 @@ public class ClickCheck : MonoBehaviour
 			Queue<int> NoTouchQueue = utility.CheckTouchNum(Count);
 			if (NoTouchQueue.Count != 0)
 			{
+				Debug.Log("ÅÍÄ¡");
 				return Input.GetTouch(NoTouchQueue.Dequeue()).position;
 			}
 		}
-		return Vector3.one * int.MaxValue;
+		return Vector3.zero;
 #endif
 	}
 
@@ -141,6 +144,5 @@ public class ClickCheck : MonoBehaviour
 	{
 		if (_checkClick != null && ClickOk)
 			_checkClick.Invoke();
-
 	}
 }

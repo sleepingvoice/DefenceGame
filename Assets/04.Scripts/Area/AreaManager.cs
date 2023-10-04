@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Gu
 {
@@ -68,36 +69,54 @@ namespace Gu
 				_setMapSize = true;
 			}
 
-			AreaPool.ReturnObjectAll();
-
 			List<MapAreaInfoSave> list = new List<MapAreaInfoSave>();
 
 			if (Mapinfolist != null)
 				list = Mapinfolist.InfoList;
 
-			_mapInfo.AreaDic = new Dictionary<Vector2Int, AreaInfo>();
-			for (int i = 0; i < _clientInfo.Hegith; i++)
+			if (_mapInfo.AreaDic.Count == 0) // 처음 실행하면 새로 생성한다.
 			{
-				for (int j = 0; j < _clientInfo.Width; j++)
+				AreaPool.ReturnObjectAll();
+
+				for (int i = 0; i < _clientInfo.Hegith; i++)
+				{
+					for (int j = 0; j < _clientInfo.Width; j++)
+					{
+						bool MoveCheck = false;
+						foreach (var Targetinfo in list)
+						{
+							if (Targetinfo.NodeNum == new Vector2Int(i, j))
+							{
+								MoveCheck = Targetinfo.NotMove; // 위치의 값이 있으면 반환
+								break;
+							}
+						}
+
+						Vector3 newPos = new Vector3(widthLength * i - AreaSize.x / 2, 1f, heightLength * j - AreaSize.z / 2);
+
+						GameObject outline = AreaPool.GetObject();
+						AreaInfo info = new AreaInfo(new Vector2Int(i, j), newPos, newPos + new Vector3(widthLength / 2, 0, heightLength / 2), MoveCheck, outline);
+						this.gameObject.GetComponent<ShowMap>().SetMapColor(info);
+						_mapInfo.AreaDic.Add(new Vector2Int(i, j), info);
+					}
+				}
+			}
+			else // 이미 실행한 후라면 정보값만 변경해준다.
+			{
+				foreach (var Pair in _mapInfo.AreaDic)
 				{
 					bool MoveCheck = false;
 					foreach (var Targetinfo in list)
 					{
-						if (Targetinfo.NodeNum == new Vector2Int(i, j))
+						if (Targetinfo.NodeNum == Pair.Key)
 						{
 							MoveCheck = Targetinfo.NotMove; // 위치의 값이 있으면 반환
 							break;
 						}
 					}
 
-					Vector3 newPos = new Vector3(widthLength * i - AreaSize.x / 2, 1f, heightLength * j - AreaSize.z / 2);
-
-					GameObject outline = AreaPool.GetObject();
-
-					outline.GetComponent<MeshRenderer>().material = MoveCheck ? CanBuildMat : NotBuildMat;
-
-					AreaInfo info = new AreaInfo(new Vector2Int(i, j), newPos, newPos + new Vector3(widthLength / 2, 0, heightLength / 2), MoveCheck, outline);
-					_mapInfo.AreaDic.Add(new Vector2Int(i, j), info);
+					Pair.Value.ResetValue(MoveCheck);
+					this.gameObject.GetComponent<ShowMap>().SetMapColor(Pair.Value);
 				}
 			}
 		}

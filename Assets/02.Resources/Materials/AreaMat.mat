@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CanBuild
+  m_Name: AreaMat
   m_Shader: {fileID: 4800000, guid: 31f91e92c4966c34190fdf4b49e695f6, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []

@@ -42,16 +42,16 @@ public class EditMapWindow : MonoBehaviour
 		if (_selectMap != null)
 			_selectMap.SelectImg.SetActive(false);
 
+		MainGameData.s_serverData.NowMap.SetValue(TargetBar.MapInfo);
 		_selectMap = TargetBar;
 		_selectMap.SelectImg.SetActive(true);
 
-		GameManager.ins.SetImg(TargetBar.MapInfo.mapImg, (tex) => MenuImg.texture = tex);
+		GameManager.ins.SetImg();
 		StartGameBtn.interactable = true;
 	}
 
 	private void GameStart()
 	{
-		MainGameData.s_serverData.NowMap.SetValue(_selectMap.MapInfo);
 		GameManager.ins.GameStart();
 	}
 }

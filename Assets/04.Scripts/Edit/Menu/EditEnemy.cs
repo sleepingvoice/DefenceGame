@@ -31,8 +31,8 @@ public class EditEnemy : EditMenuBase
 		AddRoundBtn.onClick.AddListener(() =>
 		{
 			var info = new RoundEnemyInfo();
-			info.RoundNum = editManager.EnemyList.EnemyInfoList.Count + 1;
-			editManager.EnemyList.EnemyInfoList.Add(info);
+			info.RoundNum = _editManager.EnemyList.EnemyInfoList.Count + 1;
+			_editManager.EnemyList.EnemyInfoList.Add(info);
 			_nowRoundInt.InvokeListener();
 		});
 		RoundUpBtn.onClick.AddListener(() => _nowRoundInt.SetValue(_nowRoundInt.Value + 1));
@@ -52,7 +52,7 @@ public class EditEnemy : EditMenuBase
 
 	private void OnEnable()
 	{
-		if (editManager != null && !EnemyInfoCheck)
+		if (_editManager != null && !EnemyInfoCheck)
 			Init();
 	}
 
@@ -60,11 +60,11 @@ public class EditEnemy : EditMenuBase
 	{
 		if (_nowStateHp)
 		{
-			editManager.EnemyList.EnemyInfoList[_nowRoundInt.Value - 1].hp = int.Parse(str);
+			_editManager.EnemyList.EnemyInfoList[_nowRoundInt.Value - 1].hp = int.Parse(str);
 		}
 		else
 		{
-			editManager.EnemyList.EnemyInfoList[_nowRoundInt.Value - 1].Speed = int.Parse(str);
+			_editManager.EnemyList.EnemyInfoList[_nowRoundInt.Value - 1].Speed = int.Parse(str);
 		}
 	}
 
@@ -73,7 +73,7 @@ public class EditEnemy : EditMenuBase
 		_nowStateHp = false;
 		StateWindow.SetActive(true);
 		StateTex.text = "MaxSpeed";
-		StateValue.text = editManager.EnemyList.EnemyInfoList[_nowRoundInt.Value - 1].Speed.ToString();
+		StateValue.text = _editManager.EnemyList.EnemyInfoList[_nowRoundInt.Value - 1].Speed.ToString();
 		SpeedBtn.GetComponent<Image>().color = Color.blue;
 		HpBtn.GetComponent<Image>().color = Color.white;
 	}
@@ -83,24 +83,24 @@ public class EditEnemy : EditMenuBase
 		_nowStateHp = true;
 		StateWindow.SetActive(true);
 		StateTex.text = "MaxHp";
-		StateValue.text = editManager.EnemyList.EnemyInfoList[_nowRoundInt.Value - 1].hp.ToString();
+		StateValue.text = _editManager.EnemyList.EnemyInfoList[_nowRoundInt.Value - 1].hp.ToString();
 		SpeedBtn.GetComponent<Image>().color = Color.white;
 		HpBtn.GetComponent<Image>().color = Color.blue;
 	}
 
 	private void Init()
 	{
-		editManager.EnemyList = new RoundEnemyInfoList();
+		_editManager.EnemyList = new RoundEnemyInfoList();
 		var info = new RoundEnemyInfo();
 		info.RoundNum = 1;
-		editManager.EnemyList.EnemyInfoList.Add(info);
+		_editManager.EnemyList.EnemyInfoList.Add(info);
 		_nowRoundInt.SetValue(1);
 	}
 
 	private void RoundCehck(int value)
 	{
 		RoundTex.text = value.ToString();
-		RoundUpBtn.gameObject.SetActive(editManager.EnemyList.EnemyInfoList.Count > value);
+		RoundUpBtn.gameObject.SetActive(_editManager.EnemyList.EnemyInfoList.Count > value);
 		RoundDownBtn.gameObject.SetActive(value > 1);
 		StateWindow.SetActive(false);
 		SpeedBtn.GetComponent<Image>().color = Color.white;
@@ -109,7 +109,7 @@ public class EditEnemy : EditMenuBase
 
 	private void SaveData()
 	{
-		foreach (var info in editManager.EnemyList.EnemyInfoList)
+		foreach (var info in _editManager.EnemyList.EnemyInfoList)
 		{
 			if (info.hp == 0 || info.Speed == 0)
 			{

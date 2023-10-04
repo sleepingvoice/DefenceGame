@@ -6,14 +6,12 @@ using UnityEngine.UI;
 public class EditCodinate : EditMenuBase
 {
 	[Header("Function")]
-	public List<Color> TargetColor;
 	public Button AddBtn;
 	public Button RemoveBtn;
 	public ObjPool MenuPool;
 	public Button SaveBtn;
 
 	private int _targetNum = 0;
-	private List<Material> _codinateMatList = new List<Material>();
 	private List<EditCodinateMenu> _menuList = new List<EditCodinateMenu>();
 	private bool CheckFinish = false;
 	private AreaInfo _nowTarget = null;
@@ -27,7 +25,7 @@ public class EditCodinate : EditMenuBase
 		{
 			var TmpObj = _menuList[_menuList.Count - 1];
 			if (TmpObj.TargetInfo.OutLineObj != null)
-				TmpObj.TargetInfo.OutLineObj.SetActive(false);
+				TmpObj.TargetInfo.OutLineObj.GetComponent<MeshRenderer>().material = _areaShow.AreaMat;
 			MenuPool.DisableObject(TmpObj.gameObject);
 			_menuList.RemoveAt(_menuList.Count - 1);
 		});
@@ -39,8 +37,8 @@ public class EditCodinate : EditMenuBase
 	private void OnEnable()
 	{
 		CheckFinish = false;
-		if (editManager != null)
-			editManager.EditNode = new CodinateList();
+		if (_editManager != null)
+			_editManager.EditNode = new CodinateList();
 	}
 
 	private void OnDisable()
@@ -49,17 +47,16 @@ public class EditCodinate : EditMenuBase
 			return;
 		foreach (var info in MainGameData.s_serverData.AreaDic.Values)
 		{
-			if (info.OutLineObj.GetComponent<MeshRenderer>().material == editManager.AreaMat)
+			if (info.OutLineObj.GetComponent<MeshRenderer>().material == _areaShow.AreaMat)
 				continue;
 
-			info.OutLineObj.GetComponent<MeshRenderer>().material = editManager.AreaMat;
-			info.OutLineObj.SetActive(false);
+			info.OutLineObj.GetComponent<MeshRenderer>().material = _areaShow.AreaMat;
 		}
 	}
 
 	private void AddMenu()
 	{
-		if (_menuList.Count >= _codinateMatList.Count)
+		if (_menuList.Count >= _areaShow.CodinateMat.Count)
 			return;
 
 		var Tmpobj = MenuPool.GetObject().GetComponent<EditCodinateMenu>();
@@ -67,7 +64,7 @@ public class EditCodinate : EditMenuBase
 		_menuList.Add(Tmpobj);
 		Tmpobj.CodinateNum = _menuList.Count;
 		Tmpobj.SelectCheck(false);
-		Color TmpColor = TargetColor[_menuList.Count - 1];
+		Color TmpColor = _areaShow.CodinateColor[_menuList.Count - 1];
 		TmpColor = new Color(TmpColor.r, TmpColor.g, TmpColor.b, 0.3f);
 		Tmpobj.GetComponent<Image>().color = TmpColor;
 		Tmpobj.SelectBtn.onClick.AddListener(() =>
@@ -94,11 +91,9 @@ public class EditCodinate : EditMenuBase
 
 			if (_nowTarget.OutLineObj != null)
 			{
-				_nowTarget.OutLineObj.GetComponent<MeshRenderer>().material = editManager.NormalMat;
-				_nowTarget.OutLineObj.SetActive(false);
+				_nowTarget.OutLineObj.GetComponent<MeshRenderer>().material = _areaShow.NormalMat;
 			}
-			info.OutLineObj.GetComponent<MeshRenderer>().material = _codinateMatList[_targetNum - 1];
-			info.OutLineObj.SetActive(true);
+			info.OutLineObj.GetComponent<MeshRenderer>().material = _areaShow.CodinateMat[_targetNum - 1];
 			_menuList[_targetNum - 1].TargetInfo = info;
 			_nowTarget = info;
 		}
@@ -110,7 +105,7 @@ public class EditCodinate : EditMenuBase
 
 		for (int i = 0; i < _menuList.Count; i++)
 		{
-			if (_menuList[i].TargetInfo.OutLineObj.activeSelf)
+			if (_nowTarget.OutLineObj.GetComponent<MeshRenderer>().material != _areaShow.NormalMat)
 			{
 				temList.NodeList.Add(_menuList[i].TargetInfo.NodeNum);
 			}
@@ -128,20 +123,8 @@ public class EditCodinate : EditMenuBase
 			}
 		}
 
-		editManager.EditNode = temList;
+		_editManager.EditNode = temList;
 		CheckFinish = true;
 		MainGameData.s_progressEdit.SetValue(EditProgrss.main);
-	}
-
-	protected override void Start()
-	{
-		base.Start();
-
-		for (int i = 0; i < TargetColor.Count; i++)
-		{
-			var tmpMat = Instantiate(editManager.AreaMat);
-			tmpMat.SetColor("_OutlineColor", TargetColor[i]);
-			_codinateMatList.Add(tmpMat);
-		}
 	}
 }

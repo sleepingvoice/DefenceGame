@@ -50,7 +50,12 @@ public class AreaInfo
 
 		outlineObj.transform.position = centerPoint + Vector3.up * 0.1f;
 		_outlineObj = outlineObj;
-		_outlineObj.SetActive(false);
+		_outlineObj.SetActive(true);
+	}
+
+	public void ResetValue(bool notMove)
+	{
+		Notmove = notMove;
 	}
 
 	private Vector2Int _nodeNum = new Vector2Int(0, 0);

@@ -15,7 +15,7 @@ public class EditSave : EditMenuBase
 		base.Awake();
 
 		SaveBtn.onClick.AddListener(SetSave);
-		Socket.ins.SocketEventDic.Add("Add_Map", (str) => AddMapCheck());
+		Socket.ins.SocketEventDic.Add("Add_Map", AddMapCheck);
 	}
 
 	private void SetSave()
@@ -29,8 +29,8 @@ public class EditSave : EditMenuBase
 	private IEnumerator SaveFunction()
 	{
 		var sendData = new MapInfo_Send();
-		sendData.codinate = JsonUtility.ToJson(editManager.EditNode);
-		sendData.enemyInfo = JsonUtility.ToJson(editManager.EnemyList);
+		sendData.codinate = JsonUtility.ToJson(_editManager.EditNode);
+		sendData.enemyInfo = JsonUtility.ToJson(_editManager.EnemyList);
 		MapInfoList saveMapinfo = new MapInfoList();
 		foreach (var info in MainGameData.s_serverData.AreaDic.Values)
 		{
@@ -44,20 +44,21 @@ public class EditSave : EditMenuBase
 		sendData.userId = MainGameData.s_serverData.UserId;
 		sendData.mapName = MapNameInput.text;
 
-		yield return StartCoroutine(Capture.CaptureCam((value) => sendData.mapImg = value));
-
 		var sendJson = JsonUtility.ToJson(sendData);
 
 		Socket.ins.ws_SendMessage("Add_Map/" + sendJson);
 
-
+		yield return null;
 	}
 
-	private void AddMapCheck()
+	private void AddMapCheck(string str)
 	{
-		GameManager.ins.GetMapinfo();
-		MainGameData.s_progressEdit.SetValue(EditProgrss.main);
-		MainGameData.s_progressMainGame.SetValue(GameProgress.EditSelect);
+		GameManager.ins.SoketAct.Enqueue(() =>
+		{
+			GameManager.ins.GetMapinfo();
+			MainGameData.s_progressEdit.SetValue(EditProgrss.main);
+			MainGameData.s_progressMainGame.SetValue(GameProgress.EditSelect);
+		});
 	}
 
 }

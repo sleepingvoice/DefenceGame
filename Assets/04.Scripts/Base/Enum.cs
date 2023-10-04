@@ -19,5 +19,5 @@ public enum LoginProgress
 
 public enum EditProgrss
 {
-	main, build, destination, enemy, test, save
+	main, build, destination, enemy, save
 }

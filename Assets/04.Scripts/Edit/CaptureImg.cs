@@ -1,22 +1,23 @@
 using System;
 using System.Collections;
-using Gu;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CaptureImg : MonoBehaviour
 {
 	[HideInInspector] public byte[] Texbinary;
 
 	public Camera TargetCam;
+	public RawImage TargetImg;
+	[HideInInspector]public Texture2D NowShowTex = null;
 
-
-	public void Set()
+	public IEnumerator CaptureCam()
 	{
-		StartCoroutine(CaptureCam((value) => Debug.Log(value)));
-	}
+		TargetCam.gameObject.SetActive(true);
+		if (NowShowTex != null)
+			DestroyImmediate(NowShowTex);
 
-	public IEnumerator CaptureCam(Action<int> actMapID)
-	{
+		NowShowTex = null;
 		yield return new WaitForEndOfFrame();
 		int resWidth = Screen.width;
 		int resHeight = Screen.height;
@@ -25,20 +26,17 @@ public class CaptureImg : MonoBehaviour
 		TargetCam.targetTexture = rt;
 		TargetCam.Render();
 
-		Texture2D tempTex = new Texture2D(resWidth, resHeight, TextureFormat.ARGB32, false);
+		NowShowTex = new Texture2D(resWidth, resHeight, TextureFormat.ARGB32, false);
 		RenderTexture.active = rt;
 
-		tempTex.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
-		tempTex.Apply();
+		NowShowTex.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
+		NowShowTex.Apply();
 
 		TargetCam.targetTexture = null;
 		RenderTexture.active = null;
 		Destroy(rt);
 
-		var tempSprite = Sprite.Create(tempTex, new Rect(0, 0, resWidth, resHeight), Vector2.one * 0.5f);
-		var temptex = utility.textureFromSprite(tempSprite);
-		var data = temptex.EncodeToPNG();
-
-		yield return Socket.ins.PostImg(data, actMapID);
+		TargetImg.texture = NowShowTex;
+		TargetCam.gameObject.SetActive(false);
 	}
 }

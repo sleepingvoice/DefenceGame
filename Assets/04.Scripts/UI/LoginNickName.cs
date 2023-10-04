@@ -19,9 +19,7 @@ public class LoginNickName : MonoBehaviour
 		if (Input_Nick.text != "")
 		{
 			if (CheckGoogleLogin)
-			{
 				Socket.ins.ws_SendMessage("Add_UserID/" + Input_Nick.text +"/"+ Social.localUser.id);
-			}
 			else
 				Socket.ins.ws_SendMessage("Add_GuestID/" + Input_Nick.text);
 		}

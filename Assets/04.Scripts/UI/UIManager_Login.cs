@@ -1,13 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using GooglePlayGames;
 using UnityEngine;
 
 public class UIManager_Login : MonoBehaviour
 {
-    private Action _socketAct = null;
-
+    public bool CheckWindow;
 	private void Start()
     {
         Socket.ins.SocketEventDic.Add("Check_Login", CheckLogin);
@@ -15,7 +11,7 @@ public class UIManager_Login : MonoBehaviour
 
         PlayGamesPlatform.Activate();
 
-        if (PlayerPrefs.HasKey("LoginKey"))
+        if (PlayerPrefs.HasKey("LoginKey") && !CheckWindow)
         {
             Socket.ins.ws_SendMessage("Check_Login/" + PlayerPrefs.GetString("LoginKey"));
         }
@@ -24,25 +20,29 @@ public class UIManager_Login : MonoBehaviour
 
     private void CheckLogin(string callback)
     {
-        Debug.LogError(callback);
         if (callback == "false")
         {
-            _socketAct = () =>
+            GameManager.ins.SoketAct.Enqueue(() =>
             {
                 Debug.Log("아이디 정보가 없습니다.");
                 MainGameData.s_progressLogin.SetValue(LoginProgress.nickNameSelect);
-            };
+            });
         }
         else
         {
-            _socketAct = () =>
+            GameManager.ins.SoketAct.Enqueue(() =>
             {
+                if (!PlayerPrefs.HasKey("LoginKey")) // 구글로그인의 경우 아이디가 같지만 저장이 안되있을수 있다.
+                {
+                    PlayerPrefs.SetString("LoginKey", Social.localUser.id);
+                }
+
                 var str = callback.Split(':');
                 MainGameData.s_serverData.UserNickName = str[0];
                 MainGameData.s_serverData.UserId = int.Parse(str[1]);
                 MainGameData.s_progressLogin.SetValue(LoginProgress.finish);
                 MainGameData.s_progressMainGame.SetValue(GameProgress.Lobby);
-            };
+            });
         }
     }
 
@@ -54,21 +54,11 @@ public class UIManager_Login : MonoBehaviour
         }
         else
         {
-            _socketAct = () =>
+            GameManager.ins.SoketAct.Enqueue(() =>
             {
                 PlayerPrefs.SetString("LoginKey", callback);
                 Socket.ins.ws_SendMessage("Check_Login/" + PlayerPrefs.GetString("LoginKey"));
-            };
-        }
-    }
-
-
-    private void Update()
-    {
-        if (_socketAct != null)
-        {
-            _socketAct.Invoke();
-            _socketAct = null;
+            });
         }
     }
 }

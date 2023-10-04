@@ -98,43 +98,4 @@ public class Socket : MonoBehaviour
 		_openCheck = null;
 	}
 
-	public IEnumerator PostImg(byte[] data, Action<int> actMapID)
-	{
-		string serverURL = "http://"+ ServerIp +"/imgfile";
-		WWWForm form = new WWWForm();
-		form.AddBinaryData("image", data, "image.png", "image/png");
-
-		UnityWebRequest webRequest = UnityWebRequest.Post(serverURL, form);
-
-		yield return webRequest.SendWebRequest();
-		if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
-		{
-			Debug.Log("네트워크 환경이 안좋아서 통신을 할수 없습니다.");
-		}
-		else
-		{
-			actMapID.Invoke(int.Parse(webRequest.downloadHandler.text));
-		}
-
-		webRequest.Dispose();
-	}
-
-	public IEnumerator GetImg(int ImgId, Action<Texture2D> TexAct)
-	{
-		string serverURL = "http://localhost:5000/getImage";
-		UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(serverURL + "/" + ImgId.ToString());
-		yield return webRequest.SendWebRequest();
-
-		if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
-		{
-			Debug.Log("이미지 불러오기 실패: " + webRequest.error);
-		}
-		else
-		{
-			Texture2D texture = DownloadHandlerTexture.GetContent(webRequest);
-			TexAct.Invoke(texture);
-		}
-
-		webRequest.Dispose();
-	}
 }

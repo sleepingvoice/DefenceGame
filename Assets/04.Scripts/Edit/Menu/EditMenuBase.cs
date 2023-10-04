@@ -1,3 +1,4 @@
+using Gu;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,8 @@ public class EditMenuBase : MonoBehaviour
 	public EditProgrss ActiveProgress;
 	public Button ClickBtn;
 
-	protected UIManager_Edit editManager;
+	protected ShowMap _areaShow;
+	protected UIManager_Edit _editManager;
 
 	protected virtual void Awake()
 	{
@@ -17,6 +19,7 @@ public class EditMenuBase : MonoBehaviour
 
 	protected virtual void Start()
 	{
-		editManager = GameManager.ins.UI_Edit;
+		_areaShow = GameManager.ins.AreaManager.GetComponent<ShowMap>();
+		_editManager = GameManager.ins.UI_Edit;
 	}
 }

@@ -9,6 +9,8 @@ public class ActiveUI : MonoBehaviour
 	{
 		foreach (var active in ActiveList)
 		{
+			if (active == null)
+				continue;
 			active.gameObject.SetActive(true);
 		}
 	}

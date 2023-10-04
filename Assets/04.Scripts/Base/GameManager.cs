@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 	private static GameManager _instance;
 	public static GameManager ins => _instance;
 
+	public Camera MainCam;
+
 	[Header("Game")]
 	public AreaManager AreaManager;
 	public TowerManager TowerManager;
@@ -28,10 +30,10 @@ public class GameManager : MonoBehaviour
 	public UIManager_Edit UI_Edit;
 
 	[HideInInspector] public Texture2D SaveTex;
+	[HideInInspector] public Queue<Action> SoketAct = new Queue<Action>();
+
 
 	private ServerData _mapInfo = MainGameData.s_serverData;
-
-	private Action _socketAct = null;
 
 	#region 타워 딜레이
 	[HideInInspector] public float nowTime = 0f;
@@ -63,6 +65,8 @@ public class GameManager : MonoBehaviour
 		var EnemyList = JsonUtility.FromJson<RoundEnemyInfoList>(info.enemyInfo);
 
 		AreaManager.SetMapObj(moveList);
+		_mapInfo.Codinate = new List<AreaInfo>();
+		_mapInfo.EnemyInfo = new Dictionary<int, RoundEnemyInfo>();
 
 		foreach (var codienate in codiList.NodeList)
 		{
@@ -83,6 +87,7 @@ public class GameManager : MonoBehaviour
 		}
 
 		MainGameData.s_gameData.MoveList.AddRange(Check.PathFindingAstar(_mapInfo.Codinate[_mapInfo.Codinate.Count - 1], _mapInfo.Codinate[0]));
+		AreaManager.gameObject.GetComponent<ShowMap>().SetCodinateColor(_mapInfo.Codinate);
 
 	}
 
@@ -108,8 +113,10 @@ public class GameManager : MonoBehaviour
 
 		nowTime += Time.deltaTime;
 
-		if (_socketAct != null) // 소켓 이벤트 발생
-			_socketAct.Invoke();
+		if (SoketAct.Count != 0) // 소켓 이벤트 발생
+		{
+			SoketAct.Dequeue().Invoke();
+		}
 	}
 
 	public void GameStart()
@@ -130,26 +137,14 @@ public class GameManager : MonoBehaviour
 	private void MapListGet(string callback)
 	{
 		var chagneCallback = "{\"List\":" + callback + "}";
-		_socketAct = () =>
-		{
-			MainGameData.s_serverData.MapinfoSever = JsonUtility.FromJson<MapList>(chagneCallback);
-
-			_socketAct = null;
-		};
+		SoketAct.Enqueue(() => MainGameData.s_serverData.MapinfoSever = JsonUtility.FromJson<MapList>(chagneCallback));
 	}
 
-	#region 이미지 전송
+	#region 이미지 확인
 
-	public void SetImg(int Num, Action<Texture2D> TexAct)
+	public void SetImg()
 	{
-		StartCoroutine(LoadImg(Num, TexAct));
-	}
-
-	public IEnumerator LoadImg(int Num, Action<Texture2D> TexAct)
-	{
-		DestroyImmediate(SaveTex);
-		yield return Socket.ins.GetImg(Num, ((tex) => SaveTex = tex));
-		TexAct.Invoke(SaveTex);
+		StartCoroutine(this.gameObject.GetComponent<CaptureImg>().CaptureCam());
 	}
 
 	#endregion

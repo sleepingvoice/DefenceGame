@@ -75,7 +75,7 @@ public class ClickCheck : MonoBehaviour
 				if (!CheckEdit.TouchOut)
 				{
 					CheckEdit.TouchOut = true;
-					CheckEdit.CheckClick = _mapInfo.AreaDic[MapNum].OutLineObj.activeSelf ? false : true;
+					CheckEdit.CheckClick = _mapInfo.AreaDic[MapNum].Notmove ? false : true;
 				}
 
 				beforehit = _mapInfo.AreaDic[MapNum];

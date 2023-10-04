@@ -1,5 +1,6 @@
 using System;
 using GooglePlayGames;
+using GooglePlayGames.BasicApi;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,7 @@ public class LoginSelect : MonoBehaviour
 	{
         LoginBtn.onClick.AddListener(() =>
         {
-            Login();
+            PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);;
             NickNameCheck.CheckGoogleLogin = true;
         });
         NormalBtn.onClick.AddListener(() =>
@@ -27,25 +28,15 @@ public class LoginSelect : MonoBehaviour
 
     }
 
-    private void Login()
+    internal void ProcessAuthentication(SignInStatus status)
     {
-        if (PlayGamesPlatform.Instance.localUser.authenticated)
+        if (status == SignInStatus.Success)
         {
             Socket.ins.ws_SendMessage("Check_Login/" + Social.localUser.id);
         }
         else
         {
-            Social.localUser.Authenticate((bool success) =>
-            {
-                if (!success)
-                {
-                    Debug.Log("로그인 정보가 잘못되었습니다");
-                }
-                else
-                {
-                    Socket.ins.ws_SendMessage("Check_Login/" + Social.localUser.id);
-                }
-            });
+            Debug.LogError("로그인 정보가 잘못되었습니다");
         }
     }
 
